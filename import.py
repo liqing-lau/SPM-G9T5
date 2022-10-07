@@ -4,8 +4,8 @@ from sqlalchemy import create_engine
 # Database
 host="localhost"
 user="root"
-password=""
-password=""
+password="root"
+# password=""
 port= 3306
 database= 'ljms'
 
@@ -27,10 +27,11 @@ if __name__ == '__main__':
     except Exception as ex:
         print("Connection could not be made due to the following error: \n", ex)
 
-role_r = pd.read_csv(r'RawData\role.csv', engine='python', encoding='unicode_escape',)
-course_r = pd.read_csv(r'RawData\courses.csv', engine='python', encoding='unicode_escape')
-registration_r = pd.read_csv(r'RawData\registration.csv', engine='python', encoding='unicode_escape')
-staff_r = pd.read_csv(r'RawData\staff.csv', engine='python', encoding='unicode_escape')
+role_r = pd.read_csv(r'RawData/role.csv', engine='python', encoding='unicode_escape',)
+course_r = pd.read_csv(r'RawData/courses.csv', engine='python', encoding='unicode_escape')
+registration_r = pd.read_csv(r'RawData/registration.csv', engine='python', encoding='unicode_escape')
+staff_r = pd.read_csv(r'RawData/staff.csv', engine='python', encoding='unicode_escape')
+
 
 engine = get_connection()
 conn = engine.connect()
