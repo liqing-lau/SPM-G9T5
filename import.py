@@ -31,6 +31,7 @@ role_r = pd.read_csv(r'RawData\role.csv', engine='python', encoding='unicode_esc
 course_r = pd.read_csv(r'RawData\courses.csv', engine='python', encoding='unicode_escape')
 registration_r = pd.read_csv(r'RawData\registration.csv', engine='python', encoding='unicode_escape')
 staff_r = pd.read_csv(r'RawData\staff.csv', engine='python', encoding='unicode_escape')
+jobrole_r=pd.read_csv(r'RawData\jobRole.csv', engine='python', encoding='unicode_escape')
 
 engine = get_connection()
 conn = engine.connect()
@@ -47,3 +48,4 @@ role_r.to_sql(con = engine, name = 'role', if_exists = 'append', chunksize = 100
 course_r.to_sql(con = engine, name = 'course', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
 staff_r.to_sql(con = engine, name = 'staff', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
 registration_r.to_sql(con = engine, name = 'registration', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
+jobrole_r.to_sql(con = engine, name = 'jobrole', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)

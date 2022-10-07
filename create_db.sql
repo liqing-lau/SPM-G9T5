@@ -44,3 +44,9 @@ CREATE TABLE IF NOT EXISTS `registration` (
   constraint registration_fk2 foreign key(Staff_ID) references staff(Staff_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `jobrole`;
+CREATE TABLE IF NOT EXISTS `jobrole` (
+  `JRole_ID` int not null primary key,
+  `JRole_Name` varchar(50) NOT NULL,
+  `JRole_Desc` varchar(20000) not NULL default "Currently no description for this course"
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
