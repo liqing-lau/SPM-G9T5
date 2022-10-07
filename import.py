@@ -47,4 +47,4 @@ def insert_on_duplicate(table, conn, keys, data_iter):
 role_r.to_sql(con = engine, name = 'role', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
 course_r.to_sql(con = engine, name = 'course', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
 staff_r.to_sql(con = engine, name = 'staff', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
-registration_r.to_sql(con = engine, name = 'registration', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
+# registration_r.to_sql(con = engine, name = 'registration', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
