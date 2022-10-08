@@ -5,7 +5,6 @@ from sqlalchemy import create_engine
 host="localhost"
 user="root"
 password=""
-password=""
 port= 3306
 database= 'ljms'
 
