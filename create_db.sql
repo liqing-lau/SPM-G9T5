@@ -10,7 +10,8 @@ USE `LJMS`;
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `Role_ID` int not null primary key,
-  `Role_Name` varchar(20) NOT NULL
+  `Role_Name` varchar(20) NOT NULL,
+  `Role_Status` varchar(15) default null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `staff`;
@@ -49,7 +50,8 @@ DROP TABLE IF EXISTS `jobrole`;
 CREATE TABLE IF NOT EXISTS `jobrole` (
   `JRole_ID` int not null primary key,
   `JRole_Name` varchar(50) NOT NULL,
-  `JRole_Desc` varchar(255) NOT NULL
+  `JRole_Desc` varchar(255) NOT NULL,
+  `JRole_Status` varchar(15) default null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `skill`;
