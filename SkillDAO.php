@@ -24,6 +24,30 @@ class SkillDAO {
 
         return $status;
     }
+
+    public function getIDbyName($s_name) {
+
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT Skill_ID FROM `skill` WHERE Skill_Name = :s_name;";
+        $idlist = [];
+        
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':s_name', $s_name, PDO::PARAM_STR);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+
+        while( $row = $stmt->fetch() ) {
+            $row_id = $row['Skill_ID'];
+            array_push($idlist,$row_id);
+        }
+        $stmt = null;
+        $conn = null;
+
+        return $idlist;
+    }
 }
 
 ?>
