@@ -64,8 +64,7 @@ while($rows=$result->fetch_assoc()){
 								$skillName = $rows['Skill_Name'];
             				?>
 						    <tr>
-								<!-- FETCHING DATA FROM EACH
-                    ROW OF EVERY COLUMN -->
+								<!-- FETCHING DATA FROM EACH ROW OF EVERY COLUMN -->
 						      <th scope="row"><?php echo $skillName;
 							  
 							  require("connection.php"); 
