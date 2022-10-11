@@ -30,6 +30,32 @@ class jobRoleDAO{
 
         return $listJR;
     }
+
+    public function getRelSkills($JRole_ID){
+
+        $connMgr= new ConnectionManager();
+        $conn =$connMgr->connect();
+
+        $sql="SELECT `Skill_Name` FROM `skill` WHERE `Skill_ID` IN (SELECT `Skill_ID` FROM `jobskill` WHERE `JRole_ID`=$JRole_ID)";
+        $stmt = $conn->prepare($sql);
+
+        $listSkills=[];
+
+        if ($stmt->execute()){
+
+            $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+            while ($row=$stmt->fetch()){
+                array_push($listSkills,$row["Skill_Name"]);
+            }
+
+        }
+
+        $stmt=null;
+        $conn=null;
+
+        return $listSkills;
+    }
 }
 
 
