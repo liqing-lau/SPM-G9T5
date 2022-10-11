@@ -1,27 +1,7 @@
 <?php 
 require("connection.php"); 
 
-// // Username is root
-// $user = 'root';
-// $password = '';
- 
-// // Database name is geeksforgeeks
-// $database = 'ljms';
- 
-// // Server is localhost with
-// // port number 3306
-// $servername='localhost:3306';
-// $mysqli = new mysqli($servername, $user,
-//                 $password, $database);
- 
-// // Checking for connections
-// if ($mysqli->connect_error) {
-//     die('Connect Error (' .
-//     $mysqli->connect_errno . ') '.
-//     $mysqli->connect_error);
-// }
- 
-// SQL query to select data from database
+
 $jobRole = "General Manager";
 $sql = "SELECT * FROM jobrole WHERE JRole_Name='$jobRole';";
 $result = $mysqli->query($sql);
@@ -67,10 +47,7 @@ while($rows=$result->fetch_assoc()){
 						    <tr>
 						      <th>Skill</th>
 						      <th>Courses</th>
-						      <!-- <th>Ship</th>
-						      <th>Price</th>
-						      <th>Pruchased Price</th>
-						      <th>Status</th> -->
+						      
 						    </tr>
 						  </thead>
 						  <tbody>
@@ -105,9 +82,7 @@ while($rows=$result->fetch_assoc()){
 							  ?></th>
 							  
 						      <td><?php echo $courseID ?></td>
-						      <!-- <td>Japan</td>
-						      <td>$3000</td>
-						      <td>$1200</td> -->
+						      
 						      <td><a href="#" class="btn btn-success">Edit Courses</a></td>
 						    </tr>
 							<?php
