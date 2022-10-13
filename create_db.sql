@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `jobrole`;
 CREATE TABLE IF NOT EXISTS `jobrole` (
   `JRole_ID` int not null primary key auto_increment,
   `JRole_Name` varchar(50) NOT NULL,
-  `JRole_Desc` varchar(255) NOT NULL,
+  `JRole_Desc` varchar(500) NOT NULL,
   `JRole_Status` varchar(15) default "active" 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
