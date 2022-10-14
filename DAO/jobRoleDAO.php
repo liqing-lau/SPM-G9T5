@@ -36,8 +36,9 @@ class jobRoleDAO{
         $connMgr= new ConnectionManager();
         $conn =$connMgr->connect();
 
-        $sql="SELECT `Skill_Name` FROM `skill` WHERE `Skill_ID` IN (SELECT `Skill_ID` FROM `jobskill` WHERE `JRole_ID`=$JRole_ID)";
+        $sql="SELECT `Skill_Name` FROM `skill` WHERE `Skill_ID` IN (SELECT `Skill_ID` FROM `jobskill` WHERE `JRole_ID`= :JRole_ID;)";
         $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':JRole_ID',$JRole_ID, PDO::PARAM_STR);
 
         $listSkills=[];
 
