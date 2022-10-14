@@ -1,6 +1,6 @@
 
 <?php
-    require_once 'common.php';
+    require_once '../DAO/common.php';
     $jdata = new JobroleDAO();
     $jidname = $jdata->getIDandName();
 
@@ -31,7 +31,7 @@
 
 <?php
 
-    require_once 'common.php';
+    require_once '../DAO/common.php';
 
     if(isset($_POST['nskill'])){
 
