@@ -38,7 +38,7 @@
                                     <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
                                     <button name='Update' type='submit'>Update</button>
                                     </form>
-                                    <form style='float:right; margin-block-end:0em' action='HR_jobRoleUpdate.php' method='POST'>
+                                    <form style='float:right; margin-block-end:0em' action='' method='POST'>
                                     <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
                                     <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
                                     <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
