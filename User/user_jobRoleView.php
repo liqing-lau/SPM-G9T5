@@ -3,7 +3,7 @@
      require_once "../DAO/common.php";
 
      $dao = new jobRoleDAO();
-     $allRoles = $dao->retrieveAll();
+     $allRoles = $dao->getAll();
 
     echo "<table border=1>
         <tr>
