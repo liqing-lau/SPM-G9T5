@@ -17,17 +17,18 @@
     if (!$admin) {
         echo "You are not authorised to see this page, $userFirstName ($userRole)";
     } else if (!$toggleUser) {
-        echo "You are not authorised to see this page, $userFirstName ($userRole, User)";
-        echo "<form method='post'>
-                <input type='hidden' name='empId' value=$empId>
-                <input type='submit' name='false' value='Change to Admin'></input>
-                </form>";
-    } else {
         echo "Welcome $userFirstName ($userRole, Admin)";
         echo "<form method='post'>
                 <input type='hidden' name='empId' value=$empId>
-                <input type='submit' name='true' value='Change to User'></input>
+                <input type='submit' name='false' value='Change to User'></input>
                 </form>";
+    } else {
+        echo "You are not authorised to see this page, $userFirstName ($userRole, User)";
+        echo "<form method='post'>
+                <input type='hidden' name='empId' value=$empId>
+                <input type='submit' name='true' value='Change to Admin'></input>
+                </form>";
+        
     }
     
 ?>
