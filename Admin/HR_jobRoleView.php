@@ -1,4 +1,7 @@
 <?php
+    session_start();
+    session_destroy();
+    
     require_once("../DAO/common.php");
 
     //Fetch the info from jobrole csv
@@ -22,6 +25,7 @@
         array_push($allJobRoles,"<td>");
         //Fetch relevant skills from skill csv
         $skillList=$dao->getRelSkills($eachItem[0]);
+        $strSkills="";
         if(sizeof($skillList)==0){
             array_push($allJobRoles,"No skills");
         }
@@ -29,6 +33,8 @@
             array_push($allJobRoles,"<ul>");
             foreach ($skillList as $skill){
                 array_push($allJobRoles,"<li>$skill</li>");
+                //make a string of skill names so i can hidden value it over
+                $strSkills=$strSkills.";".$skill;
             }
             array_push($allJobRoles,"</ul></td>");
         }
@@ -36,13 +42,14 @@
                                     <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
                                     <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
                                     <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
-                                    <button name='Update' type='submit'>Update</button>
+                                    <input type='hidden' name='JRole_Skills' value='$strSkills'>
+                                    <input type='submit' value='Update' name='updateJR'/>
                                     </form>
                                     <form style='float:right; margin-block-end:0em' action='' method='POST'>
                                     <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
                                     <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
                                     <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
-                                    <button name='Delete' type='submit' value='$eachItem[0]'>Delete</button>
+                                    <input type='submit' value='Delete' name='deleteJR'/>
                                     </form>");
         array_push($allJobRoles,"</td></tr>");
     }

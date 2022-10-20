@@ -1,4 +1,7 @@
 <?php
+
+use IMAP\Connection;
+
 class jobRoleDAO{
 
     public function getAll(){
@@ -79,6 +82,31 @@ class jobRoleDAO{
         $conn = null;
 
         return $namelist;
+    }
+
+    public function updateJobRole($JRole_ID,$JRole_Name,$JRole_Desc){
+        $connMgr= new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql ="UPDATE `jobrole` SET `JRole_Name`= ?, `JRole_Desc`= ? WHERE `JRole_ID`= ? ";
+
+        $stmt =$conn->prepare($sql);
+
+        $stmt->bindParam(1, $JRole_Name, PDO::PARAM_STR);
+        $stmt->bindParam(2, $JRole_Desc, PDO::PARAM_STR);
+        $stmt->bindParam(3, $JRole_ID,PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        $stmt= null;
+        $conn= null;
+        return "Connection made";
+    }
+
+    public function updateRelSkills($JRole_ID){
+        $connMgr=new ConnectionManager();
+        $conn =$connMgr->connect();
+        //to do
     }
 }
 
