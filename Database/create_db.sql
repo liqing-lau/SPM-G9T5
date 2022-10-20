@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `registration` (
   `Course_ID` varchar(20) NOT NULL,
   `Staff_ID` int NOT NULL,
   `Reg_Status` varchar(20) NOT NULL,
-  `Completion_Status` varchar(20) NOT NULL,
+  `Completion_Status` varchar(20) NULL,
   constraint registration_fk1 foreign key(Course_ID) references course(Course_ID),
   constraint registration_fk2 foreign key(Staff_ID) references staff(Staff_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `jobrole`;
 CREATE TABLE IF NOT EXISTS `jobrole` (
   `JRole_ID` int not null primary key auto_increment,
   `JRole_Name` varchar(50) NOT NULL,
-  `JRole_Desc` varchar(255) NOT NULL,
+  `JRole_Desc` varchar(500) NOT NULL,
   `JRole_Status` varchar(15) default "active" 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -71,11 +71,11 @@ CREATE TABLE IF NOT EXISTS `courseskill` (
 
 DROP TABLE IF EXISTS `jobskill`;
 CREATE TABLE IF NOT EXISTS `jobskill` (
-  `JRole_ID` int not null,
+  `Job_ID` int not null,
   `Skill_ID` int NOT NULL,
-  constraint jobskill_fk1 foreign key(JRole_ID) references jobrole(JRole_ID),
+  constraint jobskill_fk1 foreign key(Job_ID) references jobrole(JRole_ID),
   constraint jobskill_fk2 foreign key(Skill_ID) references skill(Skill_ID),
-  constraint jobskill_pk primary key(JRole_ID, Skill_ID)
+  constraint jobskill_pk primary key(Job_ID, Skill_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `lj`;
@@ -83,8 +83,9 @@ CREATE TABLE IF NOT EXISTS `lj` (
   `Staff_ID` int not null,
   `LJ_ID` int NOT NULL,
   `JRole_ID` int not null,
-  `Course_ID` varchar(20) not null,
+  `Course_ID` varchar(20) NOT NULL,
   constraint LJ_fk1 foreign key(Staff_ID) references staff(Staff_ID),
   constraint LJ_fk2 foreign key(JRole_ID) references jobrole(JRole_ID),
   constraint LJ_pk primary key(Staff_ID, LJ_ID, JRole_ID, Course_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
