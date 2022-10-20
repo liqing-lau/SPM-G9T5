@@ -48,6 +48,29 @@ class SkillDAO {
 
         return $idlist;
     }
+
+    public function getSkillNames(){
+        $connMgr= new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql="SELECT `Skill_Name` FROM `skill`";
+        $stmt= $conn->prepare($sql);
+
+        $listSkills=[];
+
+        if($stmt->execute()){
+            $stmt->setFetchMode((PDO::FETCH_ASSOC));
+
+            while ($row=$stmt->fetch()){
+                array_push($listSkills,$row["Skill_Name"]);
+            }
+        }
+
+        $stmt=null;
+        $conn=null;
+
+        return $listSkills;
+    }
 }
 
 ?>
