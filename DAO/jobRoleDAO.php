@@ -100,13 +100,40 @@ class jobRoleDAO{
 
         $stmt= null;
         $conn= null;
-        return "Connection made";
+        return "Update Name and Skill connection made";
     }
 
-    public function updateRelSkills($JRole_ID){
+    public function deleteRelSkills($JRole_ID,$Skill_ID){
         $connMgr=new ConnectionManager();
         $conn =$connMgr->connect();
-        //to do
+
+        $sql="DELETE FROM `jobskill` WHERE `JRole_ID`=? AND `Skill_ID`=?";
+
+        $stmt=$conn->prepare($sql);
+
+        $stmt->bindParam(1,$JRole_ID,PDO::PARAM_INT);
+        $stmt->bindParam(2,$Skill_ID,PDO::PARAM_INT);
+
+        $stmt->execute();
+        $stmt=null;
+        $conn=null;
+        return "Delete skill connection made";
+    }
+
+    public function addRelSkills($JRole_ID,$Skill_ID){
+        $connMgr=new ConnectionManager();
+        $conn=$connMgr->connect();
+
+        $sql="INSERT INTO `jobskill` (`JRole_ID`, `Skill_ID`) VALUES (:JRole_ID, :Skill_ID)";
+
+        $stmt=$conn->prepare($sql);
+        $stmt->bindparam(':JRole_ID',$JRole_ID,PDO::PARAM_INT);
+        $stmt->bindparam(':Skill_ID',$Skill_ID,PDO::PARAM_INT);
+
+        $stmt->execute();
+        $stmt=null;
+        $conn=null;
+        return "Add skill connection made";
     }
 }
 
