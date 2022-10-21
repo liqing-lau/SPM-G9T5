@@ -1,7 +1,4 @@
 <?php
-
-use IMAP\Connection;
-
 class jobRoleDAO{
 
     public function getAll(){
