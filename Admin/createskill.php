@@ -12,7 +12,7 @@
     <input type="text" name="skill_name" required minlength="2" maxlength="50"/>
     <br>
     <br>
-    Select JobRole to assign (Mandatory at least 1):<br> 
+    Select JobRole to assign:<br> 
     <?php
         foreach($jidname as $jr){
             $jid = $jr[0];
@@ -38,8 +38,6 @@
         $s_name = $_POST['skill_name'];
         $new_skill = new SkillDAO();
         $sid_check = $new_skill->getIDbyName($s_name);
-
-        if(empty($_POST['jrselect'])) {exit("Error! Please select at least 1 JobRole to assign the new skill to.");}
 
         $jrselect = $_POST['jrselect'];
 
