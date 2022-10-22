@@ -1,7 +1,7 @@
 
 <?php
     require_once '../DAO/common.php';
-    $jdata = new JobroleDAO();
+    $jdata = new jobRoleDAO();
     $jidname = $jdata->getIDandName();
 
 ?>
