@@ -80,7 +80,6 @@
             //Only runs if Name or Desc has been changed
             if(isset($_SESSION['updateName'])||isset($_SESSION['updateDesc'])){
                 $updateJR=$dao->updateJobRole($JRole_ID,$updateName,$updateDesc);
-                echo $updateJR;
             }
         
              //Only runs if skills have been changed
@@ -117,17 +116,16 @@
                     foreach($removedSkills as $removed_ID){
                         $removed_ID=intval($removed_ID);
                         $remove=$dao->deleteRelSkills($JRole_ID,$removed_ID);
-                        echo $remove;
                     }
                 }
                 if($addedSkills!=[]){
                     foreach($addedSkills as $added_ID){
                         $added_ID=intval($added_ID);
                         $add=$dao->addRelSkills($JRole_ID,$added_ID);
-                        echo $add;
                     }
                 }
             }
+            echo "Changes made";
         }
         echo "<form action='HR_jobRoleView.php'>
         <input type='submit' value='Return to Job Role Main Page'>

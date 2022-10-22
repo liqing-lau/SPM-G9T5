@@ -97,7 +97,7 @@ class jobRoleDAO{
 
         $stmt= null;
         $conn= null;
-        return "Update Name and Skill connection made";
+        return "<br>Update Name and Description connection made";
     }
 
     public function deleteRelSkills($JRole_ID,$Skill_ID){
@@ -114,7 +114,7 @@ class jobRoleDAO{
         $stmt->execute();
         $stmt=null;
         $conn=null;
-        return "Delete skill connection made";
+        return "<br>Delete skill connection made";
     }
 
     public function addRelSkills($JRole_ID,$Skill_ID){
@@ -130,7 +130,7 @@ class jobRoleDAO{
         $stmt->execute();
         $stmt=null;
         $conn=null;
-        return "Add skill connection made";
+        return "<br>Add skill connection made";
     }
 }
 
