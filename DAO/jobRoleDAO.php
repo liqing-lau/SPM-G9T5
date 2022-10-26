@@ -36,7 +36,7 @@ class jobRoleDAO{
         $connMgr= new ConnectionManager();
         $conn =$connMgr->connect();
 
-        $sql="SELECT `Skill_Name` FROM `skill` WHERE `Skill_ID` IN (SELECT `Skill_ID` FROM `jobskill` WHERE `JRole_ID`=$JRole_ID)";
+        $sql="SELECT `Skill_Name` FROM `skill` WHERE `Skill_ID` IN (SELECT `Skill_ID` FROM `jobskill` WHERE `JRole_ID`= $JRole_ID)";
         $stmt = $conn->prepare($sql);
 
         $listSkills=[];
@@ -80,63 +80,59 @@ class jobRoleDAO{
 
         return $namelist;
     }
+}
 
-
-    public function getIndividualIDandName($JRole_ID) {
-
+    public function addJobSkill($jobId, $skillId) {
         $connMgr = new ConnectionManager();
         $conn = $connMgr->connect();
 
-        $sql = "SELECT * FROM jobrole WHERE JRole_ID='$JRole_ID';";
-        $namelist = [];
-
+        $sql = "insert into jobskill
+        (Job_ID, Skill_ID)
+        values
+        (:jobId, :skillId)";
 
         $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->bindParam(':jobId', $jobId, PDO::PARAM_STR);
+        $stmt->bindParam(':skillId', $skillId, PDO::PARAM_STR);
+        
+        $status = $stmt->execute();
 
-        while( $row = $stmt->fetch() ) {
-            $row_id = $row['JRole_ID'];
-            $row_name = $row['JRole_Name'];
-            $row_desc = $row['JRole_Desc'];
-            array_push($namelist,[$row_id,$row_name,$row_desc]);
-        }
         $stmt = null;
         $conn = null;
 
-        return $namelist;
+        return $status;
     }
 
-
-
-
-    public function getIndividualJobSkill($JRole_ID){
+    public function checkJobNameInDB($name) {
         $connMgr = new ConnectionManager();
         $conn = $connMgr->connect();
 
-        $sql = "SELECT s.Skill_ID, s.Skill_Name FROM jobskill j
-        LEFT JOIN skill s ON j.Skill_ID = s.Skill_ID
-        WHERE j.JRole_ID = $JRole_ID;";
-        $namelist = [];
-
+        $sql = "SELECT `JRole_Name` FROM `jobrole`
+        WHERE `JRole_Name` = :name";
 
         $stmt = $conn->prepare($sql);
-        $stmt->execute();
+
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
 
         while( $row = $stmt->fetch() ) {
-            $row_id = $row['Skill_ID'];
-            $row_name = $row['Skill_Name'];
-            array_push($namelist,[$row_id,$row_name]);
+            $name = $row["JRole_Name"];
+            if (!empty($name)) {
+                $stmt = null;
+                $conn = null;
+
+                return false;
+            }
         }
+
         $stmt = null;
         $conn = null;
 
-        return $namelist;
-
+        return true;
     }
-
-
+}
     public function getIndividualCourseSkill($JRole_ID){
         $connMgr = new ConnectionManager();
         $conn = $connMgr->connect();
