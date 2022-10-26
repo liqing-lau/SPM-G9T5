@@ -71,11 +71,11 @@ CREATE TABLE IF NOT EXISTS `courseskill` (
 
 DROP TABLE IF EXISTS `jobskill`;
 CREATE TABLE IF NOT EXISTS `jobskill` (
-  `Job_ID` int not null,
+  `JRole_ID` int not null,
   `Skill_ID` int NOT NULL,
-  constraint jobskill_fk1 foreign key(Job_ID) references jobrole(JRole_ID),
+  constraint jobskill_fk1 foreign key(JRole_ID) references jobrole(JRole_ID),
   constraint jobskill_fk2 foreign key(Skill_ID) references skill(Skill_ID),
-  constraint jobskill_pk primary key(Job_ID, Skill_ID)
+  constraint jobskill_pk primary key(JRole_ID, Skill_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `lj`;
