@@ -24,21 +24,34 @@
                 </div>
         
                 <div class="form-group">
+                  
                     <label for="formControlJobSkills">Skills</label>
                     <select multiple class="form-control" name="jobSkills[]">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    
+                    <?php 
+                        require_once '../DAO/common.php';
+
+                        $skillDAO = new SkillDAO();
+                        $skillIdList = $skillDAO->getAllSkillId();
+                        $skillNameList = $skillDAO->getAllSkillName();
+
+                        foreach ($skillIdList as $skillId) {
+                          $idx = $skillId - 1;
+                          $skillName = $skillNameList[$idx];
+
+                          echo "<option value=$skillId>$skillName</option>";
+                        }
+                        
+                    ?>
                     </select>
                 </div>
+                
                 
                 <button type="submit" class="btn btn-primary" name="createRoles">Submit</button>
               </form>
         </div>
     </div>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
   </body>
 </html>

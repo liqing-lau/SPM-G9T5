@@ -80,8 +80,112 @@ class jobRoleDAO{
 
         return $namelist;
     }
+
+    public function createJobRole($name, $desc, $skills) {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sqlJob = "insert into jobrole
+        (JRole_Name, JRole_Desc)
+        values
+        (:name, :desc)";
+
+        $stmt = $conn->prepare($sqlJob);
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':desc', $desc, PDO::PARAM_STR);
+        
+        $status = $stmt->execute();
+
+        $stmt = null;
+        $conn = null;
+
+        $jobRoleDAO = new jobRoleDAO();
+
+        $jobId = $jobRoleDAO->getIdByName($name);
+        
+        foreach ($skills as $skillId) {
+            $jobSkill = $jobRoleDAO->addJobSkill($jobId, $skillId);
+            if ($jobSkill === 0) {
+                return "An error occurred during inserting skills";
+            }
+        }
+        return $status;
+    }
+
+    public function getIdByName($name) {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT `JRole_ID` FROM `jobrole`
+        WHERE `JRole_Name` = :name";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+
+        while( $row = $stmt->fetch() ) {
+            $jobId = $row['JRole_ID'];
+        }
+
+        $stmt = null;
+        $conn = null;
+
+        return $jobId;
+    }
+
+    public function addJobSkill($jobId, $skillId) {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "insert into jobskill
+        (Job_ID, Skill_ID)
+        values
+        (:jobId, :skillId)";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':jobId', $jobId, PDO::PARAM_STR);
+        $stmt->bindParam(':skillId', $skillId, PDO::PARAM_STR);
+        
+        $status = $stmt->execute();
+
+        $stmt = null;
+        $conn = null;
+
+        return $status;
+    }
+
+    public function checkJobNameInDB($name) {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT `JRole_Name` FROM `jobrole`
+        WHERE `JRole_Name` = :name";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+
+        while( $row = $stmt->fetch() ) {
+            $name = $row["JRole_Name"];
+            if (!empty($name)) {
+                $stmt = null;
+                $conn = null;
+
+                return false;
+            }
+        }
+
+        $stmt = null;
+        $conn = null;
+
+        return true;
+    }
 }
-
-
 
 ?>
