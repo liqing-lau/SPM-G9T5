@@ -80,7 +80,6 @@ class jobRoleDAO{
 
         return $namelist;
     }
-}
 
     public function addJobSkill($jobId, $skillId) {
         $connMgr = new ConnectionManager();
