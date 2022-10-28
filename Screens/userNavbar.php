@@ -6,13 +6,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#">My Learning Journey</a>
+        <a class="nav-link active" aria-current="page" href="../screens/userHomepage.php">My Learning Journey</a>
         <a class="nav-link" href="#">All Roles</a>
         <a class="nav-link" href="#">All Courses</a>
         <?php 
-          $id = $_GET["empId"];
-          if ($_GET['a']) {
-
+          $id = $_COOKIE['empId'];
+          if (isset($_COOKIE['admin'])) {
               echo "<form method='POST' action='../Admin/authenticateAdmin.php' class='col-md-offset-100'>
                       <input type='hidden' name='empId' value=$id>
                       <input type='submit' name='true' value='Admin' class=''></input>
