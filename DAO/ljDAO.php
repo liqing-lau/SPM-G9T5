@@ -1,4 +1,7 @@
 <?php
+
+require_once 'common.php';
+require_once '../../class/commonClasses.php';
 class ljDAO
 {
     public function retrieveAll()
@@ -161,5 +164,28 @@ class ljDAO
         $conn = null;
 
         return $count_JRole_ID;
+    }
+
+    public function getLJRoles($Staff_ID)
+    {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT JRole_ID FROM lj WHERE Staff_ID=$Staff_ID;";
+        $output = [];
+
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        while ($row = $stmt->fetch()) {
+            $row_JRole_ID = $row['JRole_ID'];
+            array_push($output, $row_JRole_ID);
+        }
+        $stmt = null;
+        $conn = null;
+
+        return $output;
     }
 }

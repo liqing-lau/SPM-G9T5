@@ -17,13 +17,13 @@
     $userRole = $user->getDept();
 
     if (!$admin) {
-        header("Location: ../screens/userHomepage.php?");
+        header("Location: ../screens/user/homepage.php?");
         exit();
     } else if (!$toggleUser) {
-        header("Location: ../screens/adminHomepage.php?");
+        header("Location: ../screens/admin/homepage.php?");
         exit();
     } else {
-        header("Location: ../screens/userHomepage.php?");
+        header("Location: ../screens/user/homepage.php?");
         exit();
     }
     

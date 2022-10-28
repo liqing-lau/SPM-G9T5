@@ -47,7 +47,7 @@
             <input type='submit' value='Continue Updating' name='return'>
             </form><br>";
             echo "Or you can cancel updates and return to Job Role Main Page";
-            echo"<form action='../screens/HR_jobRoleView.php'>
+            echo"<form action='../screens/admin/jobRoleView.php'>
             <input type='submit' value='Return to Job Role Main Page and Cancel Updates' name='exit'>
             </form>";
             exit();
@@ -57,7 +57,7 @@
     //COMES FROM CANCEL. session will drop on the hrjobview screen
     if (isset($_POST["cancelUpdate"])){
         echo "Are you sure you want to cancel updates?";
-        echo"<form action='../screens/HR_jobRoleView.php'>
+        echo"<form action='../screens/admin/jobRoleView.php'>
         <input type='submit' value='Return to Job Role Main Page and Cancel Updates' name='exit'>
         </form>";
 
@@ -129,7 +129,7 @@
             }
             echo "Changes made";
         }
-        echo "<form action='../screens/../screens/HR_jobRoleView.php'>
+        echo "<form action='../screens/admin/jobRoleView.php'>
         <input type='submit' value='Return to Job Role Main Page'>
         </form>";
     }
