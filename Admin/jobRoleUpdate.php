@@ -41,7 +41,7 @@ $allSkills=$_SESSION['allSkills'];
 ?>
 
 <html>
-    <form action="HR_jobRoleUpdateConfirm.php" method="POST">
+    <form action="jobRoleUpdateConfirm.php" method="POST">
         <h1>Job Role ID:</h1>
         <?php
         echo $_SESSION['JRole_ID'];

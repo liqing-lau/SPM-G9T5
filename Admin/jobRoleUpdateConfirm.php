@@ -43,7 +43,7 @@
             if (isset($_POST["cancelUpdate"])==false){
             echo "Job Role requires at least 1 skill.<br>";
             echo "Please check at least one skill if you want to continue updating";
-            echo "<form action='HR_jobRoleUpdate.php'>
+            echo "<form action='jobRoleUpdate.php'>
             <input type='submit' value='Continue Updating' name='return'>
             </form><br>";
             echo "Or you can cancel updates and return to Job Role Main Page";
@@ -61,7 +61,7 @@
         <input type='submit' value='Return to Job Role Main Page and Cancel Updates' name='exit'>
         </form>";
 
-        echo "<form action='HR_jobRoleUpdate.php'>
+        echo "<form action='jobRoleUpdate.php'>
         <input type='submit' value='Continue Updating' name='return'>
         </form>";
     }

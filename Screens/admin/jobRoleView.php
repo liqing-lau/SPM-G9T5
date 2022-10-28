@@ -40,7 +40,7 @@
             }
             array_push($allJobRoles,"</ul></td>");
         }
-        array_push($allJobRoles,"<td><form style='float:left; margin-block-end:0em' action='../Admin/HR_jobRoleUpdate.php' method='POST'>
+        array_push($allJobRoles,"<td><form style='float:left; margin-block-end:0em' action='../../Admin/jobRoleUpdate.php' method='POST'>
                                     <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
                                     <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
                                     <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
