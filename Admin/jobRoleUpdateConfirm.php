@@ -41,36 +41,24 @@
         //Exits if no skill is picked, minimal codes run
         else{
             if (isset($_POST["cancelUpdate"])==false){
-            echo "Job Role requires at least 1 skill.<br>";
-            echo "Please check at least one skill if you want to continue updating";
-            echo "<form action='jobRoleUpdate.php'>
-            <input type='submit' value='Continue Updating' name='return'>
-            </form><br>";
-            echo "Or you can cancel updates and return to Job Role Main Page";
-            echo"<form action='../screens/admin/jobRoleView.php'>
-            <input type='submit' value='Return to Job Role Main Page and Cancel Updates' name='exit'>
-            </form>";
-            exit();
+                $_SESSION['cancelUpdate'] = false;
+                header('Location: ../screens/admin/jobUpdateCancel.php');
+                exit();
             }
         }
     }
     //COMES FROM CANCEL. session will drop on the hrjobview screen
     if (isset($_POST["cancelUpdate"])){
-        echo "Are you sure you want to cancel updates?";
-        echo"<form action='../screens/admin/jobRoleView.php'>
-        <input type='submit' value='Return to Job Role Main Page and Cancel Updates' name='exit'>
-        </form>";
-
-        echo "<form action='jobRoleUpdate.php'>
-        <input type='submit' value='Continue Updating' name='return'>
-        </form>";
+        $_SESSION['cancelUpdate'] = true;
+        header('Location: ../screens/admin/jobUpdateCancel.php');
+        exit();
     }
 
     //COMES FROM UPDATE
     else{
         //Check if nothing is changed
         if(isset($_SESSION['updateName'])==false&&isset($_SESSION['updateDesc'])==false&&isset($_SESSION['updateSkills'])==false ){
-            echo "No changes made";
+            $_SESSION['noUpdate'] =  "No changes made to " . $JRole_Name;
         }
         //Only runs if anything has been changed
         else{
@@ -127,10 +115,13 @@
                     }
                 }
             }
-            echo "Changes made";
+            if(isset($_SESSION['updateName'])) {
+                $JRole_Name = $_SESSION['updateName'];
+            }
+            $_SESSION['updateSuccess'] = "Changes made to " . $JRole_Name;
         }
-        echo "<form action='../screens/admin/jobRoleView.php'>
-        <input type='submit' value='Return to Job Role Main Page'>
-        </form>";
+
+        header('Location: ../screens/admin/viewJobRole.php');
+        exit();
     }
 ?>

@@ -7,6 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
   </head>
   <body>
+  
+    <?php
+      $thisPage ='roles';
+      include("../navbar/adminNavbar.php");
+      ?>
+
     <div class="container-fluid">
         <div class="container mt-5">
 
@@ -29,8 +35,7 @@
                     <select multiple class="form-control" name="jobSkills[]">
                     
                     <?php 
-                        require_once '../DAO/common.php';
-                        require_once '../DAO/common.php';
+                        require_once '../../DAO/common.php';
 
                         $skillDAO = new SkillDAO();
                         $skillIdList = $skillDAO->getAllSkillId();
