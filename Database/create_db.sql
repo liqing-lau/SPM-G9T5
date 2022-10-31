@@ -57,7 +57,8 @@ CREATE TABLE IF NOT EXISTS `jobrole` (
 DROP TABLE IF EXISTS `skill`;
 CREATE TABLE IF NOT EXISTS `skill` (
   `Skill_ID` int not null primary key auto_increment,
-  `Skill_Name` varchar(50) NOT NULL
+  `Skill_Name` varchar(50) NOT NULL,
+  `Skill_Status` varchar(15) default "active" 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `courseskill`;

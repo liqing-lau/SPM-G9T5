@@ -91,7 +91,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Success! </strong><br>'. $_SESSION["jobCreateSuccess"] . '
                 </div>';
-
     } 
     
     if(isset($_SESSION['jobCreateFailure'])){
