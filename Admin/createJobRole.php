@@ -1,7 +1,10 @@
 <?php
+    session_start();
     require_once '../DAO/common.php';
     $jobRoleDAO = new jobRoleDAO();
-    session_start();
+    $skillDAO = new SkillDAO();
+    $jobSkillDAO = new JobskillDAO();
+    
     function getErrors($jobName, $jobDesc, $jobNameTaken) {
         $errormsg = [];
 
@@ -34,11 +37,17 @@
         $jobSkill= $_POST['jobSkills'];
 
         $jobNameTaken = $jobRoleDAO->checkJobNameInDB($jobName);
-
+        
         $errormsg = getErrors($jobName, $jobDesc, $jobNameTaken);
         
         if(count($errormsg) == 0) {
             $job = $jobRoleDAO->createJobRole($jobName, $jobDesc, $jobSkill);
+            $jobId = $jobRoleDAO->getIdByName($jobName);
+
+            foreach($jobSkill as $skill) {
+                $addSkill = $jobSkillDAO->create($jobId, $skill);
+            }
+            
             if ($job === 0) {
                 array_push($errormsg, $job);
             } else {
