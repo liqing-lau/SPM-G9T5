@@ -128,26 +128,27 @@ class SkillDAO
 
         return $skillIdList;
     }
-
-    public function getAllSkillName() {
-        $connMgr = new ConnectionManager();
+    public function getActiveSkillNames(){
+        $connMgr= new ConnectionManager();
         $conn = $connMgr->connect();
 
-        $sql = "SELECT `Skill_Name` FROM `skill`";
-        $skillNameList = [];
+        $sql="SELECT `Skill_Name` FROM `skill` WHERE `Skill_Status` = 'active'";
+        $stmt= $conn->prepare($sql);
 
-        $stmt = $conn->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $stmt->execute();
+        $listSkills=[];
 
-        while( $row = $stmt->fetch() ) {
-            $skillName = $row['Skill_Name'];
-            array_push($skillNameList,$skillName);
+        if($stmt->execute()){
+            $stmt->setFetchMode((PDO::FETCH_ASSOC));
+
+            while ($row=$stmt->fetch()){
+                array_push($listSkills,$row["Skill_Name"]);
+            }
         }
-        $stmt = null;
-        $conn = null;
 
-        return $skillNameList;
+        $stmt=null;
+        $conn=null;
+
+        return $listSkills;
     }
 
     public function getSkillNames(){
@@ -171,5 +172,26 @@ class SkillDAO
         $conn=null;
 
         return $listSkills;
+    }
+    public function getAllActiveSkill() {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT `Skill_ID`, `Skill_Name` FROM `skill` WHERE `Skill_Status` = 'active'";
+        $skills = [];
+
+        $stmt = $conn->prepare($sql);
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+
+        while( $row = $stmt->fetch() ) {
+            $skillId = $row['Skill_ID'];
+            $skillName = $row['Skill_Name'];
+            array_push($skills,[$skillId, $skillName]);
+        }
+        $stmt = null;
+        $conn = null;
+
+        return $skills;
     }
 }

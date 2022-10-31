@@ -29,7 +29,7 @@ if(isset($_POST["updateJR"])){
     require_once("../DAO/common.php");
     if(isset($_SESSION['allSkills'])==False){
         $dao= new SkillDAO();
-        $allSkills=$dao->getSkillNames();
+        $allSkills=$dao->getActiveSkillNames();
         $_SESSION['allSkills']=$allSkills;
     }
 }
