@@ -35,6 +35,9 @@
                 }
             ?>
             <form action='./viewJobRole.php' action='POST'>
+                <?php
+                    $_SESSION['noUpdate'] =  "No changes made to " .$_SESSION['JRole_Name'];
+                ?>
                 <button type='submit' class="btn btn-danger" name='exit'>Cancel Updates</button>
             </form>
         </div>

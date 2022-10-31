@@ -115,7 +115,10 @@
                     }
                 }
             }
-            $_SESSION['updateSuccess'] = "Changes made to " . $_SESSION['updateName'];
+            if(isset($_SESSION['updateName'])) {
+                $JRole_Name = $_SESSION['updateName'];
+            }
+            $_SESSION['updateSuccess'] = "Changes made to " . $JRole_Name;
         }
 
         header('Location: ../screens/admin/viewJobRole.php');
