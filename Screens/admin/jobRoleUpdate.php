@@ -36,7 +36,7 @@
                     }
                 ?>
                 <label for="jobRoleName" class="form-label">Job Role Name (min 1, max 50)</label>
-                <input class="form-control" type="text" name='newName' value=<?php echo $JRole_Name;?> required minlength='1' maxlength='50' >
+                <input class="form-control" type="text" name='newName' value="<?php echo $JRole_Name;?>" required minlength='1' maxlength='50' >
             </div>
 
             <div class="mb-3">

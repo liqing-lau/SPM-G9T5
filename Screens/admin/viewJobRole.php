@@ -72,6 +72,21 @@
 
     <?php
     include("../navbar/adminNavbar.php");
+
+    if(isset($_SESSION['updateSuccess'])){
+        echo '<div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong>Success! </strong><br>'. $_SESSION["updateSuccess"] . '
+                </div>';
+    }
+
+    if (isset($_SESSION['noUpdate'])) {
+        echo '<div class="alert alert-warning alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong>'. $_SESSION["noUpdate"] . '</strong>
+                </div>';
+    }
+
     
     if(isset($_SESSION['jobCreateSuccess'])){
         echo '<div class="alert alert-success alert-dismissible" role="alert">
@@ -79,7 +94,9 @@
                     <strong>Success! </strong><br>'. $_SESSION["jobCreateSuccess"] . '
                 </div>';
 
-    } else if(isset($_SESSION['jobCreateFailure'])){
+    } 
+    
+    if(isset($_SESSION['jobCreateFailure'])){
         $alert = '<div class="alert alert-danger alert-dismissible" role="alert">
                     <strong>Creation of job failed!</strong><br> 
                     Type of error(s):
@@ -110,7 +127,7 @@
             <table class="table">
             <thead>
                 <tr>
-                    <th>Job Role ID</th>
+                    <th>ID</th>
                     <th>Job Role Name</th>
                     <th>Job Role Description</th>
                     <th>Job Role Skills</th>
