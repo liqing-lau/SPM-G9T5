@@ -78,9 +78,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Success! </strong><br>'. $_SESSION["updateSuccess"] . '
                 </div>';
-    }
-
-    if (isset($_SESSION['noUpdate'])) {
+    } else if (isset($_SESSION['noUpdate'])) {
         echo '<div class="alert alert-warning alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>'. $_SESSION["noUpdate"] . '</strong>
