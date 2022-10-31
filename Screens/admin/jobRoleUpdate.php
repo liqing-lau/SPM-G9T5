@@ -23,75 +23,79 @@
     <div class="container">
 
         <form action="../../Admin/jobRoleUpdateConfirm.php" method="POST">
-        
-        <div class="input-group mb-3 pt-4">
-            <span class="input-group-text" id="jobRoleId">Job Role ID:</span>
-            <input class="form-control" type="text" value="<?php echo $roleId;?>" disabled readonly>
-        </div>
+            
+            <div class="input-group mb-3 pt-4">
+                <span class="input-group-text" id="jobRoleId">Job Role ID:</span>
+                <input class="form-control" type="text" value="<?php echo $roleId;?>" disabled readonly>
+            </div>
 
-        <div class="mb-3">
-            <?php
-                if (isset($_SESSION['updateName'])){
-                    $JRole_Name=$_SESSION['updateName'];
-                }
-            ?>
-            <label for="jobRoleName" class="form-label">Job Role Name (min 1, max 50)</label>
-            <input class="form-control" type="text" name='newName' value=<?php echo $JRole_Name;?> required minlength='1' maxlength='50' >
-        </div>
+            <div class="mb-3">
+                <?php
+                    if (isset($_SESSION['updateName'])){
+                        $JRole_Name=$_SESSION['updateName'];
+                    }
+                ?>
+                <label for="jobRoleName" class="form-label">Job Role Name (min 1, max 50)</label>
+                <input class="form-control" type="text" name='newName' value=<?php echo $JRole_Name;?> required minlength='1' maxlength='50' >
+            </div>
 
-        <div class="mb-3">
-            <label for="jobRoleName" class="form-label">Job Role Skills (Mandatory at least 1)</label>
-            <select multiple class="form-control" name="jobSkills[]"></select>
-            <?php
-            //if they return from confirm page, they will se their changes still
-            if(isset($_SESSION['updateSkills'])){
-                foreach($allSkills as $skill){
-                    echo "<br>";
-                    if (in_array($skill,$_SESSION['updateSkills'],true)){
-                        echo "$skill <input type='checkbox' name='newSkills[]' value='$skill' checked>";
-                    }
-                    else{
-                        echo "$skill <input type='checkbox' name='newSkills[]' value='$skill'>";
-                    }
-                }
-            }
-            else{
-                if ($JRole_Skills=="No Skills"){
+            <div class="mb-3">
+                <label for="jobRoleName" class="form-label">Job Role Skills (Mandatory at least 1)</label>
+                <select multiple class="form-control" name="newSkills[]">
+                <?php
+                //if they return from confirm page, they will se their changes still
+                if(isset($_SESSION['updateSkills'])){
                     foreach($allSkills as $skill){
                         echo "<br>";
-                        echo "$skill <input type='checkbox' name='newSkills[]' value='$skill'>";
+                        if (in_array($skill,$_SESSION['updateSkills'],true)){
+                            echo "$skill <option value='$skill' selected>";
+                        }
+                        else{
+                            echo "$skill <option value='$skill'>";
+                        }
                     }
                 }
                 else{
-                    foreach($allSkills as $skill){
-                        echo "<br>";
-                        if (in_array($skill,$JRole_Skills,true)){
-                            echo "$skill <input type='checkbox' name='newSkills[]' value='$skill' checked>";
+                    if ($JRole_Skills=="No Skills"){
+                        foreach($allSkills as $skill){
+                            echo "<br>";
+                            echo "$skill <option value='$skill'>";
                         }
-                        else{
-                            echo "$skill <input type='checkbox' name='newSkills[]' value='$skill'>";
+                    }
+                    else{
+                        foreach($allSkills as $skill){
+                            echo "<br>";
+                            if (in_array($skill,$JRole_Skills,true)){
+                                echo "$skill <option value='$skill' selected>";
+                            }
+                            else{
+                                echo "$skill <option value='$skill'>";
+                            }
                         }
                     }
                 }
-            }
-            ?>
-        </div>
-            <br><br>
+                ?>
+                </select>
+            </div>
+            
+            <div class="mb-3">
+                <?php
+                    if (isset($_SESSION['updateDesc'])){
+                        $JRole_Desc=$_SESSION['updateDesc'];
+                    }
+                ?>
+                <label for="jobRoleDesc" class="form-label">Job Role Description (max 500)</label>
+                <textarea class="form-control"  name='newDesc' rows='10' cols='50' maxlength='500'><?php echo $JRole_Desc;?></textarea>
+            </div>
 
-            <h1>Job Role Description (max 500)</h1>
-            <?php
-            if (isset($_SESSION['updateDesc'])){
-                $updateDesc=$_SESSION['updateDesc'];
-                echo "<textarea name='newDesc' rows='10' cols='50' maxlength='500'>$updateDesc</textarea>";
-            }
-            else{
-                echo "<textarea name='newDesc' rows='10' cols='50' maxlength='500'>$JRole_Desc</textarea>";
-            }
-            ?>
-            <br><br>
-            <input type="submit" value="Cancel" name="cancelUpdate"><br><br>
-            <input type="submit" value="Update Job Role" name="newJR">
+            <div class="container ms-2">
+                <button type="submit" class="btn btn-outline-success float-end ms-2" name="newJR">Update Job Role</button>
+            </div>
 
+            <div class="container me-2">
+                <button type="submit" class="btn btn-outline-warning float-end me-2" name="cancelUpdate">Cancel</button>
+            </div>
+            
         </form>
     </div>
     

@@ -103,7 +103,7 @@
     <div class="container">
     
         <div class="p-2">
-            <a href= "./createJobRole.php" class="btn btn-primary float-end" type="button">Create Job Role</a>
+            <a href= "./createJobRole.php" class="btn btn-outline-dark float-end" type="button">Create Job Role</a>
         </div>
 
         <div class="container">
