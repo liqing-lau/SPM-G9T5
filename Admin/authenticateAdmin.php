@@ -2,10 +2,12 @@
 
     require_once '../DAO/common.php';
 
-    $empId = $_POST['empId'];
+    $empId = $_POST["empId"];
+    setcookie("empId", $empId, time() + (86400 * 365), "/");
 
     $adminDAO = new adminDAO();
     $admin = $adminDAO->isAdmin($empId);
+    setcookie("admin", $admin, time() + (86400 * 365), "/");
     
     $toggleUser = isset($_POST['false']);
 
@@ -15,20 +17,14 @@
     $userRole = $user->getDept();
 
     if (!$admin) {
-        echo "You are not authorised to see this page, $userFirstName ($userRole)";
+        header("Location: ../screens/user/homepage.php?");
+        exit();
     } else if (!$toggleUser) {
-        echo "Welcome $userFirstName ($userRole, Admin)";
-        echo "<form method='post'>
-                <input type='hidden' name='empId' value=$empId>
-                <input type='submit' name='false' value='Change to User'></input>
-                </form>";
+        header("Location: ../screens/admin/homepage.php?");
+        exit();
     } else {
-        echo "You are not authorised to see this page, $userFirstName ($userRole, User)";
-        echo "<form method='post'>
-                <input type='hidden' name='empId' value=$empId>
-                <input type='submit' name='true' value='Change to Admin'></input>
-                </form>";
-        
+        header("Location: ../screens/user/homepage.php?");
+        exit();
     }
     
 ?>
