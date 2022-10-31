@@ -45,13 +45,13 @@
                                     <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
                                     <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
                                     <input type='hidden' name='JRole_Skills' value='$strSkills'>
-                                    <input type='submit' value='Update' name='updateJR'/>
+                                    <input type='submit' class='btn btn-outline-warning' value='Update' name='updateJR'/>
                                     </form>
                                     <form style='float:right; margin-block-end:0em' action='' method='POST'>
                                     <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
                                     <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
                                     <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
-                                    <input type='submit' value='Delete' name='deleteJR'/>
+                                    <input type='submit' class='btn btn-outline-danger' value='Delete' name='deleteJR'/>
                                     </form>");
         array_push($allJobRoles,"</td></tr>");
     }
@@ -72,24 +72,58 @@
 
     <?php
     include("../navbar/adminNavbar.php");
+    
+    if(isset($_SESSION['jobCreateSuccess'])){
+        echo '<div class="alert alert-success alert-dismissible" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    <strong>Success! </strong><br>'. $_SESSION["jobCreateSuccess"] . '
+                </div>';
+
+    } else if(isset($_SESSION['jobCreateFailure'])){
+        $alert = '<div class="alert alert-danger alert-dismissible" role="alert">
+                    <strong>Creation of job failed!</strong><br> 
+                    Type of error(s):
+                    <ol>'; 
+
+        foreach($_SESSION['jobCreateFailure'] as $alertmessage){
+            $alert .= '<li>' . $alertmessage . '</li>';
+        }
+
+        $alert .= '</ol>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>';
+
+        echo $alert;
+    } 
+
+    
+
     ?>
 
     <div class="container">
-        <table class="table">
-        <thead>
-            <tr>
-                <th>Job Role ID</th>
-                <th>Job Role Name</th>
-                <th>Job Role Description</th>
-                <th>Job Role Skills</th>
-                <th>Edit options</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-                echo $allJobRoles;
-            ?>
-        </tbody>
+    
+        <div class="p-2">
+            <a href= "./createJobRole.php" class="btn btn-primary float-end" type="button">Create Job Role</a>
+        </div>
+
+        <div class="container">
+            <table class="table">
+            <thead>
+                <tr>
+                    <th>Job Role ID</th>
+                    <th>Job Role Name</th>
+                    <th>Job Role Description</th>
+                    <th>Job Role Skills</th>
+                    <th>Edit options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    echo $allJobRoles;
+                ?>
+            </tbody>
+        </div>
+        
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>

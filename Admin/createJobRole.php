@@ -1,7 +1,7 @@
 <?php
     require_once '../DAO/common.php';
     $jobRoleDAO = new jobRoleDAO();
-    
+    session_start();
     function getErrors($jobName, $jobDesc, $jobNameTaken) {
         $errormsg = [];
 
@@ -42,21 +42,19 @@
             if ($job === 0) {
                 array_push($errormsg, $job);
             } else {
-                echo "You have successfully added $jobName";
+                $_SESSION['jobCreateSuccess'] = "You have successfully added $jobName";
             }
         } 
 
     } else {
         $errormsg = [];
-        array_push($errormsg, "No skills selected or job name or desciption is empty");
+        array_push($errormsg, "No skills selected or job name or description is empty");
     }
 
     if (!empty($errormsg)) {
-        echo "Error! Creation of job failed <br><br> 
-        Type of error(s): <ol>";
-        foreach ($errormsg as $e) {
-            echo "<li>$e</li>";
-        }
-        echo "</ol>";
+        $_SESSION['jobCreateFailure']= $errormsg;
     }
+
+    header("Location: ../screens/admin/viewJobRole.php");
+
 ?>
