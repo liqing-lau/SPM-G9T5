@@ -38,13 +38,10 @@
                         require_once '../../DAO/common.php';
 
                         $skillDAO = new SkillDAO();
-                        $skillIdList = $skillDAO->getAllSkillId();
-                        $skillNameList = $skillDAO->getAllSkillName();
-
-                        foreach ($skillIdList as $skillId) {
-                          $idx = $skillId - 1;
-                          $skillName = $skillNameList[$idx];
-
+                        $skillList = $skillDAO->getAllActiveSkill();
+                        foreach ($skillList as $skill) {
+                          $skillId = $skill[0];
+                          $skillName = $skill[1];
                           echo "<option value=$skillId>$skillName</option>";
                         }
                         
