@@ -1,11 +1,11 @@
 <?php
     session_start();
-
     require_once '../../DAO/common.php';
+    require_once '../../class/course.php';
 
+    $courseDAO = new courseDAO();
     $skillDAO = new SkillDAO();
-    $jobSkillDAO = new JobskillDAO();
-    $jobRoleDAO = new jobRoleDAO();
+    $courseSkillDAO = new courseSkillDAO();
 
     if (isset($_POST['Skill_ID']) && isset($_POST['skillName'])) {
         $skillId = $_POST['Skill_ID'];
@@ -17,16 +17,15 @@
         $skillName = $_SESSION['skillName'];
     }
 
-    $roleList = $jobSkillDAO->getRoleIdList($skillId);
-
+    $courseIdList = $courseSkillDAO->getCourseIdBySkill($skillId);
+    
     $rows = [];
 
-    foreach ($roleList as $roleId) {
-        $data = $jobRoleDAO->getIndividualIDandName($roleId);
-        $roleName = $data[0][1];
+    foreach($courseIdList as $courseId) {
+        $courseName = $courseDAO->getCourseName($courseId)[0];
         $row =  "<tr>
-                <td>$roleId</td>
-                <td>$roleName</td>
+                <td>$courseId</td>
+                <td>$courseName</td>
             </tr>";
         array_push($rows, $row);
     }
@@ -41,25 +40,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <title>Assign Skills to Roles</title>
+    <title>Assign Courses to Roles</title>
 </head>
 <body>
     <?php 
     $thisPage = 'skills';
     include("../navbar/adminNavbar.php");
 
-    if(isset($_SESSION['skillSuccess']) && $_SESSION['skillSuccess'] != ''){
+    if(isset($_SESSION['courseSuccess']) && $_SESSION['courseSuccess'] != ''){
         echo '<div class="alert alert-success alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    <strong>Success! </strong><br>'. $_SESSION["skillSuccess"] . '
+                    <strong>Success! </strong><br>'. $_SESSION["courseSuccess"] . '
                 </div>';
-        $_SESSION['skillSuccess'] = '';
-    } else if(isset($_SESSION['skillFail']) && $_SESSION['skillFail'] != ''){
+        $_SESSION['courseSuccess'] = '';
+    } else if(isset($_SESSION['courseFail']) && $_SESSION['courseFail'] != ''){
         echo '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    <strong>Error! </strong><br>'. $_SESSION["skillFail"] . '
+                    <strong>Error! </strong><br>'. $_SESSION["courseFail"] . '
                 </div>';
-        $_SESSION['skillFail'] = '';
+        $_SESSION['courseFail'] = '';
     } 
     ?>
     
@@ -72,11 +71,11 @@
         </div>
         
         <div class="p-2">
-            <form action='./assignRole.php' method='POST'>
+            <form action='./assignCourse.php' method='POST'>
                 
                 <input type='hidden' name='skillName' value='<?php echo $skillName?>'>
                 <input type='hidden' name='skillId' value='<?php echo $skillId?>'>
-                <button type='submit' class='btn btn-outline-dark float-end' name='assignRole'>Amend assignment</button>
+                <button type='submit' class='btn btn-outline-dark float-end' name='assignCourse'>Amend assignment</button>
             </form>
         </div>
 

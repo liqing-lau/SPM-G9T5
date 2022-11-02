@@ -43,7 +43,7 @@
                         <input type='hidden' name='skillName' value='$skillName'/>
                         <button type='submit' class='btn btn-outline-primary' name='assignRole' $disabled>Role Assignment</button>
                     </form>
-                    <form action='../../Admin/courseAssignment.php' method='POST'>
+                    <form action='./courseAssignment.php' method='POST'>
                         <input type='hidden' name='Skill_ID' value='$skillId'/>
                         <input type='hidden' name='skillName' value='$skillName'/>
                         <button type='submit' class='btn btn-outline-primary' name='assignCourse' $disabled>Course Assignment</button>
