@@ -26,7 +26,7 @@
                 <div class="form-group">
                   
                     <label for="formControlJobSkills">Job</label>
-                    <select multiple class="form-control" name="jrselect[]">
+                    <div style="border: 1px solid #ced4da; border-radius: 10px; height: 150px; overflow-y: scroll;">
                     
                     <?php 
                         require_once '../../DAO/common.php';
@@ -36,11 +36,12 @@
                         foreach($jidname as $jr){
                             $jid = $jr[0];
                             $jname = $jr[1];
-                            echo "<option value='$jid'>$jname</option>";
+                            echo "<input type='checkbox' name='jrselect[]'' value='$jid'> $jname";
+                            echo "<br>";
                         }
                         
                     ?>
-                    </select>
+                    </div>
                 </div>
                 
                 

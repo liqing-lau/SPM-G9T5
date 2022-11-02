@@ -6,6 +6,7 @@ session_start();
 // JRole_Desc, updateName
 // skill_Temp, updateDesc
 
+// update 
 //makes sure session values only get reset if they press the update button again
 if(isset($_POST["updateJR"])){
     $_SESSION['JRole_ID']=$_POST['JRole_ID'];
