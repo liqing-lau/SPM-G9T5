@@ -344,6 +344,27 @@ class jobRoleDAO{
 
         return $jobId;
     }
+
+    public function deleteJR($JRole_ID, $JRole_Status){
+        $connMgr= new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql= "UPDATE jobrole 
+                SET JRole_Status=:JRole_Status 
+                WHERE JRole_ID=:JRole_ID";
+
+        $stmt=$conn->prepare($sql);
+
+        $stmt->bindParam(":JRole_Status", $JRole_Status, PDO::PARAM_STR);
+        $stmt->bindParam(":JRole_ID", $JRole_ID, PDO::PARAM_INT);
+
+        $JRole_Status=$stmt->execute();
+
+        $stmt=null;
+        $conn=null;
+
+        return $JRole_Status;
+    }
 }
 
 ?>
