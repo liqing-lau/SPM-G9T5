@@ -82,7 +82,7 @@
         $connMgr = new ConnectionManager();
         $conn = $connMgr->connect();
 
-        $sql = "DELETE FROM `courseskill` WHERE `Course_ID` = :courseId AND `Skill_ID` :skillId";
+        $sql = "DELETE FROM `courseskill` WHERE `Course_ID` =:courseId AND `Skill_ID` =:skillId";
 
         $stmt = $conn->prepare($sql);
 
