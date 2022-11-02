@@ -8,7 +8,7 @@
       <div class="navbar-nav">
         <a class="nav-link <?php if (isset($thisPage) && $thisPage == 'roles') {echo 'active aria-current="page"';}?> " href="../admin/viewJobRole.php">Roles</a>
         <a class="nav-link <?php if (isset($thisPage) && $thisPage == 'skills') {echo 'active aria-current="page"';}?> " href="../admin/viewSkills.php">Skills</a>
-        <a class="nav-link <?php if (isset($thisPage) && $thisPage == 'courses') {echo 'active aria-current="page"';}?> " href="#">Courses</a>
+        <a class="nav-link <?php if (isset($thisPage) && $thisPage == 'courses') {echo 'active aria-current="page"';}?> " href="../admin/viewCourse.php">Courses</a>
       </div>
       <div class="nav-items text-right ms-auto">
       <?php 
