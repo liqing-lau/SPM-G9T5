@@ -13,30 +13,44 @@
         $skillId = $skill[0];
         $skillName = $skill[1];
         $skillStatus = $skill[2];
+        $row_colour = "";
+        $disabled = "";
 
         if ($skillStatus != 'active') { 
-            $row = "<tr class='table-secondary'>";
-            $delbutton = "<form action='../../Admin/deleteSkill.php' method='POST'>
+            $row_colour = "class='table-secondary'";
+            $disabled = "disabled";
+            $buttons = "
+                        <form action='../../Admin/deleteSkill.php' method='POST'>
                             <input type='hidden' name='skillName' value='$skillName'/>
                             <input type='hidden' name='Skill_ID' value='$skillId'/>
                             <button type='submit' class='btn btn-outline-light' name='enableSkill'>Enable</button>
                         </form>";
         } else {
-            $row = "<tr>";
-            $delbutton = " <form action='../../Admin/deleteSkill.php' method='POST'>
+            $buttons = "
+                        <form action='../../Admin/deleteSkill.php' method='POST'>
                             <input type='hidden' name='skillName' value='$skillName'/>
                             <input type='hidden' name='Skill_ID' value='$skillId'/>
                             <button type='submit' class='btn btn-outline-danger' name='delSkill'>Delete</button>
                         </form>";
         }
 
-        $row .= "<td>$skillId</td>
+        $row = "<tr $row_colour>
+                <td>$skillId</td>
                 <td>$skillName</td>
                 <td>
-                    <a class='btn btn-outline-primary' href='#' role='button'>Role Assignment</a>
-                    <a class='btn btn-outline-primary' href='#' role='button'>Course Assignment</a>
-                    $delbutton
-                </td>";
+                    <form action='./roleAssignment.php' method='POST'>
+                        <input type='hidden' name='Skill_ID' value='$skillId'/>
+                        <input type='hidden' name='skillName' value='$skillName'/>
+                        <button type='submit' class='btn btn-outline-primary' name='assignRole' $disabled>Role Assignment</button>
+                    </form>
+                    <form action='../../Admin/courseAssignment.php' method='POST'>
+                        <input type='hidden' name='Skill_ID' value='$skillId'/>
+                        <input type='hidden' name='skillName' value='$skillName'/>
+                        <button type='submit' class='btn btn-outline-primary' name='assignCourse' $disabled>Course Assignment</button>
+                    </form>
+                    $buttons
+                </td>
+                </tr>";
         array_push($displaySkills, $row);
     }
 
@@ -59,12 +73,12 @@
     $thisPage = 'skills';
     include("../navbar/adminNavbar.php");
     
-    if(isset($_SESSION['skillSuccess'])){
+    if(isset($_SESSION['skillSuccess']) && $_SESSION['skillSuccess'] != ''){
         echo '<div class="alert alert-success alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Success! </strong><br>'. $_SESSION["skillSuccess"] . '
                 </div>';
-    } else if(isset($_SESSION['skillFail'])){
+    } else if(isset($_SESSION['skillFail']) && $_SESSION['skillFail'] != ''){
         echo '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Error! </strong><br>'. $_SESSION["skillFail"] . '
@@ -81,18 +95,19 @@
 
         <div class="container table-responsive">
             <table class="table text-nowrap">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Skill Name</th>
-                    <th>Edit options</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                    echo $displaySkills;
-                ?>
-            </tbody>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Skill Name</th>
+                        <th>Edit options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                        echo $displaySkills;
+                    ?>
+                </tbody>
+            </table>
         </div>
         
     </div>
