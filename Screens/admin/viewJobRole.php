@@ -73,6 +73,7 @@
             <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
             <input type='submit' class='btn btn-outline-danger' value='Enable' name='enableJR'/>
             </form></td>");
+            array_push($allJobRoles,"<td></td>");
         }
         array_push($allJobRoles,"</tr>");
     }
