@@ -6,7 +6,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link <?php if (isset($thisPage) && $thisPage == 'lj') {echo 'active aria-current="page"';}?> " href="../../screens/user/homepage.php">My Learning Journey</a>
+        <a class="nav-link <?php if (isset($thisPage) && $thisPage == 'lj') {echo 'active aria-current="page"';}?> " href="../../screens/user/landing.php">My Learning Journey</a>
         <a class="nav-link <?php if (isset($thisPage) && $thisPage == 'roles') {echo 'active aria-current="page"';}?> " href="../../screens/user/allRoles.php">All Roles</a>
         <a class="nav-link <?php if (isset($thisPage) && $thisPage == 'courses') {echo 'active aria-current="page"';}?> " href="#">All Courses</a>
       </div>

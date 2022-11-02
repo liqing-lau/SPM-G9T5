@@ -10,7 +10,7 @@ if (isset($_POST["viewJR"])) {
 if (isset($_POST["addjobRole"])) {
     $jid = $_POST["addjobRole"];
     $page = "Location: #";
-    // $page = 'Location: ../screens/user/viewRole.php?addJR=' . $jid;
+    $page = 'Location: ../screens/user/selectrole.php?addjobrole=' . $jid;
     header($page);
     exit();
 }
