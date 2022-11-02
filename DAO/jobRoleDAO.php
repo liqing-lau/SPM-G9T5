@@ -21,7 +21,8 @@ class jobRoleDAO{
                 $listJR[]=new jobRole(
                                     $row["JRole_ID"],
                                     $row["JRole_Name"],
-                                    $row["JRole_Desc"]
+                                    $row["JRole_Desc"],
+                                    $row["JRole_Status"]
                 );
             }
 
@@ -38,7 +39,7 @@ class jobRoleDAO{
         $connMgr= new ConnectionManager();
         $conn =$connMgr->connect();
 
-        $sql="SELECT `Skill_Name` FROM `skill` WHERE `Skill_ID` IN (SELECT `Skill_ID` FROM `jobskill` WHERE `JRole_ID`= $JRole_ID)";
+        $sql="SELECT `Skill_Name`, `Skill_Status` FROM `skill` WHERE `Skill_ID` IN (SELECT `Skill_ID` FROM `jobskill` WHERE `JRole_ID`= $JRole_ID)";
         $stmt = $conn->prepare($sql);
 
         $listSkills=[];
@@ -48,7 +49,7 @@ class jobRoleDAO{
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
             while ($row=$stmt->fetch()){
-                array_push($listSkills,$row["Skill_Name"]);
+                array_push($listSkills,[$row["Skill_Name"],$row["Skill_Status"]]);
             }
 
         }
