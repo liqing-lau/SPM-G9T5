@@ -51,7 +51,7 @@
             }
             array_push($allJobRoles,"</ul></td>");
         }
-        array_push($allJobRoles,"<td>$eachItem[3]</td>");
+        // array_push($allJobRoles,"<td>$eachItem[3]</td>");
         if($eachItem[3]=="active"){
             array_push($allJobRoles,"<td><form style='float:left; margin-block-end:0em' action='../../Admin/jobRoleUpdate.php' method='POST'>
             <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
@@ -71,7 +71,7 @@
             <form style='float:right; margin-block-end:0em' action='../../Admin/DeleteJobRole.php' method='POST'>
             <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
             <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
-            <input type='submit' class='btn btn-outline-danger' value='Enable' name='enableJR'/>
+            <input type='submit' class='btn btn-outline-dark' value='Enable' name='enableJR'/>
             </form></td>");
             array_push($allJobRoles,"<td></td>");
         }
@@ -96,14 +96,14 @@
     include("../navbar/adminNavbar.php");
 
     if(isset($_SESSION["JRSuccess"])){
-        echo '<div class="alert alert-success alert-dismissable" role="alert">
-                <button type="button" class="btn-close" data-bs-dismissable="alert" aria-label="Close"></button>
+        echo '<div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 <strong>Success!</strong><br>'. $_SESSION["JRSuccess"] . '
                 </div>';
     }
     else if(isset($_SEESION["JRFail"])){
-        echo '<div class="alert alert-danger alert-dismissable" role="alert">
-                <button type="button" class="btn-close" data-bs-dismissable="alert" aria-label="Close"></button>
+        echo '<div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss"alert" aria-label="Close"></button>
                 <strong>Error! </strong><br>'.$_SESSION["JRFail"] . '
                 </div>';
     }
@@ -163,7 +163,7 @@
                     <th>Job Role Name</th>
                     <th>Job Role Description</th>
                     <th>Job Role Skills</th>
-                    <th>Status</th>
+                    <!-- <th>Status</th> -->
                     <th>Edit options</th>
                     <th></th>
                 </tr>

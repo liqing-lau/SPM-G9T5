@@ -32,7 +32,7 @@
                 <div class="form-group">
                   
                     <label for="formControlJobSkills">Skills</label>
-                    <select multiple class="form-control" name="jobSkills[]">
+                    <div style="border: 1px solid #ced4da; border-radius: 10px; height: 150px; overflow-y: scroll;">
                     
                     <?php 
                         require_once '../../DAO/common.php';
@@ -42,11 +42,12 @@
                         foreach ($skillList as $skill) {
                           $skillId = $skill[0];
                           $skillName = $skill[1];
-                          echo "<option value=$skillId>$skillName</option>";
+                          echo "<input type='checkbox' name='jobSkills[]' value=$skillId> $skillName";
+                          echo "<br>";
                         }
                         
                     ?>
-                    </select>
+                    </div>
                 </div>
                 
                 

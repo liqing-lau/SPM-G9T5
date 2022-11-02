@@ -8,7 +8,7 @@
     <title>Update Job Role</title>
 </head>
 <body>
-    <?php 
+    <?php
     $thisPage = 'roles';
     include("../navbar/adminNavbar.php");
     session_start();
@@ -41,41 +41,42 @@
 
             <div class="mb-3">
                 <label for="jobRoleName" class="form-label">Job Role Skills (Mandatory at least 1)</label>
-                <select multiple class="form-control" name="newSkills[]">
-                <?php
-                //if they return from confirm page, they will se their changes still
-                if(isset($_SESSION['updateSkills'])){
-                    foreach($allSkills as $skill){
-                        echo "<br>";
-                        if (in_array($skill,$_SESSION['updateSkills'],true)){
-                            echo "$skill <option value='$skill' selected>";
-                        }
-                        else{
-                            echo "$skill <option value='$skill'>";
-                        }
-                    }
-                }
-                else{
-                    if ($JRole_Skills=="No Skills"){
+                <div style="border: 1px solid #ced4da; border-radius: 10px; height: 150px; overflow-y: scroll;">
+                    <?php
+                    //if they return from confirm page, they will se their changes still
+                    // var_dump()
+                    if(isset($_SESSION['updateSkills'])){
                         foreach($allSkills as $skill){
+                            if (in_array($skill,$_SESSION['updateSkills'],true)){
+                                echo "<input type='checkbox' value='$skill' name='newSkills[]' checked> $skill";
+                            }
+                            else{
+                                echo "<input type='checkbox' value='$skill' name='newSkills[]'> $skill";
+                            }
                             echo "<br>";
-                            echo "$skill <option value='$skill'>";
                         }
                     }
                     else{
-                        foreach($allSkills as $skill){
-                            echo "<br>";
-                            if (in_array($skill,$JRole_Skills,true)){
-                                echo "$skill <option value='$skill' selected>";
+                        if ($JRole_Skills=="No Skills"){
+                            foreach($allSkills as $skill){
+                                echo "<input type='checkbox' value='$skill' name='newSkills[]'> $skill";
+                                echo "<br>";
                             }
-                            else{
-                                echo "$skill <option value='$skill'>";
+                        }
+                        else{
+                            foreach($allSkills as $skill){
+                                if (in_array($skill,$JRole_Skills,true)){
+                                    echo "<input type='checkbox' value='$skill' name='newSkills[]' checked> $skill";
+                                }
+                                else{
+                                    echo "<input type='checkbox' value='$skill' name='newSkills[]'> $skill";
+                                }
+                                echo "<br>";
                             }
                         }
                     }
-                }
-                ?>
-                </select>
+                    ?>
+                </div>
             </div>
             
             <div class="mb-3">
