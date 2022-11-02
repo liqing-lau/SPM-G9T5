@@ -1,7 +1,5 @@
 <?php
-
 require_once 'common.php';
-require_once '../../class/commonClasses.php';
 class ljDAO
 {
     public function retrieveAll()
@@ -15,7 +13,7 @@ class ljDAO
 
         $result = [];
         while ($row = $stmt->fetch()) {
-            $result[] = new lj($row['Staff_ID'], $row['LJ_ID'], $row['JRole_ID'], $row['Course_ID']);
+            $result[] = new lj($row['Staff_ID'], $row['LJ_ID'], $row['JRole_ID']);
         }
         $stmt->closeCursor();
         $pdo = null;
@@ -188,4 +186,27 @@ class ljDAO
 
         return $output;
     }
+
+    public function createLJ($sid, $jrid){
+
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "insert into lj
+                    (Staff_ID, JRole_ID)
+                    values
+                    (:sid, :jrid)";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':sid', $sid, PDO::PARAM_INT);
+        $stmt->bindParam(':jrid', $jrid, PDO::PARAM_INT);
+
+        $status = $stmt->execute();
+
+        $stmt = null;
+        $conn = null;
+
+        return $status;
+    }
+
 }

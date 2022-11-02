@@ -19,9 +19,15 @@
         $roleId = $role->getID();
         $roleName = $role->getName();
         $roleDesc = $role->getDesc();
+        $roleStatus= $role->getStatus();
 
-        $row = "<tr>
-                    <td>$roleId</td>
+        if($roleStatus=="active"){
+            $row="<tr>";
+        }
+        else{
+            $row="<tr class='table-secondary'>";
+        }
+        $row .= "   <td>$roleId</td>
                     <td>$roleName</td>
                     <td>$roleDesc</td>
                     <form action='../../user/getJRPage.php' method='post'>
