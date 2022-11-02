@@ -73,12 +73,12 @@
     $thisPage = 'skills';
     include("../navbar/adminNavbar.php");
     
-    if(isset($_SESSION['skillSuccess'])){
+    if(isset($_SESSION['skillSuccess']) && $_SESSION['skillSuccess'] != ''){
         echo '<div class="alert alert-success alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Success! </strong><br>'. $_SESSION["skillSuccess"] . '
                 </div>';
-    } else if(isset($_SESSION['skillFail'])){
+    } else if(isset($_SESSION['skillFail']) && $_SESSION['skillFail'] != ''){
         echo '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Error! </strong><br>'. $_SESSION["skillFail"] . '
