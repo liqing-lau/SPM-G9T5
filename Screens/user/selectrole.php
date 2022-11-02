@@ -61,7 +61,7 @@ if(isset($_POST["r_select"])){
     exit( "Please select 1 Job Role to create new Learning Journey");
   }
 
-  $sid = 130001;
+  $sid = $_COOKIE["empId"];
   $sr = $_POST["selectedRole"];
 
   $new_lj = new ljDAO();
