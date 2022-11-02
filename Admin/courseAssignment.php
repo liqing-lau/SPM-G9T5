@@ -41,7 +41,7 @@ if (sizeof($selectedCourses) == 0) {
 if (sizeof($currentCourses) == 1) {
     foreach($selectedCourses as $selectedCourseId) {
         $status = $courseSkillDAO->addSkillToCourse($selectedCourseId, $skillId);
-        $courseName = $courseDAO->getCourseName($selectedCourseId)[0][1];
+        $courseName = $courseDAO->getCourseName($selectedCourseId);
         if ($status) {
             $addSkillSuccess .= "<li>$courseName</li>";
         } else {

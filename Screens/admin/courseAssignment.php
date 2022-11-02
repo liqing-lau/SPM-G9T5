@@ -22,7 +22,7 @@
     $rows = [];
 
     foreach($courseIdList as $courseId) {
-        $courseName = $courseDAO->getCourseName($courseId)[0];
+        $courseName = $courseDAO->getCourseName($courseId);
         $row =  "<tr>
                 <td>$courseId</td>
                 <td>$courseName</td>
@@ -83,8 +83,8 @@
             <table class="table text-nowrap">
                 <thead>
                     <tr>
-                        <th>Role ID</th>
-                        <th>Role Name</th>
+                        <th>Course ID</th>
+                        <th>Course Name</th>
                     </tr>
                 </thead>
                 <tbody>

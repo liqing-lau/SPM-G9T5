@@ -42,8 +42,8 @@
                         (:courseId, :skillId)";
     
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':courseId', $jrole_id, PDO::PARAM_STR);
-            $stmt->bindParam(':skillId', $skill_id, PDO::PARAM_INT);
+            $stmt->bindParam(':courseId', $courseId, PDO::PARAM_STR);
+            $stmt->bindParam(':skillId', $skillId, PDO::PARAM_INT);
     
             $status = $stmt->execute();
     
@@ -62,7 +62,7 @@
             $list = [];
     
             $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':courseId', $jrole_id, PDO::PARAM_INT);
+            $stmt->bindParam(':courseId', $courseId, PDO::PARAM_STR);
     
             $stmt->execute();
             $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -82,7 +82,7 @@
         $connMgr = new ConnectionManager();
         $conn = $connMgr->connect();
 
-        $sql = "DELETE FROM `courseskill` WHERE `Course_ID` = :courseId AND `Skill_ID` :skillId;";
+        $sql = "DELETE FROM `courseskill` WHERE `Course_ID` = :courseId AND `Skill_ID` :skillId";
 
         $stmt = $conn->prepare($sql);
 
