@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `jobskill` (
 DROP TABLE IF EXISTS `lj`;
 CREATE TABLE IF NOT EXISTS `lj` (
   `Staff_ID` int not null,
-  `LJ_ID` int NOT NULL,
+  `LJ_ID` int NOT NULL auto_increment,
   `JRole_ID` int not null,
   `Course_ID` varchar(20) NOT NULL,
   constraint LJ_fk1 foreign key(Staff_ID) references staff(Staff_ID),

@@ -7,11 +7,10 @@ class lj{
     private $JRole_ID;
     private $Course_ID;
 
-    public function __construct($staff_ID, $lj_ID, $JRole_ID,$Course_ID){
+    public function __construct($staff_ID, $lj_ID, $JRole_ID){
         $this->staff_ID=$staff_ID;
         $this->lj_ID=$lj_ID;
         $this->JRole_ID=$JRole_ID;
-        $this->Course_ID = $Course_ID;
     }
 
     public function getstaff_ID(){
@@ -24,9 +23,6 @@ class lj{
 
     public function getJRole_ID(){
         return $this->JRole_ID;
-    }
-    public function getCourse_ID(){
-        return $this->Course_ID;
     }
 }
 
