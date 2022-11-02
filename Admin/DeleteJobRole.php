@@ -29,7 +29,7 @@ if(isset($_POST["enableJR"])){
     $status=$dao->deleteJR($JRole_ID,$JRole_Status);
 
     if($status){
-        $_SESSION["JRSuccess"]=$JRole_Name. "successfully enabled";
+        $_SESSION["JRSuccess"]=$JRole_Name. " successfully enabled";
     }
     else{
         $_SESSION["JRFail"]="Unable to enable ". $JRole_Name. ".<br> Please try again.";
