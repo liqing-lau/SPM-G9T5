@@ -13,17 +13,20 @@
     $final_list=[];
 
     foreach($listJR as $item){
-            array_push($final_list,[$item->getId(), $item->getName(), $item->getDesc()]);
+            array_push($final_list,[$item->getId(), $item->getName(), $item->getDesc(), $item->getStatus()]);
     }
 
     $allJobRoles=[];
     foreach($final_list as $eachItem){
-        //shortens the description
-        $shortened= mb_strimwidth($eachItem[2], 0, 50, "...");
-        array_push($allJobRoles,"<tr><td>");
-        array_push($allJobRoles,strval($eachItem[0]));
+        if($eachItem[3]=="active"){
+            array_push($allJobRoles,"<tr>");
+        }
+        else{
+            array_push($allJobRoles,"<tr class='table-secondary'>");
+        }
+        array_push($allJobRoles,"<td>".strval($eachItem[0]));
         array_push($allJobRoles,"</td><td>$eachItem[1]</td>");
-        array_push($allJobRoles,"<td>$shortened</td>");
+        array_push($allJobRoles,"<td>$eachItem[2]</td>");
         array_push($allJobRoles,"<td>");
         //Fetch relevant skills from skill csv
         $skillList=$dao->getRelSkills($eachItem[0]);
@@ -32,28 +35,47 @@
             array_push($allJobRoles,"No skills");
         }
         else{
+            $active=0;
             array_push($allJobRoles,"<ul>");
-            foreach ($skillList as $skill){
-                array_push($allJobRoles,"<li>$skill</li>");
-                //make a string of skill names so i can hidden value it over
-                $strSkills=$strSkills.";".$skill;
+            foreach ($skillList as $skill_info){
+                $skill=$skill_info[0];
+                $status=$skill_info[1];
+                if($status=="Not Available"){
+                    array_push($allJobRoles,"<li style='color:lightgrey'>$skill</li>");
+                }
+                else{
+                    array_push($allJobRoles,"<li>$skill</li>");
+                    //make a string of skill names so i can hidden value it over
+                    $strSkills=$strSkills.";".$skill;
+                }
             }
             array_push($allJobRoles,"</ul></td>");
         }
-        array_push($allJobRoles,"<td><form style='float:left; margin-block-end:0em' action='../../Admin/jobRoleUpdate.php' method='POST'>
-                                    <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
-                                    <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
-                                    <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
-                                    <input type='hidden' name='JRole_Skills' value='$strSkills'>
-                                    <input type='submit' class='btn btn-outline-warning' value='Update' name='updateJR'/>
-                                    </form>
-                                    <form style='float:right; margin-block-end:0em' action='' method='POST'>
-                                    <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
-                                    <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
-                                    <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
-                                    <input type='submit' class='btn btn-outline-danger' value='Delete' name='deleteJR'/>
-                                    </form>");
-        array_push($allJobRoles,"</td></tr>");
+        array_push($allJobRoles,"<td>$eachItem[3]</td>");
+        if($eachItem[3]=="active"){
+            array_push($allJobRoles,"<td><form style='float:left; margin-block-end:0em' action='../../Admin/jobRoleUpdate.php' method='POST'>
+            <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
+            <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
+            <input type='hidden' name='JRole_Desc' value='$eachItem[2]'>
+            <input type='hidden' name='JRole_Skills' value='$strSkills'>
+            <input type='submit' class='btn btn-outline-warning' value='Update' name='updateJR'/>
+            </form></td><td>
+            <form style='float:right; margin-block-end:0em' action='../../Admin/DeleteJobRole.php' method='POST'>
+            <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
+            <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
+            <input type='submit' class='btn btn-outline-danger' value='Delete' name='deleteJR'/>
+            </form></td>");
+        }
+        else{
+            array_push($allJobRoles,"<td>
+            <form style='float:right; margin-block-end:0em' action='../../Admin/DeleteJobRole.php' method='POST'>
+            <input type='hidden' name='JRole_ID' value='$eachItem[0]'>
+            <input type='hidden' name='JRole_Name' value='$eachItem[1]'>
+            <input type='submit' class='btn btn-outline-danger' value='Enable' name='enableJR'/>
+            </form></td>");
+            array_push($allJobRoles,"<td></td>");
+        }
+        array_push($allJobRoles,"</tr>");
     }
     $allJobRoles=implode("",$allJobRoles);
 ?>
@@ -72,6 +94,19 @@
 
     <?php
     include("../navbar/adminNavbar.php");
+
+    if(isset($_SESSION["JRSuccess"])){
+        echo '<div class="alert alert-success alert-dismissable" role="alert">
+                <button type="button" class="btn-close" data-bs-dismissable="alert" aria-label="Close"></button>
+                <strong>Success!</strong><br>'. $_SESSION["JRSuccess"] . '
+                </div>';
+    }
+    else if(isset($_SEESION["JRFail"])){
+        echo '<div class="alert alert-danger alert-dismissable" role="alert">
+                <button type="button" class="btn-close" data-bs-dismissable="alert" aria-label="Close"></button>
+                <strong>Error! </strong><br>'.$_SESSION["JRFail"] . '
+                </div>';
+    }
 
     if(isset($_SESSION['updateSuccess'])){
         echo '<div class="alert alert-success alert-dismissible" role="alert">
@@ -124,11 +159,13 @@
             <table class="table">
             <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Job Role ID</th>
                     <th>Job Role Name</th>
                     <th>Job Role Description</th>
                     <th>Job Role Skills</th>
+                    <th>Status</th>
                     <th>Edit options</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
