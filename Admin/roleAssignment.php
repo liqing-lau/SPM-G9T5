@@ -32,6 +32,12 @@ if ($selectedRoles == $currentRoles) {
     exit();
 }
 
+if (sizeof($selectedRoles) == 0) {
+    $_SESSION['skillFail'] = "You cannot remove all job roles from a skill";
+    header('Location: ../screens/admin/roleAssignment.php');
+    exit();
+}
+
 foreach($currentRoles as $currentRoleId) {
     if(!in_array($currentRoleId, $selectedRoles)) {
         $status = $jobSkillDAO->removeRole($currentRoleId, $skillId);
