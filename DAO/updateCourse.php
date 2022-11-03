@@ -1,5 +1,5 @@
 <?php
-require_once("../DAO/common.php");
+require_once("common.php");
 
 $JRole_ID = 14;
 $Staff_ID = 130001;
