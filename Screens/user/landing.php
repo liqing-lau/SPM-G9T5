@@ -22,7 +22,7 @@
           require_once "../../DAO/common.php";
 
         $ljdao = new ljDAO();
-        $ljs = $ljdao->retrieveAll();
+        $ljs = $ljdao->getLJ($_COOKIE["empId"]);
 
         if(count($ljs) > 0 ){
           

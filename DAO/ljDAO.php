@@ -2,23 +2,25 @@
 require_once 'common.php';
 class ljDAO
 {
-    public function retrieveAll()
-    {
-        $connMgr = new ConnectionManager();
-        $pdo = $connMgr->connect();
-        $sql = 'SELECT * FROM lj';
-        $stmt = $pdo->prepare($sql);
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $stmt->execute();
+    //IF WE EVER WANT TO IMPLEMENT HR OVERVIEW
 
-        $result = [];
-        while ($row = $stmt->fetch()) {
-            $result[] = new lj($row['Staff_ID'], $row['LJ_ID'], $row['JRole_ID']);
-        }
-        $stmt->closeCursor();
-        $pdo = null;
-        return $result;
-    }
+    // public function retrieveAll()
+    // {
+    //     $connMgr = new ConnectionManager();
+    //     $pdo = $connMgr->connect();
+    //     $sql = 'SELECT * FROM lj';
+    //     $stmt = $pdo->prepare($sql);
+    //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    //     $stmt->execute();
+
+    //     $result = [];
+    //     while ($row = $stmt->fetch()) {
+    //         $result[] = new lj($row['Staff_ID'], $row['LJ_ID'], $row['JRole_ID']);
+    //     }
+    //     $stmt->closeCursor();
+    //     $pdo = null;
+    //     return $result;
+    // }
 
     public function getLJ($Staff_ID)
     {
@@ -37,8 +39,7 @@ class ljDAO
             $row_Staff_ID = $row['Staff_ID'];
             $row_LJ_ID = $row['LJ_ID'];
             $row_JRole_ID = $row['JRole_ID'];
-            $row_Course_ID = $row['Course_ID'];
-            array_push($namelist, [$row_Staff_ID, $row_LJ_ID, $row_JRole_ID, $row_Course_ID]);
+            array_push($namelist, [$row_Staff_ID, $row_LJ_ID, $row_JRole_ID]);
         }
         $stmt = null;
         $conn = null;

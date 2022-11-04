@@ -81,12 +81,18 @@ CREATE TABLE IF NOT EXISTS `jobskill` (
 
 DROP TABLE IF EXISTS `lj`;
 CREATE TABLE IF NOT EXISTS `lj` (
+  `LJ_ID` int NOT NULL primary key auto_increment,
   `Staff_ID` int not null,
-  `LJ_ID` int NOT NULL auto_increment,
   `JRole_ID` int not null,
-  `Course_ID` varchar(20) NOT NULL,
   constraint LJ_fk1 foreign key(Staff_ID) references staff(Staff_ID),
-  constraint LJ_fk2 foreign key(JRole_ID) references jobrole(JRole_ID),
-  constraint LJ_pk primary key(Staff_ID, LJ_ID, JRole_ID, Course_ID)
+  constraint LJ_fk2 foreign key(JRole_ID) references jobrole(JRole_ID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ljcourse`;
+CREATE TABLE IF NOT EXISTS `ljcourse`(
+	`LJ_ID` int not NULL,
+    `Course_ID` varchar(20) NOT NULL,
+    constraint LC_fk1 foreign key(LJ_ID) references lj(LJ_ID),
+    constraint LC_pk primary key (LJ_ID, Course_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
