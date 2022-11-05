@@ -57,7 +57,6 @@ for($x = 0; $x < count($skillcourse); $x++){
         }
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

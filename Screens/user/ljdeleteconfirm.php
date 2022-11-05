@@ -29,13 +29,6 @@
         </div>
         
         <div class="container p-2">
-            <?php
-                if(isset($_POST['confirm'])){
-                $ljid = $_POST['ljid'];
-                $jname = $_POST['jname'];
-                echo "Delete Learning Journey $ljid for JobRole : $jname ?";
-                }
-            ?>
             <form action='landing.php' method = 'POST'>
                 <button type='submit' class="btn btn-primary" name='no' value = '0'>Cancel</button>
             </form>
