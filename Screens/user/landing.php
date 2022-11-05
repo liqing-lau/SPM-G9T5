@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en">
@@ -9,7 +10,29 @@
     <title>View all Learning Journey</title>
 </head>
 <body>
-    <?php include("../navbar/userNavbar.php");?>
+    <?php include("../navbar/userNavbar.php");
+    require_once("../../DAO/common.php");
+
+    if(isset($_POST['yes'])){
+      $dljid = $_POST['ljid'];
+      $djname = $_POST['jname'];
+      echo '<div class="alert alert-success alert-dismissible" role="alert">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <strong>Successfully Deleted Learning Journey (ID: '.$dljid.') for Job Role: '.$djname.'</strong><br>' . '
+      </div>';
+      $ljn = new ljDAO();
+      $ljdelete = $ljn->deleteLJ($dljid);
+    }
+
+    elseif(isset($_POST['no'])){
+      echo '<div class="alert alert-warning alert-dismissible" role="alert">
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <strong>Cancelled deletion</strong>
+      </div>';
+    }
+
+?>
+
 
     <div class="text-right fixed-bottom">
          <a href='selectrole.php' class='btn btn-outline-primary' role='button'>Create New Learning Journey</a>
@@ -23,14 +46,16 @@
 
         $ljdao = new ljDAO();
         $ljs = $ljdao->getLJ($_COOKIE["empId"]);
+        // print_r ($ljs);
 
         if(count($ljs) > 0 ){
           
         $ljID = [];
         $jobroleID=[];
         foreach ($ljs as $lj){
-          array_push($ljID, $lj->getlj_ID() );
-          array_push($jobroleID, $lj->getJRole_ID());
+
+          array_push($ljID, $lj[1] );
+          array_push($jobroleID, $lj[2]);
         }
 
         $jobroledao= new jobRoleDAO();
@@ -59,15 +84,18 @@
       // print_r($lj_display);
       foreach($lj_display as $key => $value){
         echo "
+        <form action = 'ljdetail.php' method = 'POST'>
         <div class='card' style='width: 18rem;'>
           <div class='card-body'>
             <h5 class='card-title'>
               Learning Journey ID: $key
             </h5>
             <p class='card-text'>$value</p>
+            <input type='submit' name = 'ljdata' value='LJ Details: $key'>
             
           </div>
-        </div>";
+        </div>
+        <form>";
         }
 
     }
