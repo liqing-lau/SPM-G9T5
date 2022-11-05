@@ -38,7 +38,10 @@ for($x = 0; $x < count($skillcourse); $x++){
         $cs = new CourseSkillDAO();
         $cscheck = $cs->checkCourseSkill($cid,$sid);
 
-        if($cscheck){
+        $check = new courseDAO();
+        $scheck = $check->checkStatus($cid);
+
+        if($cscheck and $scheck){
             array_push($skillcourse[$x][2],$cid);
             }
         }
@@ -50,13 +53,19 @@ for($x = 0; $x < count($skillcourse); $x++){
     $st = $skillcourse[$x][2];
     $course = new CourseSkillDAO;
     $cids = $course->getCourseBySkill($sid);
+
     
     foreach($cids as $cid){
-        if(in_array($cid,$st) == false){
+
+        $check = new courseDAO();
+        $scheck = $check->checkStatus($cid);
+
+        if(in_array($cid,$st) == false and $scheck){
             array_push($skillcourse[$x][3],$cid);
         }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

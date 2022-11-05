@@ -86,6 +86,36 @@ class courseDAO {
 
         return $course;
     }
-}
+
+    public function checkStatus($course_id) {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT `Course_Status` FROM `course`
+        WHERE `Course_ID` = :course_id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':course_id', $course_id, PDO::PARAM_STR);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+
+        $output='';
+
+        while( $row = $stmt->fetch() ) {
+            $cstatus = $row['Course_Status'];
+            $output = $cstatus;
+        }
+
+        $stmt = null;
+        $conn = null;
+
+        if($output == 'Active'){
+            return true;
+        }
+        else{return false;}
+    }
+    }
 
 ?>
