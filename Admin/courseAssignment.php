@@ -38,8 +38,20 @@ if (sizeof($selectedCourses) == 0) {
     exit();
 }
 
-if (sizeof($currentCourses) == 1) {
-    foreach($selectedCourses as $selectedCourseId) {
+foreach($currentCourses as $currentCourseId) {
+    if(!in_array($currentCourseId, $selectedCourses)) {
+        $status = $courseSkillDAO->removeCourse($currentCourseId, $skillId);
+        $courseName = $courseDAO->getCourseName($currentCourseId);
+        if ($status) {
+            $removeSkillSuccess .= "<li>$courseName</li>";
+        } else {
+            $removeSkillFail .= "<li>$courseName</li>";
+        }
+    }
+}
+
+foreach($selectedCourses as $selectedCourseId) {
+    if(!in_array($selectedCourseId, $currentCourses)) {
         $status = $courseSkillDAO->addSkillToCourse($selectedCourseId, $skillId);
         $courseName = $courseDAO->getCourseName($selectedCourseId);
         if ($status) {
@@ -48,33 +60,6 @@ if (sizeof($currentCourses) == 1) {
             $addSkillFail .= "<li>$courseName</li>";
         }
     }
-}
-
-else {
-    foreach($currentCourses as $currentCourseId) {
-        if(!in_array($currentCourseId, $selectedCourses)) {
-            $status = $courseSkillDAO->removeCourse($currentCourseId, $skillId);
-            $courseName = $courseDAO->getCourseName($currentCourseId);
-            if ($status) {
-                $removeSkillSuccess .= "<li>$courseName</li>";
-            } else {
-                $removeSkillFail .= "<li>$courseName</li>";
-            }
-        }
-    }
-    
-    foreach($selectedCourses as $selectedCourseId) {
-        if(!in_array($selectedCourseId, $currentCourses)) {
-            $status = $courseSkillDAO->addSkillToCourse($selectedCourseId, $skillId);
-            $courseName = $courseDAO->getCourseName($selectedCourseId);
-            if ($status) {
-                $addSkillSuccess .= "<li>$courseName</li>";
-            } else {
-                $addSkillFail .= "<li>$courseName</li>";
-            }
-        }
-    }
-
 }
 
 if ($removeSkillSuccess != "Successfully removed $skillName from: <br> <ol>") {
