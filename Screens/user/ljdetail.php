@@ -5,10 +5,12 @@ require_once("../../DAO/common.php");
 if(isset($_POST['ljdata'])){
 
 $ljd = $_POST['ljdata'];
-$ljd = substr($ljd, -3);
+$ljd = explode(' ',$ljd);
+$ljd = $ljd[2];
 
 $ljt = new ljdao();
 $ljdata = $ljt->getLJbyLJID($ljd);
+$ljcourse = $ljt->getLJCoursebyLJID($ljd);
 $jobid = $ljdata[0][2];
 
 $jobr = new jobRoleDAO();
@@ -21,7 +23,6 @@ $js = new JobskillDAO();
 $skills = $js->getSkillIdList($jobid);
 
 $skillcourse = [];
-// print_r($ljdata);
 
 foreach($skills as $skill){
     $sd = new SkillDAO();
@@ -31,8 +32,8 @@ foreach($skills as $skill){
 
 for($x = 0; $x < count($skillcourse); $x++){
 
-    foreach($ljdata as $lj){
-        $cid = $lj[3];
+    foreach($ljcourse as $ljc){
+        $cid = $ljc;
         $sid = $skillcourse[$x][0];
         $cs = new CourseSkillDAO();
         $cscheck = $cs->checkCourseSkill($cid,$sid);

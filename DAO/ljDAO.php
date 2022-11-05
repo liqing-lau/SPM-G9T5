@@ -227,8 +227,30 @@ class ljDAO
             $row_Staff_ID = $row['Staff_ID'];
             $row_LJ_ID = $row['LJ_ID'];
             $row_JRole_ID = $row['JRole_ID'];
+            array_push($output, [$row_Staff_ID,$row_LJ_ID,$row_JRole_ID]);
+        }
+        $stmt = null;
+        $conn = null;
+
+        return $output;
+    }
+
+    public function getLJCoursebyLJID($LJ_ID)
+    {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT * FROM ljcourse WHERE LJ_ID=$LJ_ID;";
+        $output = [];
+
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        while ($row = $stmt->fetch()) {
             $row_Course_ID = $row['Course_ID'];
-            array_push($output, [$row_Staff_ID,$row_LJ_ID,$row_JRole_ID,$row_Course_ID]);
+            array_push($output, $row_Course_ID);
         }
         $stmt = null;
         $conn = null;
