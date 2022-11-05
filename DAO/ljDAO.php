@@ -210,4 +210,66 @@ class ljDAO
         return $status;
     }
 
+
+
+    public function viewLJLangdingPage($Staff_ID){
+
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT L.LJ_ID, L.Staff_ID, L.JRole_ID, J.JRole_Name FROM lj L, jobrole J WHERE L.JRole_ID = J.JRole_ID AND L.Staff_ID = $Staff_ID";
+
+
+        $namelist = [];
+
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        while ($row = $stmt->fetch()) {
+            $row_LJID = $row['LJ_ID'];
+            $row_StaffID = $row['Staff_ID'];
+            $row_JRoleID = $row['JRole_ID'];
+            $row_JRoleName = $row['JRole_Name'];
+            array_push($namelist, [$row_LJID, $row_StaffID, $row_JRoleID, $row_JRoleName]);
+        }
+        $stmt = null;
+        $conn = null;
+
+        return $namelist;
+
+    } 
+
+    public function viewAddedCourseforEachLJ($LJ_ID){
+
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT CS.Course_ID, S.Skill_Name FROM skill S, courseskill CS
+        WHERE S.Skill_ID = CS.Skill_ID
+        AND Course_ID IN (SELECT Course_ID FROM ljcourse WHERE LJ_ID = $LJ_ID)";
+
+
+        $namelist = [];
+
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        while ($row = $stmt->fetch()) {
+            $row_CourseID = $row['Course_ID'];
+            $row_SkillName = $row['Skill_Name'];
+            array_push($namelist, [$row_CourseID, $row_SkillName]);
+        }
+        $stmt = null;
+        $conn = null;
+
+        return $namelist;
+
+    } 
+
+
+
 }
