@@ -123,17 +123,24 @@
             $addSkillString = "Added skill to $JRole_Name: <ol>";
             $removeSkillString = "Remove skill from $JRole_Name: <ol>";
 
-            foreach ($_SESSION['updateSkills'] as $newSkill) {
-                if (!in_array($newSkill, $JRole_Skills)) {
+            if ($JRole_Skills != "No Skills") {
+                foreach ($_SESSION['updateSkills'] as $newSkill) {
+                    if (!in_array($newSkill, $JRole_Skills)) {
+                        $addSkillString .= "<li>$newSkill</li>";
+                    }
+                }
+    
+                foreach ($JRole_Skills as $existingSkill) {
+                    if (!in_array($existingSkill, $_SESSION['updateSkills'])) {
+                        $removeSkillString .= "<li>$existingSkill</li>";
+                    }
+                }
+            } else {
+                foreach ($_SESSION['updateSkills'] as $newSkill) {
                     $addSkillString .= "<li>$newSkill</li>";
                 }
             }
-
-            foreach ($JRole_Skills as $existingSkill) {
-                if (!in_array($existingSkill, $_SESSION['updateSkills'])) {
-                    $removeSkillString .= "<li>$existingSkill</li>";
-                }
-            }
+            
 
             if ($addSkillString != "Added skill to $JRole_Name: <ol>") {
                 $_SESSION['updateSuccess'] .= $addSkillString . "</ol>";
@@ -144,7 +151,6 @@
             }
 
         }
-
         header('Location: ../screens/admin/viewJobRole.php');
         exit();
     }

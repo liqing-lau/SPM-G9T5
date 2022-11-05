@@ -16,6 +16,8 @@
     $userFirstName = $user->getFirstName();
     $userRole = $user->getDept();
 
+    setcookie("fName", $userFirstName, time() + (86400 * 365), "/");
+
     if (!$admin) {
         header("Location: ../screens/user/homepage.php?");
         exit();

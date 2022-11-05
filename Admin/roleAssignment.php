@@ -38,28 +38,43 @@ if (sizeof($selectedRoles) == 0) {
     exit();
 }
 
-foreach($currentRoles as $currentRoleId) {
-    if(!in_array($currentRoleId, $selectedRoles)) {
-        $status = $jobSkillDAO->removeRole($currentRoleId, $skillId);
-        $jobName = $jobRoleDAO->getIndividualIDandName($currentRoleId)[0][1];
-        if ($status) {
-            $removeSkillSuccess .= "<li>$jobName</li>";
-        } else {
-            $removeSkillFail .= "<li>$jobName</li>";
-        }
-    }
-}
-
-foreach($selectedRoles as $selectedRoleId) {
-    if(!in_array($selectedRoleId, $currentRoles)) {
+if (sizeof($currentRoles) == 1) {
+    foreach($selectedRoles as $selectedRoleId) {
         $status = $jobSkillDAO->create($selectedRoleId, $skillId);
-        $jobName = $jobRoleDAO->getIndividualIDandName($currentRoleId)[0][1];
+        $jobName = $jobRoleDAO->getIndividualIDandName($selectedRoleId)[0][1];
         if ($status) {
             $addSkillSuccess .= "<li>$jobName</li>";
         } else {
             $addSkillFail .= "<li>$jobName</li>";
         }
     }
+}
+
+else {
+    foreach($currentRoles as $currentRoleId) {
+        if(!in_array($currentRoleId, $selectedRoles)) {
+            $status = $jobSkillDAO->removeRole($currentRoleId, $skillId);
+            $jobName = $jobRoleDAO->getIndividualIDandName($currentRoleId)[0][1];
+            if ($status) {
+                $removeSkillSuccess .= "<li>$jobName</li>";
+            } else {
+                $removeSkillFail .= "<li>$jobName</li>";
+            }
+        }
+    }
+    
+    foreach($selectedRoles as $selectedRoleId) {
+        if(!in_array($selectedRoleId, $currentRoles)) {
+            $status = $jobSkillDAO->create($selectedRoleId, $skillId);
+            $jobName = $jobRoleDAO->getIndividualIDandName($selectedRoleId)[0][1];
+            if ($status) {
+                $addSkillSuccess .= "<li>$jobName</li>";
+            } else {
+                $addSkillFail .= "<li>$jobName</li>";
+            }
+        }
+    }
+
 }
 
 if ($removeSkillSuccess != "Successfully removed $skillName from: <br> <ol>") {
