@@ -100,7 +100,7 @@ for($x = 0; $x < count($skillcourse); $x++){
                             echo "
                             <tr>
                             <td>$sc[1]</td>
-                            <td>Planned: <b>$cplan</b><br>Other Courses: $cnplan</td>
+                            <td>Planned: <b>$cplan</b><br>Other Courses available: $cnplan</td>
                             <td><button type = 'button'>Manage Courses</button></td>
                             </tr>";
                         }
