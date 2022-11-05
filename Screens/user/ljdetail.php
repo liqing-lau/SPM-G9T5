@@ -26,7 +26,7 @@ $skillcourse = [];
 foreach($skills as $skill){
     $sd = new SkillDAO();
     $sname = $sd->getSkillNameById($skill);
-    array_push($skillcourse,[$skill,$sname,[]]);
+    array_push($skillcourse,[$skill,$sname,[],[]]);
 }
 
 for($x = 0; $x < count($skillcourse); $x++){
@@ -39,10 +39,24 @@ for($x = 0; $x < count($skillcourse); $x++){
 
         if($cscheck){
             array_push($skillcourse[$x][2],$cid);
+            }
         }
     }
 }
+
+for($x = 0; $x < count($skillcourse); $x++){
+    $sid = $skillcourse[$x][0];
+    $st = $skillcourse[$x][2];
+    $course = new CourseSkillDAO;
+    $cids = $course->getCourseBySkill($sid);
+    
+    foreach($cids as $cid){
+        if(in_array($cid,$st) == false){
+            array_push($skillcourse[$x][3],$cid);
+        }
+    }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,10 +95,11 @@ for($x = 0; $x < count($skillcourse); $x++){
                         foreach( $skillcourse as $sc){
 
                             $cplan = implode(', ',$sc[2]);
+                            $cnplan = implode(',', $sc[3]);
                             echo "
                             <tr>
                             <td>$sc[1]</td>
-                            <td>$cplan</td>
+                            <td>Planned: <b>$cplan</b><br>Other Courses: $cnplan</td>
                             <td><button type = 'button'>Manage Courses</button></td>
                             </tr>";
                         }

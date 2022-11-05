@@ -36,6 +36,33 @@ class CourseSkillDAO {
         else{return true;}
     }
 
+    public function getCourseBySkill($skill_id) {
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+
+        $sql = "SELECT `Course_ID` FROM `courseskill`
+        WHERE `Skill_ID` = :skill_id";
+
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':skill_id', $skill_id, PDO::PARAM_INT);
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt->execute();
+
+        $output=[];
+
+        while( $row = $stmt->fetch() ) {
+            $cid = $row['Course_ID'];
+            array_push($output,$cid);
+        }
+
+        $stmt = null;
+        $conn = null;
+
+        return $output;
+    }
+
 }
 
 ?>
