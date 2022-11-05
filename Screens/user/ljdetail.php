@@ -96,38 +96,12 @@ for($x = 0; $x < count($skillcourse); $x++){
     </div>
     <?php
     echo"
-    <form method ='POST' action = 'ljdetail.php'>
+    <form method ='POST' action = 'ljdeleteconfirm.php'>
         <input type = hidden name = 'ljid' value = $ljd>
-        <input type = hidden name = 'decide' id = 'tf' value=<script> doit(); </script> >
-        <button type='submit' name = 'confirm' onclick = 'doit()'>Delete LJ</button>
-    </form>
-    <script>
-            function doit(){
-                var doc = '';
-                var result = confirm('Delete Learning Journey for $jobName?');
-                if (result == true){
-                    doc = 'yes';
-                }
-                else {doc = 'no';}
-                cons
-                document.getElementByID('tf').setAttribute('value',doc);
-            }
-    </script>
-    ";
-    // $ff = $_POST['decide'];
-    //         print_r($ff);
-        if(isset($_POST['confirm'])){
-            echo $_POST['decide'];
-            // if($_POST['decide'] = 'yes'){
-            // $t = $_POST['ljid'];
-            // $ljn = new ljDAO();
-            // $ljdelete = $ljn->deleteLJ($t);
-            // echo "<script>window.location.href='landing.php';</script>";
-            // exit;}
-
-            // elseif($_POST['decide'] = 'no'){echo "<script>window.location.href='landing.php';</script>";
-            //     exit;}
-        }
+        <input type = hidden name = 'jname' value = '$jobName'>
+        <button type='submit' name = 'confirm' '>Delete LJ</button>
+    </form>";
+    
     ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
