@@ -49,11 +49,6 @@
         }
 
         $row .= "</td>
-                <td>
-                    <button type='submit' class='btn btn-light' name='viewSkills' value=$roleId>
-                        View Skills
-                    </button>
-                </td>
                 </form>
                 </tr>";
 
