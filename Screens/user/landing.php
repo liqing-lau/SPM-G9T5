@@ -23,14 +23,16 @@
 
         $ljdao = new ljDAO();
         $ljs = $ljdao->getLJ($_COOKIE["empId"]);
+        // print_r ($ljs);
 
         if(count($ljs) > 0 ){
           
         $ljID = [];
         $jobroleID=[];
         foreach ($ljs as $lj){
-          array_push($ljID, $lj->getlj_ID() );
-          array_push($jobroleID, $lj->getJRole_ID());
+
+          array_push($ljID, $lj[1] );
+          array_push($jobroleID, $lj[2]);
         }
 
         $jobroledao= new jobRoleDAO();
@@ -59,15 +61,18 @@
       // print_r($lj_display);
       foreach($lj_display as $key => $value){
         echo "
+        <form action = 'ljdetail.php' method = 'POST'>
         <div class='card' style='width: 18rem;'>
           <div class='card-body'>
             <h5 class='card-title'>
               Learning Journey ID: $key
             </h5>
             <p class='card-text'>$value</p>
+            <input type='submit' name = 'ljdata' value='LJ Details: $key'>
             
           </div>
-        </div>";
+        </div>
+        <form>";
         }
 
     }
