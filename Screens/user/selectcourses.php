@@ -1,13 +1,15 @@
 <?php
+//return to homepage
 if(isset($_POST["return"])){
     echo"<script>window.location.href='homepage.php'</script>";
 }
 
+//only runs after submitting for creating LJ
 if(isset($_POST['selectCourse'])){
     $JRole_ID=$_POST['JRole_ID'];
     $JRole_Name=$_POST['JRole_Name'];
     $sid=$_COOKIE['empId'];
-
+    //if no courses are selected, reject, return
     if(isset($_POST['newCourse'])==false){
         echo"
         <head>
@@ -21,7 +23,7 @@ if(isset($_POST['selectCourse'])){
         </div>";
         exit();
     }
-
+    //if course picked, create LJ and ljcourse
     else{
         $select_Course=$_POST['newCourse'];
         $these_Courses=[];
@@ -137,7 +139,15 @@ if(isset($_GET["addjobrole"])){
 
             //Two steps to get Course ID, Name, Status
             $Skill_ID=$new_sd->getIDbyName($Skill_Name);
-            $course_list=$new_cs->getCourseIDandName($Skill_ID[0]);
+            $courseid_list=$new_cs->getCourseIdBySkill($Skill_ID[0]);
+
+            $course_list=[];
+
+            foreach($courseid_list as $eachID){
+                $courseInfo=$new_cs->getCourseIDandName($eachID);
+                array_push($course_list,$courseInfo);
+            }
+
             
             //Create strings that end up as easy separate td
             $courseStr='<td><ul class="noBull">';
@@ -155,14 +165,14 @@ if(isset($_GET["addjobrole"])){
                 if($Course_Status=="Active"){
                     $list_Reg=$new_lj->isCourseTaken($Course_ID,$sid);
                     if($list_Reg==[]){
-                        $courseStr.= "<li>$Course_Name</li>";
+                        $courseStr.= "<li style='white-space: nowrap'>$Course_Name</li>";
                         $idStr.="<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
                         $regStr.="<li>Not Registered</li>";
                         $compStr.="<li></li>";
                         $anythingToAdd.="a";
                     }
                     else if($list_Reg[0]=="Registered"||$list_Reg[0]=="Waitlist"){
-                        $courseStr.= "<li style='color:lightgrey'>$Course_Name</li>";
+                        $courseStr.= "<li style='color:lightgrey' style='white-space: nowrap'>$Course_Name</li>";
                         //if course applied alr, disable button
                         $idStr.= "<li style='color:lightgrey'>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID disabled></li>";
                         $regStr.="<li style='color:lightgrey'>$list_Reg[0]</li>";
@@ -170,18 +180,18 @@ if(isset($_GET["addjobrole"])){
                         $anythingToAdd.="";
                     }
                     else{
-                        $courseStr.= "<li>$Course_Name</li>";
+                        $courseStr.= "<li style='white-space: nowrap'>$Course_Name</li>";
                         $idStr.= "<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
                         $regStr.="<li>Rejected</li>";
                         $compStr.="<li></li>";
                         $anythingToAdd.="a";
                     }
                 }
+            }
             $courseStr.='</ul></td>';
             $idStr.='</ul></td>';
             $regStr.='</ul></td>';
             $compStr.='</ul></td>';
-            }
 
             //Create the tds
             echo $courseStr,$idStr,$regStr,$compStr;

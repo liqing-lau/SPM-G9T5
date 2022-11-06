@@ -63,29 +63,28 @@ class CourseSkillDAO {
         return $output;
     }
 
-    public function getCourseIDandName($skillId){
-        $sql = "SELECT `Course_ID`, `Course_Name`, `Course_Status` FROM `course` WHERE `Course_ID` =(SELECT `Course_ID` FROM `courseskill` WHERE `Skill_ID`=:skillId)";
+    public function getCourseIDandName($Course_ID){
+        $sql = "SELECT `Course_ID`, `Course_Name`, `Course_Status` FROM `course` WHERE `Course_ID` =:Course_ID";
     
         $connMgr = new ConnectionManager();
         $conn = $connMgr->connect();
         
-        $courseList = []; 
 
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(':skillId', $skillId, PDO::PARAM_INT);
+        $stmt->bindParam(':Course_ID', $Course_ID, PDO::PARAM_STR);
         
         $stmt->execute();
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
         while($row = $stmt->fetch()) {
-            array_push($courseList, [$row['Course_ID'],$row['Course_Name'],$row['Course_Status']]);
+            $result=[$row['Course_ID'],$row['Course_Name'],$row['Course_Status']];
         }
 
         $stmt = null;
         $conn = null;
 
-        return $courseList;
+        return $result;
     }
         public function getCourseIdBySkill($skillId) {
             $sql = "SELECT `Course_ID` FROM `courseskill` WHERE `Skill_ID` =:skillId";

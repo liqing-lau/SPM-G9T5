@@ -40,8 +40,7 @@ foreach($allRoles as $role){
     <input type='hidden' name='JRole_Name' value='$tName'> </td>
     <td>{$role->getID()}</td>
     <td style='width:10%'>{$role->getName()}</td>
-    <td>{$role->getDesc()}</td>
-    <td><input type='submit' name='viewSkills' value='VIEW SKILLS'> </td>";
+    <td>{$role->getDesc()}</td>";
 }
 ?>
 

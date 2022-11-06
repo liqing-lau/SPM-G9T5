@@ -248,16 +248,19 @@ class ljDAO
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-        $final=0;
-
         while($row=$stmt->fetch()){
-            $final+=$row["LJ_ID"];
+            $final=$row["LJ_ID"];
         }
 
         $stmt=null;
         $conn=null;
 
-        return $final;
+        if(isset($final)){
+            return "inLJ";
+        }
+        else{
+            return "notinLJ";
+        }
     }
 
     public function addCoursetoLJ($LJ_ID,$Course_ID){
