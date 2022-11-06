@@ -93,7 +93,7 @@
                 </h5>
                 <p class='card-text'>$value</p>
                 <button type='submit' name='ljdata' value='$key' class='btn btn-outline-dark'>
-                  LJ Details: $key
+                  LJ Details
                 </button>
                 
               </div>
