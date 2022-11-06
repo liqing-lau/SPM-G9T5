@@ -1,12 +1,10 @@
 <?php
-
+$thisPage = 'lj';
 require_once("../../DAO/common.php");
 
 if(isset($_POST['ljdata'])){
 
 $ljd = $_POST['ljdata'];
-$ljd = explode(' ',$ljd);
-$ljd = $ljd[2];
 
 $ljt = new ljdao();
 $ljdata = $ljt->getLJbyLJID($ljd);
@@ -83,7 +81,7 @@ for($x = 0; $x < count($skillcourse); $x++){
     <div class="container-md pt-5">
         <div class="card">
             <div class="card-header text-center">
-                <h3 class="card-title"><?php echo "Learning Journey JobRole: $jobName" ?></h5>
+                <h3 class="card-title"><?php echo "Learning Journey Job Role: $jobName" ?></h5>
             </div>
 
             <div class="card-body">
@@ -109,24 +107,29 @@ for($x = 0; $x < count($skillcourse); $x++){
                             <tr>
                             <td>$sc[1]</td>
                             <td>Planned: <b>$cplan</b><br>Other Courses available: $cnplan</td>
-                            <td><button type = 'button'>Manage Courses</button></td>
+                            <td>
+                                <button type = 'button' class='btn btn-outline-dark float-end'>
+                                    Manage Courses
+                                </button>
+                            </td>
                             </tr>";
                         }
                         ?>
                     </tbody>
+                    </table>
+                    <?php
+                    echo"
+                    <form method ='POST' action = '../../user/ljdeleteconfirm.php'>
+                        <input type = hidden name = 'ljid' value = $ljd>
+                        <input type = hidden name = 'jname' value = '$jobName'>
+                        <button type='submit' name = 'confirm' class='btn btn-outline-danger float-end'>Delete LJ</button>
+                    </form>";
+                    
+                    ?>
                 </div>
             </div>
         </div>
     </div>
-    <?php
-    echo"
-    <form method ='POST' action = 'ljdeleteconfirm.php'>
-        <input type = hidden name = 'ljid' value = $ljd>
-        <input type = hidden name = 'jname' value = '$jobName'>
-        <button type='submit' name = 'confirm' '>Delete LJ</button>
-    </form>";
-    
-    ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 </body>

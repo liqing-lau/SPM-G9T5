@@ -123,7 +123,7 @@
             $addSkillString = "Added skill to $JRole_Name: <ol>";
             $removeSkillString = "Remove skill from $JRole_Name: <ol>";
 
-            if ($JRole_Skills != "No Skills") {
+            if ($JRole_Skills != "No Skills" && isset($_SESSION['updateSkills'])) {
                 foreach ($_SESSION['updateSkills'] as $newSkill) {
                     if (!in_array($newSkill, $JRole_Skills)) {
                         $addSkillString .= "<li>$newSkill</li>";

@@ -9,7 +9,7 @@
     <title>View all Learning Journey</title>
 </head>
 <body>
-    <?php include("../navbar/userNavbar.php");?>
+    <?php include("../screens/navbar/userNavbar.php");?>
 
     <div class="container m-3">
         <div class="container p-2">
@@ -20,7 +20,7 @@
                 echo "Delete Learning Journey $ljid for JobRole : $jname ?";
                 }
             
-            echo "<form action='landing.php' method = 'POST'>
+            echo "<form action='../screens/user/homepage.php' method = 'POST'>
                 <input type = 'hidden' name = 'ljid' value = '$ljid'>
                 <input type = 'hidden' name = 'jname' value = '$jname'>
                 <button type='submit' class='btn btn-danger' name='yes' >Delete LJ</button>
@@ -29,7 +29,7 @@
         </div>
         
         <div class="container p-2">
-            <form action='landing.php' method = 'POST'>
+            <form action='../screens/user/homepage.php' method = 'POST'>
                 <button type='submit' class="btn btn-primary" name='no' value = '0'>Cancel</button>
             </form>
         </div>
