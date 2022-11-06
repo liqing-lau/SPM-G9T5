@@ -1,27 +1,17 @@
 <?php
 
-
 require_once("../../class/jobRole.php");
 require_once("../../DAO/common.php");
 
 $thisPage = 'roles';
 $Staff_ID = $_COOKIE['empId'];
 
-$Staff_ID = 130001;
-// $LJ_ID = 1;
-
-
 $dao = new ljDAO();
 
 //GET created LJ WITH STAFF ID
 $ljList = $dao->viewLJLangdingPage($Staff_ID);
 
-var_dump($ljList);
-
-
-
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,9 +25,6 @@ var_dump($ljList);
 </head>
 
 <body>
-    <?php include("../navbar/userNavbar.php"); ?>
-
-
     <div class="container-md pt-5">
         <div class="card">
             <div class="card-header text-center">
@@ -45,33 +32,36 @@ var_dump($ljList);
             </div>
 
             <div class="card-body">
-        
-
                 <div class="container">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Learning Journey ID</th>
-                                <th>Job Role</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-
-                            foreach ($ljList as $data) {
-                                echo"<form action='LJDetails.php' method='POST'>";
-                                echo "<tr>";
-                                $LJ_ID = $data[0];
-                                $JobRole = $data[3];
-                                echo "<td>" . $LJ_ID . "</td>";
-                                echo "<td>" . $JobRole . "</td>";
-                                echo "<td><input type='submit' name='viewDetails' value='View Details'/></td>";
-                                echo "<input type='hidden' name='LJ_ID' value='$LJ_ID'/>";
-                                echo "</form>";
-                            }
-
-                            ?>
-                        </tbody>
+                    <?php
+                    if (sizeof($ljList) != 0) {
+                        echo "
+                            <table class='table'>
+                            <thead>
+                                <tr>
+                                    <th>Learning Journey ID</th>
+                                    <th>Job Role</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        ";
+                        foreach ($ljList as $data) {
+                            echo"<form action='LJDetails.php' method='POST'>";
+                            echo "<tr>";
+                            $LJ_ID = $data[0];
+                            $JobRole = $data[3];
+                            echo "<td>" . $LJ_ID . "</td>";
+                            echo "<td>" . $JobRole . "</td>";
+                            echo "<td><input type='submit' name='viewDetails' value='View Details'/></td>";
+                            echo "<input type='hidden' name='LJ_ID' value='$LJ_ID'/>";
+                            echo "</form>";
+                        }
+                        echo "</tbody>
+                        </table>";
+                    } else {
+                        echo "You currently do not have any learning journey";
+                    }
+                    ?>
                 </div>
             </div>
         </div>
