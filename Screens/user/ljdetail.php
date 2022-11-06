@@ -49,19 +49,32 @@ if(isset($_POST['toEdit'])){
             echo "Nothing has been changed!";
         }
 
+        $display=[];
         if($toadd!=[]){
             foreach($toadd as $add){
                 $result=$new_lj->addCoursetoLJ($LJ_ID,$add);
-                echo $result;
+                array_push($display,$result);
             }
         }
 
         if($toremove!=[]){
             foreach($toremove as $remove){
                 $result=$new_lj->delCoursefromLJ($LJ_ID,$remove);
-                echo $result;
+                array_push($display,$result);
             }
         }
+
+        $display=implode("<br>",$display);
+
+        echo"
+        <head>
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
+        </head>
+        <div class='container-md pt-5'><p>$display</p> 
+        <form action='ljdetail.php' method='POST'>
+        <input type='hidden' name='ljdata' value='$LJ_ID'>
+        <input type='submit' name='pass_on' value='Return to LJ Details'></form>
+        </div>";
     }
 
     exit();
