@@ -37,13 +37,12 @@ if(isset($_POST['toEdit'])){
     exit();
 }
 
+$thisPage = 'lj';
 require_once("../../DAO/common.php");
 
 if(isset($_POST['ljdata'])){
 
 $ljd = $_POST['ljdata'];
-$ljd = explode(' ',$ljd);
-$ljd = $ljd[2];
 
 $ljt = new ljdao();
 $ljdata = $ljt->getLJbyLJID($ljd);
@@ -127,7 +126,7 @@ for($x = 0; $x < count($skillcourse); $x++){
     <div class="container-md pt-5">
         <div class="card">
             <div class="card-header text-center">
-                <h3 class="card-title"><?php echo "Learning Journey JobRole: $jobName" ?></h5>
+                <h3 class="card-title"><?php echo "Learning Journey Job Role: $jobName" ?></h5>
             </div>
 
             <div class="card-body">

@@ -49,7 +49,7 @@ if(isset($_POST['selectCourse'])){
             }
             session_start();
             $_SESSION['createLJ']=$createLJAlert;
-            echo"<script>window.location.href='landing.php'</script>";
+            echo"<script>window.location.href='homepage.php'</script>";
         }
         exit();
     }
