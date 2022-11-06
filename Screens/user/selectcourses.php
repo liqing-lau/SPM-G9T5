@@ -86,100 +86,105 @@ if(isset($_GET["addjobrole"])){
         margin: 0;
     }
 </style>
-<p>Adding courses to </p>
+<div class="container-md pt-5">
+    <div class="card">
+        <div class="card-header text-center">
+            <p>Adding courses to </p>
+            <?php
+            echo "<h1>$JRole_Name</h1>";
+            ?>
+        </div>
 
-<?php
-    echo "<h1>$JRole_Name</h1>";
-?>
-<form action='selectcourses.php' method='POST'>
-    <table class='table'>
-        <tr>
-            <th>Required Skills</th>
-            <th>Possible Courses</th>
-            <th>Course ID</th>
-            <th>Registration Status</th>
-            <th>Course Status</th>
-        </tr>
-        <?php
+        <div class="card-body">
 
-        //First loop by skill
-        $anythingToAdd="";
-        foreach($relskills as $skills){
-            echo "<tr>";
-            $Skill_Name=$skills[0];
-            $Skill_Status=$skills[1];
+        <form action='selectcourses.php' method='POST'>
+            <table class='table'>
+                <tr>
+                    <th>Required Skills</th>
+                    <th>Possible Courses</th>
+                    <th>Course ID</th>
+                    <th>Registration Status</th>
+                    <th>Course Status</th>
+                </tr>
+                <?php
 
-            //Only display active skills
-            if($Skill_Status=="active"){
-                echo"<td>$Skill_Name</td>";
+                //First loop by skill
+                $anythingToAdd="";
+                foreach($relskills as $skills){
+                    echo "<tr>";
+                    $Skill_Name=$skills[0];
+                    $Skill_Status=$skills[1];
 
-                //Two steps to get Course ID, Name, Status
-                $Skill_ID=$new_sd->getIDbyName($Skill_Name);
-                $course_list=$new_cs->getCourseIDandName($Skill_ID[0]);
-                
-                //Create strings that end up as easy separate td
-                $courseStr='<td><ul class="noBull">';
-                $idStr='<td><ul class="noBull">';
-                $regStr='<td><ul class="noBull">';
-                $compStr='<td><ul class="noBull">';
+                    //Only display active skills
+                    if($Skill_Status=="active"){
+                        echo"<td>$Skill_Name</td>";
 
-                //Go course by course and add each course as a li of their specific td
-                foreach($course_list as $course){
-                    $Course_ID=$course[0];
-                    $Course_Name=$course[1];
-                    $Course_Status=$course[2];
+                        //Two steps to get Course ID, Name, Status
+                        $Skill_ID=$new_sd->getIDbyName($Skill_Name);
+                        $course_list=$new_cs->getCourseIDandName($Skill_ID[0]);
+                        
+                        //Create strings that end up as easy separate td
+                        $courseStr='<td><ul class="noBull">';
+                        $idStr='<td><ul class="noBull">';
+                        $regStr='<td><ul class="noBull">';
+                        $compStr='<td><ul class="noBull">';
 
-                    //Only display active courses
-                    if($Course_Status=="Active"){
-                        $list_Reg=$new_lj->isCourseTaken($Course_ID,$sid);
-                        if($list_Reg==[]){
-                            $courseStr.= "<li>$Course_Name</li>";
-                            $idStr.="<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
-                            $regStr.="<li>Not Registered</li>";
-                            $compStr.="<li></li>";
-                            $anythingToAdd.="a";
+                        //Go course by course and add each course as a li of their specific td
+                        foreach($course_list as $course){
+                            $Course_ID=$course[0];
+                            $Course_Name=$course[1];
+                            $Course_Status=$course[2];
+
+                            //Only display active courses
+                            if($Course_Status=="Active"){
+                                $list_Reg=$new_lj->isCourseTaken($Course_ID,$sid);
+                                if($list_Reg==[]){
+                                    $courseStr.= "<li>$Course_Name</li>";
+                                    $idStr.="<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
+                                    $regStr.="<li>Not Registered</li>";
+                                    $compStr.="<li></li>";
+                                    $anythingToAdd.="a";
+                                }
+                                else if($list_Reg[0]=="Registered"||$list_Reg[0]=="Waitlist"){
+                                    $courseStr.= "<li style='color:lightgrey'>$Course_Name</li>";
+                                    //if course applied alr, disable button
+                                    $idStr.= "<li style='color:lightgrey'>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID disabled></li>";
+                                    $regStr.="<li style='color:lightgrey'>$list_Reg[0]</li>";
+                                    $compStr.="<li style='color:lightgrey'>$list_Reg[1]</li>";
+                                    $anythingToAdd.="";
+                                }
+                                else{
+                                    $courseStr.= "<li>$Course_Name</li>";
+                                    $idStr.= "<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
+                                    $regStr.="<li>Rejected</li>";
+                                    $compStr.="<li></li>";
+                                    $anythingToAdd.="a";
+                                }
+                            }
+                        $courseStr.='</ul></td>';
+                        $idStr.='</ul></td>';
+                        $regStr.='</ul></td>';
+                        $compStr.='</ul></td>';
                         }
-                        else if($list_Reg[0]=="Registered"||$list_Reg[0]=="Waitlist"){
-                            $courseStr.= "<li style='color:lightgrey'>$Course_Name</li>";
-                            //if course applied alr, disable button
-                            $idStr.= "<li style='color:lightgrey'>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID disabled></li>";
-                            $regStr.="<li style='color:lightgrey'>$list_Reg[0]</li>";
-                            $compStr.="<li style='color:lightgrey'>$list_Reg[1]</li>";
-                            $anythingToAdd.="";
-                        }
-                        else{
-                            $courseStr.= "<li>$Course_Name</li>";
-                            $idStr.= "<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
-                            $regStr.="<li>Rejected</li>";
-                            $compStr.="<li></li>";
-                            $anythingToAdd.="a";
-                        }
+
+                        //Create the tds
+                        echo $courseStr,$idStr,$regStr,$compStr;
                     }
-                $courseStr.='</ul></td>';
-                $idStr.='</ul></td>';
-                $regStr.='</ul></td>';
-                $compStr.='</ul></td>';
+                    echo"</tr>";
                 }
+                echo"</table>";
 
-                //Create the tds
-                echo $courseStr,$idStr,$regStr,$compStr;
-            }
-            echo"</tr>";
-        }
-        echo"</table>";
-
-        //if nothing can be selected LJ cannot be made with this JR
-        if($anythingToAdd==""){
-            echo"There are no courses for you to add to your Learning Journey. Click here to return to Home Page";
-            echo"<br><input type='submit' name='return' class='brn btn-outline-dark' value='Return to Home Page'>";
-        }
-        //else LJ can be made
-        else{
-            echo"<input type='hidden' name='JRole_ID' value='$JRole_ID'>";
-            echo"<input type='hidden' name='JRole_Name' value='$JRole_Name'>";
-            echo"<input type='submit' name='selectCourse' class='brn btn-outline-dark' value='Create Learning Journey'>";
-        }
-
+                //if nothing can be selected LJ cannot be made with this JR
+                if($anythingToAdd==""){
+                    echo"There are no courses for you to add to your Learning Journey. Click here to return to Home Page";
+                    echo"<br><input type='submit' name='return' class='brn btn-outline-dark' value='Return to Home Page'>";
+                }
+                //else LJ can be made
+                else{
+                    echo"<input type='hidden' name='JRole_ID' value='$JRole_ID'>";
+                    echo"<input type='hidden' name='JRole_Name' value='$JRole_Name'>";
+                    echo"<input type='submit' name='selectCourse' class='brn btn-outline-dark' value='Create Learning Journey'>";
+                }
         //Test code
 
         // echo "Stress test";
@@ -210,4 +215,7 @@ if(isset($_GET["addjobrole"])){
 
         // var_dump($expected);
 ?>
+</div>
+</div>
+</div>
 </html>
