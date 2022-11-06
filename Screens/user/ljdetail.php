@@ -8,7 +8,7 @@ if(isset($_POST['toEdit'])){
         <head>
         <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
         </head>
-        <div class='container-md pt-5'><p>Each LJ must have at least one course to exit!</p> 
+        <div class='container-md pt-5'><p>Each LJ must have at least one course!</p> 
         <form action='ljdetail.php' method='POST'>
         <input type='hidden' name='ljdata' value='$LJ_ID'>
         <input type='submit' name='pass_on' value='Return to picking courses!'></form>
