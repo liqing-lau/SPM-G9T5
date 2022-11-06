@@ -33,6 +33,18 @@
 
 ?>
 
+    <?php include("../navbar/userNavbar.php");     
+      session_start();
+      var_dump($_SESSION);
+      if(isset($_SESSION["createLJ"])){
+        echo '<div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong>Success!</strong><br>'. $_SESSION["createLJ"] . '
+            </div>';
+      }
+      session_destroy();
+    ?>
+      
 
     <div class="text-right fixed-bottom">
          <a href='selectrole.php' class='btn btn-outline-primary' role='button'>Create New Learning Journey</a>
@@ -53,7 +65,6 @@
         $ljID = [];
         $jobroleID=[];
         foreach ($ljs as $lj){
-
           array_push($ljID, $lj[1] );
           array_push($jobroleID, $lj[2]);
         }

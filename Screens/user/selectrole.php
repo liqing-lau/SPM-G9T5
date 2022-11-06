@@ -34,8 +34,10 @@
 <?php 
 foreach($allRoles as $role){
     $tid = $role->getId();
+    $tName=$role->getName();
     echo "<tr> <td>
-    <input type='radio' name='selectedRole' value = '$tid'> </td>
+    <input type='radio' name='selectedRole' value = '$tid'>
+    <input type='hidden' name='JRole_Name' value='$tName'> </td>
     <td>{$role->getID()}</td>
     <td style='width:10%'>{$role->getName()}</td>
     <td>{$role->getDesc()}</td>
@@ -63,12 +65,18 @@ if(isset($_POST["r_select"])){
 
   $sid = $_COOKIE["empId"];
   $sr = $_POST["selectedRole"];
+  $sname=$_POST["JRole_Name"];
 
-  $new_lj = new ljDAO();
-  $createlj = $new_lj->createLJ($sid, $sr);
+  //Cannot create new LJ without selecting courses
+  // $new_lj = new ljDAO();
+  // $createlj = $new_lj->createLJ($sid, $sr);
+  
+  $url='selectcourses.php?addjobrole=' . $sr.'&jobName='.$sname;
+  echo "<input type='hidden' value='$url' name='redirect' id='redirect'>"
   ?>
-  <script type="text/javascript">
-window.location.href = 'selectcourses.php';
+  <script>
+    var redirecturl=document.getElementById('redirect').value;
+window.location.href = redirecturl;
 </script>
   <?php
 }

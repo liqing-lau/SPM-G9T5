@@ -37,17 +37,18 @@
                             </button>
                         </td>
                         <td>";
-
-        if (in_array($roleId, $ljRoleIdList)) {
-            $row .= "<button type='submit' class='btn btn-light' name='addjobRole' value=$roleId disabled>
-                        Added
-                    </button>";
-        } else {
-            $row .= "<button type='submit' class='btn btn-light' name='addjobRole' value=$roleId>
-                        Add role
-                    </button>";
+        if($roleStatus=='active'){
+            if (in_array($roleId, $ljRoleIdList)) {
+                $row .= "<button type='submit' class='btn btn-light' name='addjobRole' value=$roleId disabled>
+                            Added
+                        </button>";
+            } else {
+                $row .= "<input type='hidden' name='jobName' value='$roleName'>
+                        <button type='submit' class='btn btn-light' name='addjobRole' value=$roleId>
+                            Add role
+                        </button>";
+            }
         }
-
         $row .= "</td>
                 </form>
                 </tr>";
