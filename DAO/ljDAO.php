@@ -439,7 +439,7 @@ class ljDAO
         $stmt=null;
         $conn=null;
 
-        return "Successfully deleted $Course_ID from Learning Journey $LJ_ID";
+        return "Successfully removed $Course_ID from Learning Journey $LJ_ID";
     }
 }
 ?>

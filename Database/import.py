@@ -35,6 +35,7 @@ skill_r = pd.read_csv(r'RawData\\skills.csv', engine='python', encoding='cp1252'
 courseskill_r = pd.read_csv(r'RawData\\courseskills.csv', engine='python', encoding='cp1252')
 jobskill_r = pd.read_csv(r'RawData\\jobskills.csv', engine='python', encoding='cp1252')
 lj_r = pd.read_csv(r'RawData\\lj.csv', engine='python', encoding='cp1252')
+ljc_r=pd.read_csv(r'RawData\\ljcourse.csv', engine='python', encoding='cp1252')
 
 engine = get_connection()
 conn = engine.connect()
@@ -56,6 +57,7 @@ skill_r.to_sql(con = engine, name = 'skill', if_exists = 'append', chunksize = 1
 courseskill_r.to_sql(con = engine, name = 'courseskill', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
 jobskill_r.to_sql(con = engine, name = 'jobskill', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
 lj_r.to_sql(con = engine, name = 'lj', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
+ljc_r.to_sql(con = engine, name = 'ljcourse', if_exists = 'append', chunksize = 1000, index = False, method = insert_on_duplicate)
 
 conn.close()
 engine.dispose()

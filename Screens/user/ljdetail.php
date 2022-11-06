@@ -183,7 +183,7 @@ for($x = 0; $x < count($skillcourse); $x++){
                             <th>Related Courses</th>
                             <th>Course ID</th>
                             <th>Course Status</th>
-                            <th>In Learning Journey<br>(You can check and uncheck these to add or remove courses from LJ)</th>
+                            <th>Selected<br>(You can check and uncheck these to add or remove courses from LJ)</th>
                             <th>Registration Status</th>
                             <th>Completion Status</th>
                         </tr>
