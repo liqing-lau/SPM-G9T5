@@ -423,5 +423,23 @@ class ljDAO
 
         return $status;
     }
+
+    public function delCoursefromLJ($LJ_ID,$Course_ID){
+        $connMgr= new ConnectionManager();
+        $conn=$connMgr->connect();
+
+        $sql="DELETE FROM `ljcourse` WHERE `LJ_ID`=:LJ_ID AND `Course_ID`=:Course_ID";
+
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam(":LJ_ID",$LJ_ID,PDO::PARAM_INT);
+        $stmt->bindParam(":Course_ID",$Course_ID,PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $stmt=null;
+        $conn=null;
+
+        return "Successfully deleted $Course_ID from Learning Journey $LJ_ID";
+    }
 }
 ?>

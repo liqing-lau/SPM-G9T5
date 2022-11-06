@@ -4,7 +4,6 @@ if(isset($_POST['toEdit'])){
     $LJ_ID=$_POST['LJ_ID'];
 
     if(isset($_POST['edit_Course'])==false){
-        $LJ_ID='aaa '."aaa ".$LJ_ID;
         echo"
         <head>
         <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
@@ -31,7 +30,38 @@ if(isset($_POST['toEdit'])){
 
         $new_lj= new ljDAO();
         $existing_Courses=$new_lj->getLJCoursebyLJID($LJ_ID);
-        var_dump($existing_Courses);
+        
+        $toadd=[];
+        foreach($these_Courses as $added){
+            if(in_array($added,$existing_Courses)==false){
+                array_push($toadd,$added);
+            }
+        }
+
+        $toremove=[];
+        foreach($existing_Courses as $old){
+            if(in_array($old,$these_Courses)==false){
+                array_push($toremove,$old);
+            }
+        }
+        
+        if($toadd==[]&&$toremove==[]){
+            echo "Nothing has been changed!";
+        }
+
+        if($toadd!=[]){
+            foreach($toadd as $add){
+                $result=$new_lj->addCoursetoLJ($LJ_ID,$add);
+                echo $result;
+            }
+        }
+
+        if($toremove!=[]){
+            foreach($toremove as $remove){
+                $result=$new_lj->delCoursefromLJ($LJ_ID,$remove);
+                echo $result;
+            }
+        }
     }
 
     exit();
