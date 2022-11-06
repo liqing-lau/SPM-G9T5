@@ -197,7 +197,7 @@ for($x = 0; $x < count($skillcourse); $x++){
                             $Skill_ID=$sc[0];
                             $Skill_Name=$sc[1];
                             $Staff_ID=$_COOKIE['empId'];
-                            $courseid_list=$new_cs->getCourseIdBySkill($Skill_ID[0]);
+                            $courseid_list=$new_cs->getCourseIdBySkill($Skill_ID);
 
                             $thisSkillCourse=[];
                 
