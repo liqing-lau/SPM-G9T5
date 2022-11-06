@@ -5,7 +5,6 @@ class lj{
     private $staff_ID;
     private $lj_ID;
     private $JRole_ID;
-    private $Course_ID;
 
     public function __construct($staff_ID, $lj_ID, $JRole_ID){
         $this->staff_ID=$staff_ID;

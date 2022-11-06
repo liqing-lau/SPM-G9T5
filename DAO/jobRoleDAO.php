@@ -160,16 +160,16 @@ class jobRoleDAO{
         return $status;
     }
 
-    public function checkJobNameInDB($name) {
+    public function checkJobNameInDB($JRole_Name) {
         $connMgr = new ConnectionManager();
         $conn = $connMgr->connect();
 
         $sql = "SELECT `JRole_Name` FROM `jobrole`
-        WHERE `JRole_Name` = :name";
+        WHERE `JRole_Name` = :JRole_Name";
 
         $stmt = $conn->prepare($sql);
 
-        $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+        $stmt->bindParam(':JRole_Name', $JRole_Name, PDO::PARAM_STR);
 
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
         $stmt->execute();
