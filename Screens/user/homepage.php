@@ -83,13 +83,18 @@
 
           echo "<div class='container m-2'>";
 
+          $count = 0;
+
           foreach($lj_display as $key => $value){
+
+            $count++;
+            
             echo "
             <form action = './ljdetail.php' method = 'POST'>
             <div class='card  m-2' style='width: 18rem;'>
               <div class='card-body'>
                 <h5 class='card-title'>
-                  Learning Journey ID: $key
+                  Learning Journey ID: $count
                 </h5>
                 <p class='card-text'>$value</p>
                 <button type='submit' name='ljdata' value='$key' class='btn btn-outline-dark'>
