@@ -21,6 +21,7 @@
       <strong>Successfully Deleted Learning Journey (ID: '.$dljid.') for Job Role: '.$djname.'</strong><br>' . '
       </div>';
       $ljn = new ljDAO();
+      $coursedelete=$ljn->delLJcourse($dljid);
       $ljdelete = $ljn->deleteLJ($dljid);
     }
 
