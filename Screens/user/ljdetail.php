@@ -234,7 +234,7 @@ for($x = 0; $x < count($skillcourse); $x++){
                                     $CST_Str.="<li>$Course_Status</li>";
 
                                     if($inLJ=="inLJ"){
-                                        $inLJ_Str.="<li style='color:blue'>In LJ<input type='checkbox' name='edit_Course[]' value='$Course_ID'checked></li>";
+                                        $inLJ_Str.="<li style='color:blue'>Already Added<input type='checkbox' name='edit_Course[]' value='$Course_ID'checked></li>";
                                     }
                                     else{
                                         $inLJ_Str.="<li>No<input type='checkbox' name='edit_Course[]' value='$Course_ID'></li>";
@@ -271,7 +271,7 @@ for($x = 0; $x < count($skillcourse); $x++){
                             echo"</tr>";
                         }
                         echo"<input type='hidden' name='LJ_ID' value=$ljd>";
-                        echo"<input type='submit' name='toEdit' value='Edit Course'>";
+                        echo"<input type='submit' name='toEdit' value='Apply Changes'>";
                         ?>
                         </form>
                     </tbody>
