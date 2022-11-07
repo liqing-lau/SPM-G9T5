@@ -1,1 +1,1 @@
-{"version":1,"defects":{"RoleAssignmentTest::testAdd":5},"times":{"RoleAssignmentTest::testAdd":0.014,"UserTest::testThatWeCanGetTheFirstName":0.009}}
+{"version":1,"defects":{"RoleAssignmentTest::testAdd":3,"RoleAssignmentTest::testAddRoleAssignment":3},"times":{"RoleAssignmentTest::testAdd":0.029,"UserTest::testThatWeCanGetTheFirstName":0.017,"RoleAssignmentTest::testAddRoleAssignment":0.026}}

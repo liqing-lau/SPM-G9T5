@@ -1,4 +1,5 @@
 <?php
+use app\classes\User;
 
 require_once 'common.php';
 require_once '../classes/user.php';
