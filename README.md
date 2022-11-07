@@ -1,4 +1,4 @@
-# spm
+# Software Project Management - G9T5
 
 1. Run `pip install -r requirements.txt`
 2. Start WAMP/MAMP
