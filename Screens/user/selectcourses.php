@@ -9,6 +9,7 @@ if(isset($_POST['selectCourse'])){
     $JRole_ID=$_POST['JRole_ID'];
     $JRole_Name=$_POST['JRole_Name'];
     $sid=$_COOKIE['empId'];
+    $JRole_Desc=$_POST['JRole_Desc'];
     //if no courses are selected, reject, return
     if(isset($_POST['newCourse'])==false){
         echo"
@@ -19,6 +20,7 @@ if(isset($_POST['selectCourse'])){
         <form action='selectcourses.php' method='GET'>
         <input type='hidden' name='addjobrole' value='$JRole_ID'>
         <input type='hidden' name='jobName' value='$JRole_Name'>
+        <input type='hidden' name='jobDesc' value='$JRole_Desc'>
         <input type='submit' name='missingcourse' value='Return to picking courses!'></form>
         </div>";
         exit();
@@ -129,7 +131,6 @@ if(isset($_GET["addjobrole"])){
                     <th>Course Status</th>
                 </tr>
     <?php
-
     //First loop by skill
     $anythingToAdd="";
     foreach($relskills as $skills){
@@ -218,6 +219,7 @@ if(isset($_GET["addjobrole"])){
     else{
         echo"<input type='hidden' name='JRole_ID' value='$JRole_ID'>";
         echo"<input type='hidden' name='JRole_Name' value='$JRole_Name'>";
+        echo "<input type='hidden' name='JRole_Desc' value='$JRole_Desc'>";
         echo"<input type='submit' name='selectCourse' class='brn btn-outline-dark' value='Create Learning Journey'>";
     }
         //Test code
