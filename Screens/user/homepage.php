@@ -24,6 +24,7 @@
         </div>';
         $ljn = new ljDAO();
         $ljdelete = $ljn->deleteLJ($dljid);
+        $courseDel=$ljn->delLJcourse($dljid);
       }
 
       elseif(isset($_POST['no'])){

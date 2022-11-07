@@ -278,7 +278,7 @@ for($x = 0; $x < count($skillcourse); $x++){
                     </table>
                     <?php
     echo"
-    <form method ='POST' action = 'ljdeleteconfirm.php'>
+    <form method ='POST' action = '../../user/ljdeleteconfirm.php'>
         <input type = hidden name = 'ljid' value = $ljd>
         <input type = hidden name = 'jname' value = '$jobName'>
         <button class='btn-danger' type='submit' name = 'confirm' '>Delete LJ</button>
