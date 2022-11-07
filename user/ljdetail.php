@@ -1,17 +1,19 @@
 <?php
-session_start();
-require_once "../../DAO/common.php";
-require_once "../../DAO/ljDAO.php";
 
-    if(isset($_POST['toEdit'])){
-        $LJ_ID=$_POST['LJ_ID'];
-         $LJ_ID = $_SESSION['LJ_ID'];
+if(isset($_POST['toEdit'])){
+    $LJ_ID=$_POST['LJ_ID'];
 
-
-        if(isset($_POST['edit_Course'])==false){
-            header('Location: ./noCourseSelect.php');
-            exit();
-        }
+    if(isset($_POST['edit_Course'])==false){
+        echo"
+        <head>
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
+        </head>
+        <div class='container-md pt-5'><p>Each LJ must have at least one course!</p> 
+        <form action='ljdetail.php' method='POST'>
+        <input type='hidden' name='ljdata' value='$LJ_ID'>
+        <input type='submit' name='pass_on' value='Return to picking courses!'></form>
+        </div>";
+    }
 
     else{
         $courses_checked=$_POST['edit_Course'];
@@ -22,6 +24,9 @@ require_once "../../DAO/ljDAO.php";
                 array_push($these_Courses,$eachChecked);
             }
         }
+
+        require_once "../../DAO/common.php";
+        require_once "../../DAO/ljDAO.php";
 
         $new_lj= new ljDAO();
         $existing_Courses=$new_lj->getLJCoursebyLJID($LJ_ID);
@@ -41,8 +46,7 @@ require_once "../../DAO/ljDAO.php";
         }
         
         if($toadd==[]&&$toremove==[]){
-            header('Location: ./noChanges.php');
-            exit(); 
+            echo "Nothing has been changed!";
         }
 
         $display=[];
@@ -61,7 +65,7 @@ require_once "../../DAO/ljDAO.php";
         }
 
         $display=implode("<br>",$display);
-        $_SESSION['display'] = $display;
+
         echo"
         <head>
         <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
@@ -195,88 +199,85 @@ for($x = 0; $x < count($skillcourse); $x++){
                         foreach( $skillcourse as $sc){
                             $Skill_ID=$sc[0];
                             $Skill_Name=$sc[1];
-                            $active_Skills=$sd->getAllActiveSkill();
-                            if(in_array([$Skill_ID,$Skill_Name],$active_Skills)){
-                                $Staff_ID=$_COOKIE['empId'];
-                                $courseid_list=$new_cs->getCourseIdBySkill($Skill_ID);
-    
-                                $thisSkillCourse=[];
-                    
-                                foreach($courseid_list as $eachID){
-                                    $courseInfo=$new_cs->getCourseIDandName($eachID);
-                                    array_push($thisSkillCourse,$courseInfo);
-                                }
-    
-                                // var_dump($thisSkillCourse);
-    
-    
-                                echo "<tr>";
-                                echo "<td>$Skill_Name</td>";
-    
-                                $CN_Str="<td><ul class='noBull'>";
-                                $CID_Str="<td><ul class='noBull'>";
-                                $CST_Str="<td><ul class='noBull'>";
-                                $inLJ_Str="<td><ul class='noBull'>";
-                                $reg_Str="<td><ul class='noBull'>";
-                                $Comp_Str="<td><ul class='noBull'>";
-    
-                                foreach($thisSkillCourse as $eachCourse){
-                                    $Course_ID=$eachCourse[0];
-                                    $Course_Name=$eachCourse[1];
-                                    $Course_Status=$eachCourse[2];
-                                    $inLJ=$ljt->courseInLJ($Course_ID,$ljd);
-    
-                                    if($inLJ=='inLJ'||$Course_Status=='Active'){
-                                        $isCompleted=$ljt->isCourseTaken($Course_ID,$Staff_ID);
-                                        $CN_Str.="<li style='white-space: nowrap'>$Course_Name</li>";
-    
-                                        $CID_Str.="<li>$Course_ID</li>";
-    
-                                        $CST_Str.="<li>$Course_Status</li>";
-    
-                                        if($inLJ=="inLJ"){
-                                            $inLJ_Str.="<li style='color:blue'>
+                            $Staff_ID=$_COOKIE['empId'];
+                            $courseid_list=$new_cs->getCourseIdBySkill($Skill_ID);
+
+                            $thisSkillCourse=[];
+                
+                            foreach($courseid_list as $eachID){
+                                $courseInfo=$new_cs->getCourseIDandName($eachID);
+                                array_push($thisSkillCourse,$courseInfo);
+                            }
+
+                            // var_dump($thisSkillCourse);
+
+
+                            echo "<tr>";
+                            echo "<td>$Skill_Name</td>";
+
+                            $CN_Str="<td><ul class='noBull'>";
+                            $CID_Str="<td><ul class='noBull'>";
+                            $CST_Str="<td><ul class='noBull'>";
+                            $inLJ_Str="<td><ul class='noBull'>";
+                            $reg_Str="<td><ul class='noBull'>";
+                            $Comp_Str="<td><ul class='noBull'>";
+
+                            foreach($thisSkillCourse as $eachCourse){
+                                $Course_ID=$eachCourse[0];
+                                $Course_Name=$eachCourse[1];
+                                $Course_Status=$eachCourse[2];
+                                $inLJ=$ljt->courseInLJ($Course_ID,$ljd);
+
+                                if($inLJ=='inLJ'||$Course_Status=='Active'){
+                                    $isCompleted=$ljt->isCourseTaken($Course_ID,$Staff_ID);
+                                    $CN_Str.="<li style='white-space: nowrap'>$Course_Name</li>";
+
+                                    $CID_Str.="<li>$Course_ID</li>";
+
+                                    $CST_Str.="<li>$Course_Status</li>";
+
+                                    if($inLJ=="inLJ"){
+                                        $inLJ_Str.="<li style='color:blue'>
                                                         <input type='checkbox' name='edit_Course[]' value='$Course_ID'checked>
                                                         Already Added
                                                     </li>";
-                                        }
-                                        else{
-                                            $inLJ_Str.="<li>
+                                    }
+                                    else{
+                                        $inLJ_Str.="<li>
                                             <input type='checkbox' name='edit_Course[]' value='$Course_ID'>
                                             No
                                         </li>";
-                                        }
-                        
-                                        if($isCompleted==[]){
-                                            $reg_Str.="<li>Not Registered</li>";
-                                            $Comp_Str.="<li></li>";
-                                        }
-                        
-                                        else if($isCompleted[0]=="Registered"){
-                                            $reg_Str.="<li style='color:green'>$isCompleted[0]</li>";
-                                            $Comp_Str.="<li>$isCompleted[1]</li>";
-                                        }
-                        
-                                        else if($isCompleted[0]=="Waitlist"){
-                                            $reg_Str.="<li style='color:orange'>$isCompleted[0]</li>";
-                                            $Comp_Str.="<li>$isCompleted[1]</li>";
-                                        }
-                        
-                                        else{
-                                            $reg_Str.="<li style='color:red'>Not Registered</li>";
-                                            $Comp_Str.="<li></li>";
-                                        }
+                                    }
+                    
+                                    if($isCompleted==[]){
+                                        $reg_Str.="<li>Not Registered</li>";
+                                        $Comp_Str.="<li></li>";
+                                    }
+                    
+                                    else if($isCompleted[0]=="Registered"){
+                                        $reg_Str.="<li style='color:green'>$isCompleted[0]</li>";
+                                        $Comp_Str.="<li>$isCompleted[1]</li>";
+                                    }
+                    
+                                    else if($isCompleted[0]=="Waitlist"){
+                                        $reg_Str.="<li style='color:orange'>$isCompleted[0]</li>";
+                                        $Comp_Str.="<li>$isCompleted[1]</li>";
+                                    }
+                    
+                                    else{
+                                        $reg_Str.="<li style='color:red'>Not Registered</li>";
+                                        $Comp_Str.="<li></li>";
                                     }
                                 }
-                                $CN_Str.="</ul></td>";
-                                $CID_Str.="</ul></td>";
-                                $CST_Str.="</ul></td>";
-                                $inLJ_Str.="</ul></td>";
-                                $reg_Str.="</ul></td>";
-                                $Comp_Str.="</ul></td>";
-                                echo $CN_Str,$CID_Str,$CST_Str,$inLJ_Str,$reg_Str,$Comp_Str;
-                                echo"</tr>";
                             }
+                            $CN_Str.="</ul></td>";
+                            $CID_Str.="</ul></td>";
+                            $CST_Str.="</ul></td>";
+                            $inLJ_Str.="</ul></td>";
+                            $reg_Str.="</ul></td>";
+                            $Comp_Str.="</ul></td>";
+                            echo $CN_Str,$CID_Str,$CST_Str,$inLJ_Str,$reg_Str,$Comp_Str;
+                            echo"</tr>";
                         }
                         echo"<input type='hidden' name='LJ_ID' value=$ljd>";
                         echo"<button type='submit' name='toEdit' class='btn btn-outline-primary float-end'>Apply Changes</button>";
