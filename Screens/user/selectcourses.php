@@ -8,39 +8,37 @@ require_once "../../DAO/SkillDAO.php";
 require_once "../../DAO/ljDAO.php";
 session_start();
 
+$new_jr= new jobRoleDAO();
+$new_sd= new SkillDAO();
+$new_cs= new courseSkillDAO();
+$new_lj= new ljDAO();
+$sid = $_COOKIE["empId"];
+
+
 if(isset($_GET["addjobrole"])){
     $JRstring=$_GET["addjobrole"];
-    $sid = $_COOKIE["empId"];
-
-    $new_jr= new jobRoleDAO();
-    $new_sd= new SkillDAO();
-    $new_cs= new courseSkillDAO();
-    $new_lj= new ljDAO();
-
+    $_SESSION['tempjr'] = $JRstring;
     $job = $new_jr->getIndividualIDandName($JRstring)[0];
     $JRole_ID = $job[0];
     $JRole_Name = $job[1];
     $JRole_Desc = $job[2];
     
-    $relskills=$new_jr->getRelSkills($JRole_ID);
-}
-
-else{
+   
+} elseif (isset($_SESSION['tempjr'])) {
+    $JRstring = $_SESSION['tempjr'];
+    $job = $new_jr->getIndividualIDandName($JRstring)[0];
+    $JRole_ID = $job[0];
+    $JRole_Name = $job[1];
+    $JRole_Desc = $job[2];
+} else{
     $JRstring=$_SESSION['jrdata'];
     $JRdata=explode(',',$JRstring);
-    $sid = $_COOKIE["empId"];
 
     $JRole_ID = $JRdata[0];
     $JRole_Name = $JRdata[1];
     $JRole_Desc = $JRdata[2];
-
-    $new_jr= new jobRoleDAO();
-    $new_sd= new SkillDAO();
-    $new_cs= new courseSkillDAO();
-    $new_lj= new ljDAO();
-    $relskills=$new_jr->getRelSkills($JRole_ID);
 }
-
+$relskills=$new_jr->getRelSkills($JRole_ID);
 ?>
 
 <!DOCTYPE html>
@@ -205,7 +203,7 @@ include("../navbar/userNavbar.php");
                         $createLJAlert.="<br>$addedCourse";
                     }
                     $_SESSION['createLJ']=$createLJAlert;
-                    header('Location: ./homepage');
+                    echo"<script>window.location.href='homepage.php'</script>";
                 exit();
             }
         }

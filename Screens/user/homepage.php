@@ -11,7 +11,7 @@
 </head>
 <body>      
     <?php 
-
+      
       $thisPage = 'lj';
       include("../navbar/userNavbar.php");
       require_once("../../DAO/common.php");
@@ -40,7 +40,7 @@
       if(isset($_SESSION["createLJ"])){
         echo '<div class="alert alert-success alert-dismissible" role="alert">
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            <strong>Success!</strong><br>'. $_SESSION["createLJ"] . '
+            <strong>Success!</strong><br>'. $_SESSION["createLJ"] . ' <br> Refresh the page to see the new learning journey.
             </div>';
       }
       session_destroy();
