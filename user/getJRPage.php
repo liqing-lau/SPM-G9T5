@@ -16,12 +16,5 @@ if (isset($_POST["addjobRole"])) {
     exit();
 }
 
-if (isset($_POST["viewSkills"])) {
-    $jid = $_POST["viewSkills"];
-    $page = "Location: #";
-    // $page = 'Location: ../screens/user/viewRole.php?viewSkills=' . $jid;
-    header($page);
-    exit();
-}
 
 ?>
