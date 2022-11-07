@@ -60,6 +60,7 @@ if(isset($_GET["addjobrole"])){
     $JRole_ID=intval($JRole_ID);
     $JRole_Name=$_GET["jobName"];
     $sid = $_COOKIE["empId"];
+    $JRole_Desc=$_GET['jobDesc'];
 
     require_once("../../class/jobRole.php");
     require_once("../../class/lj.php");
@@ -114,6 +115,9 @@ if(isset($_GET["addjobrole"])){
         </div>
 
         <div class="card-body">
+            <?php
+                echo"<p class='card-text'>$JRole_Desc</p>";
+            ?>
 
         <form action='selectcourses.php' method='POST'>
             <table class='table'>
