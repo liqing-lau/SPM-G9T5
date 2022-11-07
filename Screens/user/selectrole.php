@@ -3,6 +3,8 @@
     require_once("../../class/lj.php");
     require_once "../../DAO/common.php";
 
+    session_start();
+
     $dao = new jobRoleDAO();
     $allRoles = $dao->getAll();
 
@@ -44,20 +46,29 @@
                 $tid = $role->getId();
                 $tname=$role->getName();
                 $tdesc=$role->getDesc();
-                echo "<tr> <td>
-                <input type='radio' name='selectedRole' value = '$tid'>
-                <input type='hidden' name='JRole_Name' value='$tname'>
-                <input type='hidden' name='JRole_Desc' value='$tdesc'>
-                <td>{$role->getID()}</td>
-                <td style='width:10%'>{$role->getName()}</td>
-                <td>{$role->getDesc()}</td>";
+                $tstat=$role->getStatus();
+
+                $tAll = [$tid, $tname, $tdesc];
+                $tAll = implode(',',$tAll);
+
+                if($tstat=="active"){
+                  echo "<tr> <td>
+                  <input type='radio' name='selectedRole' value = '$tAll'>
+                  <td>{$role->getID()}</td>
+                  <td style='width:10%'>{$role->getName()}</td>
+                  <td>{$role->getDesc()}</td>";
+                }
             }
           ?>
           </tbody>
         </table>
-
-
+        <?php
+        if($tstat=='active'){
+        ?>
         <button type='submit' name = 'r_select' class='btn btn-outline-primary'>Add Role</button>
+        <?php
+        }
+        ?>
         </div>
 
         </form>
@@ -74,14 +85,13 @@ if(isset($_POST["r_select"])){
 
   $sid = $_COOKIE["empId"];
   $sr = $_POST["selectedRole"];
-  $sname=$_POST["JRole_Name"];
-  $sdesc=$_POST["JRole_Desc"];
+  $_SESSION['jrdata'] = $sr;
 
   //Cannot create new LJ without selecting courses
   // $new_lj = new ljDAO();
   // $createlj = $new_lj->createLJ($sid, $sr);
   
-  $url='selectcourses.php?addjobrole=' . $sr.'&jobName='.$sname.'&jobDesc='.$sdesc;
+  $url='selectcourses.php?addjobrole=' . $sr;
   echo "<input type='hidden' value='$url' name='redirect' id='redirect'>"
   ?>
   <script>

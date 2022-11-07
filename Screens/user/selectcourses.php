@@ -1,69 +1,14 @@
 <?php
-//return to homepage
-if(isset($_POST["return"])){
-    echo"<script>window.location.href='homepage.php'</script>";
-}
-
-//only runs after submitting for creating LJ
-if(isset($_POST['selectCourse'])){
-    $JRole_ID=$_POST['JRole_ID'];
-    $JRole_Name=$_POST['JRole_Name'];
-    $sid=$_COOKIE['empId'];
-    $JRole_Desc=$_POST['JRole_Desc'];
-    //if no courses are selected, reject, return
-    if(isset($_POST['newCourse'])==false){
-        echo"
-        <head>
-        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
-        </head>
-        <div class='container-md pt-5'><p>You must add at least one course!</p> 
-        <form action='selectcourses.php' method='GET'>
-        <input type='hidden' name='addjobrole' value='$JRole_ID'>
-        <input type='hidden' name='jobName' value='$JRole_Name'>
-        <input type='hidden' name='jobDesc' value='$JRole_Desc'>
-        <input type='submit' name='missingcourse' value='Return to picking courses!'></form>
-        </div>";
-        exit();
-    }
-    //if course picked, create LJ and ljcourse
-    else{
-        $select_Course=$_POST['newCourse'];
-        $these_Courses=[];
-
-        //In case of repeat checkboxes
-        foreach($select_Course as $eachCourse){
-            if(in_array($eachCourse,$these_Courses)==false){
-                array_push($these_Courses,$eachCourse);
-            }
-        }
-
-        require_once "../../DAO/ljDAO.php";
-        $new_lj = new ljDAO();
-        $createlj = $new_lj->createLJ($sid, $JRole_ID);
-
-        if(isset($createlj)){
-            $createLJAlert='';
-            $LJ_ID=$createlj;
-            $createLJAlert.= "Learning Journey $LJ_ID created";
-            foreach($these_Courses as $eachCourse){
-                $addedCourse=$new_lj->addCoursetoLJ($LJ_ID,$eachCourse);
-                $createLJAlert.="<br>$addedCourse";
-            }
-            session_start();
-            $_SESSION['createLJ']=$createLJAlert;
-            echo"<script>window.location.href='homepage.php'</script>";
-        }
-        exit();
-    }
-}
-
 if(isset($_GET["addjobrole"])){
-    $JRole_ID=$_GET["addjobrole"];
-    $JRole_ID=intval($JRole_ID);
-    $JRole_Name=$_GET["jobName"];
+    $JRstring=$_GET["addjobrole"];
+    $JRdata=explode(',',$JRstring);
     $sid = $_COOKIE["empId"];
-    $JRole_Desc=$_GET['jobDesc'];
 
+    $JRole_ID = $JRdata[0];
+    $JRole_Name = $JRdata[1];
+    $JRole_Desc = $JRdata[2];
+
+    
     require_once("../../class/jobRole.php");
     require_once("../../class/lj.php");
     require_once "../../DAO/common.php";
@@ -77,18 +22,34 @@ if(isset($_GET["addjobrole"])){
     $new_cs= new courseSkillDAO();
     $new_lj= new ljDAO();
     $relskills=$new_jr->getRelSkills($JRole_ID);
-
-
-    // $new_lj = new ljDAO();
-    // $createlj = $new_lj->createLJ($sid, $JRole_ID);
-
-    // if($createlj==1){
-    //     echo '<div class="alert alert-success alert-dismissible" role="alert">
-    //     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    //     <strong>Success! New LJ has been created for</strong><br>'. $JRole_Name . '
-    //     </div>';
-    // }
 }
+
+else{
+    session_start();
+    $JRstring=$_SESSION['jrdata'];
+    $JRdata=explode(',',$JRstring);
+    $sid = $_COOKIE["empId"];
+
+    $JRole_ID = $JRdata[0];
+    $JRole_Name = $JRdata[1];
+    $JRole_Desc = $JRdata[2];
+
+    
+    require_once("../../class/jobRole.php");
+    require_once("../../class/lj.php");
+    require_once "../../DAO/common.php";
+    require_once "../../DAO/jobRoleDAO.php";
+    require_once "../../DAO/courseSkillDAO.php";
+    require_once "../../DAO/SkillDAO.php";
+    require_once "../../DAO/ljDAO.php";
+
+    $new_jr= new jobRoleDAO();
+    $new_sd= new SkillDAO();
+    $new_cs= new courseSkillDAO();
+    $new_lj= new ljDAO();
+    $relskills=$new_jr->getRelSkills($JRole_ID);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -208,51 +169,50 @@ if(isset($_GET["addjobrole"])){
         }
         echo"</tr>";
     }
-    echo"</table>";
+    echo"</table>
+        <input type = 'submit' name = 'selected_courses' value = 'Create Learning Journey'>
+        </form>";
 
-    //if nothing can be selected LJ cannot be made with this JR
-    if($anythingToAdd==""){
-        echo"There are no courses for you to add to your Learning Journey. Click here to return to Home Page";
-        echo"<br><input type='submit' name='return' class='brn btn-outline-dark' value='Return to Home Page'>";
+    if(isset($_POST['selected_courses'])){
+        if(empty($_POST['newCourse'])){
+            echo"Please select at least 1 course.";
+        }
+
+        else{
+            // $JRole_ID=$_POST['JRstring'];
+            // $JRole_Name=$_POST['JRole_Name'];
+            $sid=$_COOKIE['empId'];
+            // $JRole_Desc=$_POST['JRole_Desc'];
+
+
+                $select_Course=$_POST['newCourse'];
+                $these_Courses=[];
+        
+                //In case of repeat checkboxes
+                foreach($select_Course as $eachCourse){
+                    if(in_array($eachCourse,$these_Courses)==false){
+                        array_push($these_Courses,$eachCourse);
+                    }
+                }
+        
+                require_once "../../DAO/ljDAO.php";
+                $new_lj = new ljDAO();
+                $createlj = $new_lj->createLJ($sid, $JRole_ID);
+        
+                if(isset($createlj)){
+                    $createLJAlert='';
+                    $LJ_ID=$createlj;
+                    $createLJAlert.= "Learning Journey $LJ_ID created";
+                    foreach($these_Courses as $eachCourse){
+                        $addedCourse=$new_lj->addCoursetoLJ($LJ_ID,$eachCourse);
+                        $createLJAlert.="<br>$addedCourse";
+                    }
+                    session_start();
+                    $_SESSION['createLJ']=$createLJAlert;
+                    echo"<script>window.location.href='homepage.php'</script>";
+                exit();
+            }
+        }
     }
-    //else LJ can be made
-    else{
-        echo"<input type='hidden' name='JRole_ID' value='$JRole_ID'>";
-        echo"<input type='hidden' name='JRole_Name' value='$JRole_Name'>";
-        echo "<input type='hidden' name='JRole_Desc' value='$JRole_Desc'>";
-        echo"<input type='submit' name='selectCourse' class='brn btn-outline-dark' value='Create Learning Journey'>";
-    }
-        //Test code
-
-        // echo "Stress test";
-        // echo"<table>";
-        // $course_list=[["tch014","150198"],["tch013","150193"],["tch002","150215"],["SAL003","150216"],["COR002","150205"],["WAAA","23113"]];
-        // $expected=[["Registered",null],["Registered","Ongoing"],["Waitlist",null],["Rejected",null],["Registered","Completed"],[null,null]];
-        // foreach($course_list as $course){
-        //     $courseid=$course[0];
-        //     $staid=$course[1];
-
-        //     $list_Reg=$new_lj->isCourseTaken($courseid,$staid);
-        //     if($list_Reg==[]){
-        //         echo"<tr><td>Not Registered</td> <td></td></tr>";
-        //     }
-        //     else if($list_Reg[0]=="Registered"){
-        //         echo"<tr><td>$list_Reg[0]</td>";
-        //         echo"<td>$list_Reg[1]</td></tr>";
-        //     }
-        //     else if($list_Reg[0]=="Waitlist"){
-        //         echo"<tr><td>$list_Reg[0]</td>";
-        //         echo"<td></td></tr>";
-        //     }
-        //     else{
-        //         echo"<tr><td>$list_Reg[0]</td><td></td></tr>";
-        //     }
-        // }
-        // echo"</table>";
-
-        // var_dump($expected);
 ?>
-</div>
-</div>
-</div>
 </html>
