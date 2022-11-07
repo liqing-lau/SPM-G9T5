@@ -1,4 +1,13 @@
 <?php
+require_once("../../class/jobRole.php");
+require_once("../../class/lj.php");
+require_once "../../DAO/common.php";
+require_once "../../DAO/jobRoleDAO.php";
+require_once "../../DAO/courseSkillDAO.php";
+require_once "../../DAO/SkillDAO.php";
+require_once "../../DAO/ljDAO.php";
+session_start();
+
 if(isset($_GET["addjobrole"])){
     $JRstring=$_GET["addjobrole"];
     $JRdata=explode(',',$JRstring);
@@ -8,15 +17,6 @@ if(isset($_GET["addjobrole"])){
     $JRole_Name = $JRdata[1];
     $JRole_Desc = $JRdata[2];
 
-    
-    require_once("../../class/jobRole.php");
-    require_once("../../class/lj.php");
-    require_once "../../DAO/common.php";
-    require_once "../../DAO/jobRoleDAO.php";
-    require_once "../../DAO/courseSkillDAO.php";
-    require_once "../../DAO/SkillDAO.php";
-    require_once "../../DAO/ljDAO.php";
-
     $new_jr= new jobRoleDAO();
     $new_sd= new SkillDAO();
     $new_cs= new courseSkillDAO();
@@ -25,7 +25,6 @@ if(isset($_GET["addjobrole"])){
 }
 
 else{
-    session_start();
     $JRstring=$_SESSION['jrdata'];
     $JRdata=explode(',',$JRstring);
     $sid = $_COOKIE["empId"];
@@ -33,15 +32,6 @@ else{
     $JRole_ID = $JRdata[0];
     $JRole_Name = $JRdata[1];
     $JRole_Desc = $JRdata[2];
-
-    
-    require_once("../../class/jobRole.php");
-    require_once("../../class/lj.php");
-    require_once "../../DAO/common.php";
-    require_once "../../DAO/jobRoleDAO.php";
-    require_once "../../DAO/courseSkillDAO.php";
-    require_once "../../DAO/SkillDAO.php";
-    require_once "../../DAO/ljDAO.php";
 
     $new_jr= new jobRoleDAO();
     $new_sd= new SkillDAO();
@@ -68,6 +58,10 @@ else{
         margin: 0;
     }
 </style>
+<?php
+$thisPage = '';
+include("../navbar/userNavbar.php");
+?>
 <div class="container-md pt-5">
     <div class="card">
         <div class="card-header text-center">
@@ -132,7 +126,7 @@ else{
                     $list_Reg=$new_lj->isCourseTaken($Course_ID,$sid);
                     if($list_Reg==[]){
                         $courseStr.= "<li style='white-space: nowrap'>$Course_Name</li>";
-                        $idStr.="<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
+                        $idStr.="<li><input type='checkbox' name='newCourse[]' value=$Course_ID> $Course_ID</li>";
                         $regStr.="<li>Not Registered</li>";
                         $compStr.="<li></li>";
                         $anythingToAdd.="a";
@@ -140,7 +134,7 @@ else{
                     else if($list_Reg[0]=="Registered"||$list_Reg[0]=="Waitlist"){
                         $courseStr.= "<li style='white-space: nowrap'>$Course_Name</li>";
                         //if course applied alr, disable button
-                        $idStr.= "<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
+                        $idStr.= "<li><input type='checkbox' name='newCourse[]' value=$Course_ID> $Course_ID</li>";
                         if($list_Reg[0]=="Registered"){
                             $regStr.="<li style='color:green'>$list_Reg[0]</li>";
                         }
@@ -152,7 +146,7 @@ else{
                     }
                     else{
                         $courseStr.= "<li style='white-space: nowrap'>$Course_Name</li>";
-                        $idStr.= "<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
+                        $idStr.= "<li><input type='checkbox' name='newCourse[]' value=$Course_ID> $Course_ID</li>";
                         $regStr.="<li>Rejected</li>";
                         $compStr.="<li></li>";
                         $anythingToAdd.="a";
@@ -170,7 +164,9 @@ else{
         echo"</tr>";
     }
     echo"</table>
-        <input type = 'submit' name = 'selected_courses' value = 'Create Learning Journey'>
+        <button class='btn btn-primary' type = 'submit' name = 'selected_courses'>
+            Create Learning Journey
+        </button>
         </form>";
 
     if(isset($_POST['selected_courses'])){
@@ -207,9 +203,8 @@ else{
                         $addedCourse=$new_lj->addCoursetoLJ($LJ_ID,$eachCourse);
                         $createLJAlert.="<br>$addedCourse";
                     }
-                    session_start();
                     $_SESSION['createLJ']=$createLJAlert;
-                    echo"<script>window.location.href='homepage.php'</script>";
+                    header('Location: ./homepage');
                 exit();
             }
         }
