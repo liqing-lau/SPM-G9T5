@@ -48,7 +48,7 @@
             Welcome back, <?php echo $name = $_COOKIE['fName'];?> [User]
         </h3>
     </div>
-    <div class="container-flex ms-3 mt-2">
+    <div class="container-flex me-3 mt-2">
       <div class="text-right float-end">
           <a href='./selectrole.php' class='btn btn-outline-primary' role='button'>Create New Learning Journey</a>
       </div>

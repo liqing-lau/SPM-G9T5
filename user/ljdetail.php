@@ -1,17 +1,19 @@
 <?php
-session_start();
-require_once "../../DAO/common.php";
-require_once "../../DAO/ljDAO.php";
 
-    if(isset($_POST['toEdit'])){
-        $LJ_ID=$_POST['LJ_ID'];
-         $LJ_ID = $_SESSION['LJ_ID'];
+if(isset($_POST['toEdit'])){
+    $LJ_ID=$_POST['LJ_ID'];
 
-
-        if(isset($_POST['edit_Course'])==false){
-            header('Location: ./noCourseSelect.php');
-            exit();
-        }
+    if(isset($_POST['edit_Course'])==false){
+        echo"
+        <head>
+        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
+        </head>
+        <div class='container-md pt-5'><p>Each LJ must have at least one course!</p> 
+        <form action='ljdetail.php' method='POST'>
+        <input type='hidden' name='ljdata' value='$LJ_ID'>
+        <input type='submit' name='pass_on' value='Return to picking courses!'></form>
+        </div>";
+    }
 
     else{
         $courses_checked=$_POST['edit_Course'];
@@ -22,6 +24,9 @@ require_once "../../DAO/ljDAO.php";
                 array_push($these_Courses,$eachChecked);
             }
         }
+
+        require_once "../../DAO/common.php";
+        require_once "../../DAO/ljDAO.php";
 
         $new_lj= new ljDAO();
         $existing_Courses=$new_lj->getLJCoursebyLJID($LJ_ID);
@@ -41,8 +46,7 @@ require_once "../../DAO/ljDAO.php";
         }
         
         if($toadd==[]&&$toremove==[]){
-            header('Location: ./noChanges.php');
-            exit(); 
+            echo "Nothing has been changed!";
         }
 
         $display=[];
@@ -61,7 +65,7 @@ require_once "../../DAO/ljDAO.php";
         }
 
         $display=implode("<br>",$display);
-        $_SESSION['display'] = $display;
+
         echo"
         <head>
         <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
