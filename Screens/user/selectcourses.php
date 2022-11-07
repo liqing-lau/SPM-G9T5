@@ -187,7 +187,7 @@ if(isset($_GET["addjobrole"])){
                             $regStr.="<li style='color:orange'>$list_Reg[0]</li>";
                         }
                         $compStr.="<li>$list_Reg[1]</li>";
-                        $anythingToAdd.="";
+                        $anythingToAdd.="a";
                     }
                     else{
                         $courseStr.= "<li style='white-space: nowrap'>$Course_Name</li>";
