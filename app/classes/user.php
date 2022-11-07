@@ -1,4 +1,6 @@
 <?php
+
+namespace app\classes;
 class User {
     private $staff_ID;
     private $firstName;
