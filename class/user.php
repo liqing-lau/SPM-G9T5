@@ -1,14 +1,14 @@
 <?php
 class User {
-    private $empId;
+    private $staff_ID;
     private $firstName;
     private $lastName;
     private $dept;
     private $email;
     private $role;
 
-    public function __construct($empId,$firstName,$lastName,$dept,$email,$role) {
-        $this->empId = $empId;
+    public function __construct($staff_ID,$firstName,$lastName,$dept,$email,$role) {
+        $this->staff_ID = $staff_ID;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->dept = $dept;
@@ -16,8 +16,8 @@ class User {
         $this->role = $role;
     }
 
-    public function getEmpId(){
-        return $this->empId;
+    public function getStaffID(){
+        return $this->staff_ID;
     }
 
     public function getFirstName(){

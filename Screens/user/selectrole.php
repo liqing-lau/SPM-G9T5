@@ -21,36 +21,42 @@
 
 <form method="POST" action="selectrole.php">
 
-<h1>Select 1 Job Role to embark on a new Learning Journey</h1>
+<div class="container">
 
-<table border='1'>
-<tr>
-    <th>Selected</th>
-    <th>Job Role ID</th>
-    <th>Job Role Name</th>
-    <th style='width:70%'> Job Role Description </th>
-</tr>
-
-<?php 
-foreach($allRoles as $role){
-    $tid = $role->getId();
-    $tName=$role->getName();
-    echo "<tr> <td>
-    <input type='radio' name='selectedRole' value = '$tid'>
-    <input type='hidden' name='JRole_Name' value='$tName'> </td>
-    <td>{$role->getID()}</td>
-    <td style='width:10%'>{$role->getName()}</td>
-    <td>{$role->getDesc()}</td>";
-}
-?>
-
-</table>
+<div class="card">
+    <div class="card-header text-center">
+      <h1>Select 1 Job Role to embark on a new Learning Journey</h1>
+    </div>
 
 
-<input type='submit' value='Add Role' name = 'r_select'/>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Selected</th>
+              <th>Job Role ID</th>
+              <th>Job Role Name</th>
+              <th style='width:70%'> Job Role Description </th>
+            </tr>
+          </thead>
+          <tbody>
+          <?php 
+            foreach($allRoles as $role){
+                $tid = $role->getId();
+                echo "<tr> <td>
+                <input type='radio' name='selectedRole' value = '$tid'> </td>
+                <td>{$role->getID()}</td>
+                <td style='width:10%'>{$role->getName()}</td>
+                <td>{$role->getDesc()}</td>";
+            }
+          ?>
+          </tbody>
+        </table>
 
 
-</form>
+        <button type='submit' name = 'r_select' class='btn btn-outline-primary'>Add Role</button>
+        </div>
+
+        </form>
 </html>
 <?php
 ob_start();
