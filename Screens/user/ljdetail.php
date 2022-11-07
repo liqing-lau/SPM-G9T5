@@ -204,7 +204,7 @@ if(isset($_POST['ljdata'])){
                     </tbody>
                     </table>
                     
-                    <form method ='POST' action = '../../user/ljdeleteconfirm.php'>
+                    <form method ='POST' action = './ljdeleteconfirm.php'>
                         <input type = hidden name = 'ljid' value = '<?php echo $ljd?>'>
                         <input type = hidden name = 'jname' value = '<?php echo $jobName?>'>
                         <button class='btn btn-danger float-end' type='submit' name = 'confirm'>Delete LJ</button>
