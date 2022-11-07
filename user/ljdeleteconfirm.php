@@ -9,7 +9,6 @@
     <title>View all Learning Journey</title>
 </head>
 <body>
-    <?php include("../screens/navbar/userNavbar.php");?>
 
     <div class="container m-3">
         <div class="container p-2">
