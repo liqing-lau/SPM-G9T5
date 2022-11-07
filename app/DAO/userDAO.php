@@ -1,7 +1,7 @@
 <?php
 
 require_once 'common.php';
-require_once '../class/user.php';
+require_once '../classes/user.php';
 class userDAO {
     public function getUser($empId) {
         $sql = "SELECT * FROM staff where Staff_ID = :empId";

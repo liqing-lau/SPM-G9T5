@@ -3,7 +3,7 @@
     session_destroy();
 
     require_once '../../DAO/common.php';
-    require_once '../../class/course.php';
+    require_once '../../classes/course.php';
 
     $dao = new courseDAO();
     $courseList = $dao->getAllCourse();
@@ -48,7 +48,7 @@
 <body>
     <?php 
     $thisPage = 'courses';
-    include("../navbar/adminNavbar.php");
+    include("../navbar/userNavbar.php");
     
     if(isset($_SESSION['courseSuccess']) && $_SESSION['courseSuccess'] != ''){
         echo '<div class="alert alert-success alert-dismissible" role="alert">

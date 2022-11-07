@@ -58,8 +58,8 @@
       
       <div>
           <?php
-            require_once("../../class/jobRole.php");
-            require_once("../../class/lj.php");
+            require_once("../../classes/jobRole.php");
+            require_once("../../classes/lj.php");
 
             $ljdao = new ljDAO();
             $ljs = $ljdao->getLJ($_COOKIE["empId"]);

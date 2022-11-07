@@ -1,40 +1,37 @@
 <?php
     session_start();
-    session_destroy();
-
     require_once '../../DAO/common.php';
-    require_once '../../class/course.php';
+    require_once '../../classes/course.php';
 
-    $dao = new courseDAO();
-    $courseList = $dao->getAllCourse();
+    $courseDAO = new courseDAO();
+    $skillDAO = new SkillDAO();
+    $courseSkillDAO = new courseSkillDAO();
 
-    $displayCourses = [];
-
-    foreach ($courseList as $course) {
-        $courseId = $course->getId();
-        $courseName = $course->getName();
-        $courseStatus = $course->getStatus();
-        $row_colour = "";
-        $disabled = "";
-
-        if ($courseStatus == 'Retired') { 
-            $row_colour = "class='table-secondary'";
-            $disabled = "disabled";
-        } elseif ($courseStatus == 'Pending') {
-            $row_colour = "class='table-warning'";
-        }
-
-        $row = "<tr $row_colour>
-                <td>$courseId</td>
-                <td>$courseName</td>
-                </tr>";
-        array_push($displayCourses, $row);
+    if (isset($_POST['Skill_ID']) && isset($_POST['skillName'])) {
+        $skillId = $_POST['Skill_ID'];
+        $skillName = $_POST['skillName'];
+        $_SESSION['skillId'] = $skillId;
+        $_SESSION['skillName'] = $skillName;
+    } elseif (isset($_SESSION['skillId']) && isset($_SESSION['skillName'])) {
+        $skillId = $_SESSION['skillId'];
+        $skillName = $_SESSION['skillName'];
     }
 
-    $displayCourses=implode("",$displayCourses);
+    $courseIdList = $courseSkillDAO->getCourseIdBySkill($skillId);
+    
+    $rows = [];
 
+    foreach($courseIdList as $courseId) {
+        $courseName = $courseDAO->getCourseName($courseId);
+        $row =  "<tr>
+                <td>$courseId</td>
+                <td>$courseName</td>
+            </tr>";
+        array_push($rows, $row);
+    }
+
+    $rows=implode("",$rows);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,52 +40,63 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <title>Course</title>
+    <title>Assign Courses to Roles</title>
 </head>
 <body>
     <?php 
-    $thisPage = 'courses';
-    include("../navbar/userNavbar.php");
-    
+    $thisPage = 'skills';
+    include("../navbar/adminNavbar.php");
+
     if(isset($_SESSION['courseSuccess']) && $_SESSION['courseSuccess'] != ''){
         echo '<div class="alert alert-success alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Success! </strong><br>'. $_SESSION["courseSuccess"] . '
                 </div>';
+        $_SESSION['courseSuccess'] = '';
     } else if(isset($_SESSION['courseFail']) && $_SESSION['courseFail'] != ''){
         echo '<div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <strong>Error! </strong><br>'. $_SESSION["courseFail"] . '
                 </div>';
+        $_SESSION['courseFail'] = '';
     } 
     ?>
-
+    
     <div class="container">
+        <div class="container pt-3">
+            <h3>
+                <?php echo $skillName; ?>
+            </h3>
+            <hr>
+        </div>
         
-        <!-- <div class="p-2">
-            <a href= "./createSkill.php" class="btn btn-outline-dark float-end" type="button">Create Skill</a>
-        </div> -->
-    </div>
+        <div class="p-2">
+            <form action='./assignCourse.php' method='POST'>
+                
+                <input type='hidden' name='skillName' value='<?php echo $skillName?>'>
+                <input type='hidden' name='skillId' value='<?php echo $skillId?>'>
+                <button type='submit' class='btn btn-outline-dark float-end' name='assignCourse'>Amend assignment</button>
+            </form>
+        </div>
 
         <div class="container table-responsive">
             <table class="table text-nowrap">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Skill Name</th>
-                        <!-- <th>Edit options</th> -->
+                        <th>Course ID</th>
+                        <th>Course Name</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        echo $displayCourses;
+                        echo $rows;
                     ?>
                 </tbody>
             </table>
         </div>
         
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 </body>

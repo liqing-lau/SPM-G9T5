@@ -1,28 +1,28 @@
 <?php
     require_once '../../DAO/common.php';
-    require_once '../../class/course.php';
+    require_once '../../classes/jobRole.php';
 
-    $courseDAO = new courseDAO();
     $skillDAO = new SkillDAO();
-    $courseSkillDAO = new courseSkillDAO();
+    $jobSkillDAO = new JobskillDAO();
+    $jobRoleDAO = new jobRoleDAO();
 
     $skillName = $_POST['skillName'];
     $skillId = $_POST['skillId'];
 
-    $courseList = $courseSkillDAO->getCourseIdBySkill($skillId);
-    $allCourses = $courseDAO->getAllCourse();
+    $roleList = $jobSkillDAO->getRoleIdList($skillId);
+    $allRoles = $jobRoleDAO->getAll();
 
-    $courseIdList = [];
+    $roleIdList = [];
     $rows = [];
 
-    foreach ($courseList as $courseId) {
-        array_push($courseIdList, $courseId);
+    foreach ($roleList as $roleId) {
+        array_push($roleIdList, $roleId);
     }
 
-    foreach ($allCourses as $course) { 
-        $courseId = $course->getId();
-        $courseName = $course->getName();
-        $skills = $courseSkillDAO->getSkillIdList($courseId);
+    foreach ($allRoles as $role) { 
+        $roleId = $role->getId();
+        $roleName = $role->getName();
+        $skills = $jobSkillDAO->getSkillIdList($roleId);
 
         $skillNameList = [];
         $checked = "";
@@ -34,7 +34,7 @@
             array_push($skillNameList, $temp);
         }
 
-        if(in_array($courseId, $courseList)) {
+        if(in_array($roleId, $roleList)) {
             $checked = "checked";
             $assigned = "Already Assigned";
         }
@@ -49,10 +49,10 @@
 
         $row = "<tr>
                     <td>
-                        <input class='form-check-input' type='checkbox' value='$courseId' name='courseId[]' $checked>
+                        <input class='form-check-input' type='checkbox' value='$roleId' name='roleId[]' $checked>
                     </td>
-                    <td>$courseId</td>
-                    <td>$courseName</td>
+                    <td>$roleId</td>
+                    <td>$roleName</td>
                     <td>
                         <ol>$skillNameList</ol>
                     </td>
@@ -71,7 +71,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-    <title>Assign Skills to Course</title>
+    <title>Assign Skills to Roles</title>
 </head>
 <body>
     <?php 
@@ -87,16 +87,16 @@
             <hr>
         </div>
         <div class="p-2">
-            <form action='../../Admin/courseAssignment.php' method='POST'>
+            <form action='../../Admin/roleAssignment.php' method='POST'>
                 <input type='hidden' name='skillId' value='<?php echo $skillId?>'>
-                <input type='hidden' name='courseList' value='<?php echo implode(",", $courseList);?>'>
+                <input type='hidden' name='roleList' value='<?php echo implode(",", $roleList);?>'>
                     <div class="container table-responsive">
                         <table class="table text-nowrap">
                             <thead>
                                 <tr>
                                     <th>Selected</th>
-                                    <th>Course ID</th>
-                                    <th>Course Name</th>
+                                    <th>Role ID</th>
+                                    <th>Role Name</th>
                                     <th>Skills</th>
                                     <th>Assigned?</th>
                                 </tr>
@@ -110,7 +110,7 @@
                     </div>
     
         
-                <button type='submit' class='btn btn-outline-dark float-end' name='assignCourse'>Apply changes</button>
+                <button type='submit' class='btn btn-outline-dark float-end' name='assignRole'>Apply changes</button>
             </form>
         </div>
 

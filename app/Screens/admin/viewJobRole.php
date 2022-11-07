@@ -4,7 +4,7 @@
 
     $thisPage = 'roles';
     require_once("../../DAO/common.php");
-    require_once("../../class/jobRole.php");
+    require_once("../../classes/jobRole.php");
 
     //Fetch the info from jobrole csv
     $dao= new jobRoleDAO();

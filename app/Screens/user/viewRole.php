@@ -1,5 +1,5 @@
 <?php
-    require_once("../../class/jobRole.php");
+    require_once("../../classes/jobRole.php");
     require_once("../../DAO/common.php");
 
     $thisPage = 'roles';
