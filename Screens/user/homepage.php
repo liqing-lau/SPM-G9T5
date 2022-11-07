@@ -107,7 +107,7 @@
             <div class='card  m-2' style='width: 18rem;'>
               <div class='card-body'>
                 <h5 class='card-title'>
-                  Learning Journey ID: $count
+                  Learning Journey $count
                 </h5>
                 <p class='card-text'>$value</p>
                 <button type='submit' name='ljdata' value='$key' class='btn btn-outline-dark'>
