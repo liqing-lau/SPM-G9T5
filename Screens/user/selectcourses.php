@@ -172,11 +172,16 @@ if(isset($_GET["addjobrole"])){
                         $anythingToAdd.="a";
                     }
                     else if($list_Reg[0]=="Registered"||$list_Reg[0]=="Waitlist"){
-                        $courseStr.= "<li style='color:lightgrey' style='white-space: nowrap'>$Course_Name</li>";
+                        $courseStr.= "<li style='white-space: nowrap'>$Course_Name</li>";
                         //if course applied alr, disable button
-                        $idStr.= "<li style='color:lightgrey'>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID disabled></li>";
-                        $regStr.="<li style='color:lightgrey'>$list_Reg[0]</li>";
-                        $compStr.="<li style='color:lightgrey'>$list_Reg[1]</li>";
+                        $idStr.= "<li>$Course_ID<input type='checkbox' name='newCourse[]' value=$Course_ID></li>";
+                        if($list_Reg[0]=="Registered"){
+                            $regStr.="<li style='color:green'>$list_Reg[0]</li>";
+                        }
+                        if($list_Reg[0]=="Waitlist"){
+                            $regStr.="<li style='color:orange'>$list_Reg[0]</li>";
+                        }
+                        $compStr.="<li>$list_Reg[1]</li>";
                         $anythingToAdd.="";
                     }
                     else{
