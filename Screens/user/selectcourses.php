@@ -1,7 +1,7 @@
 <?php
 if(isset($_GET["addjobrole"])){
     $JRstring=$_GET["addjobrole"];
-    $JRdata=explode(',',$JRstring);
+    $JRdata=explode(';',$JRstring);
     $sid = $_COOKIE["empId"];
 
     $JRole_ID = $JRdata[0];
@@ -27,7 +27,7 @@ if(isset($_GET["addjobrole"])){
 else{
     session_start();
     $JRstring=$_SESSION['jrdata'];
-    $JRdata=explode(',',$JRstring);
+    $JRdata=explode(';',$JRstring);
     $sid = $_COOKIE["empId"];
 
     $JRole_ID = $JRdata[0];

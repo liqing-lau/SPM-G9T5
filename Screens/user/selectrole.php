@@ -49,7 +49,7 @@
                 $tstat=$role->getStatus();
 
                 $tAll = [$tid, $tname, $tdesc];
-                $tAll = implode(',',$tAll);
+                $tAll = implode(';',$tAll);
 
                 if($tstat=="active"){
                   echo "<tr> <td>
