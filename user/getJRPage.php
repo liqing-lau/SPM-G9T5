@@ -10,7 +10,8 @@ if (isset($_POST["viewJR"])) {
 if (isset($_POST["addjobRole"])) {
     $jid = $_POST["addjobRole"];
     $jName=$_POST["jobName"];
-    $page = 'Location: ../screens/user/selectcourses.php?addjobrole=' . $jid.'&jobName='.$jName;
+    $jDesc=$_POST['jobDesc'];
+    $page = 'Location: ../screens/user/selectcourses.php?addjobrole=' . $jid.'&jobName='.$jName.'&jobDesc='.$jDesc;
     header($page);
     exit();
 }

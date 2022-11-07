@@ -44,6 +44,7 @@
                         </button>";
             } else {
                 $row .= "<input type='hidden' name='jobName' value='$roleName'>
+                        <input type='hidden' name='jobDesc' value='$roleDesc'>
                         <button type='submit' class='btn btn-light' name='addjobRole' value=$roleId>
                             Add role
                         </button>";
