@@ -17,11 +17,11 @@
     ?>
     
     <div class="container">
-        <div class="container pt-5">
+        <div class="container p-2">
             Nothing has been changed!
         </div>
 
-        <div class='container-md'>
+        <div class='container'>
             <form action='ljdetail.php' method='POST'>
             <input type='hidden' name='ljdata' value='<?php echo $LJ_ID;?>'>
             <button type='submit' name='pass_on' class='btn btn-primary'>
