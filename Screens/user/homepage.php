@@ -32,6 +32,15 @@
         <strong>Cancelled deletion</strong>
         </div>';
       }
+
+      session_start();
+      if(isset($_SESSION["createLJ"])){
+        echo '<div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong>Success!</strong><br>'. $_SESSION["createLJ"] . '
+            </div>';
+      }
+      session_destroy();
   ?>
     <div class="container-flex ms-3 mt-2">
         <h3>
@@ -94,7 +103,7 @@
             <div class='card  m-2' style='width: 18rem;'>
               <div class='card-body'>
                 <h5 class='card-title'>
-                  Learning Journey ID: $count
+                  Learning Journey ID: $key
                 </h5>
                 <p class='card-text'>$value</p>
                 <button type='submit' name='ljdata' value='$key' class='btn btn-outline-dark'>

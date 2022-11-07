@@ -47,123 +47,123 @@ class ljDAO
         return $namelist;
     }
 
-    public function getCourseNotTaken($LJ_ID)
-    {
-        $connMgr = new ConnectionManager();
-        $conn = $connMgr->connect();
+    // public function getCourseNotTaken($LJ_ID)
+    // {
+    //     $connMgr = new ConnectionManager();
+    //     $conn = $connMgr->connect();
 
-        $sql = "SELECT DISTINCT C.Course_ID, CN.Course_Name, JR.JRole_Name FROM jobrole JR, jobskill J, courseskill C, course CN
-        WHERE CN.Course_ID = C.Course_ID
-        AND JR.JRole_ID = J.JRole_ID
-        AND J.Skill_ID = C.Skill_ID 
-        AND JR.JRole_ID IN (SELECT JRole_ID FROM lj WHERE LJ_ID = $LJ_ID)
-        AND C.Course_ID NOT IN (SELECT Course_ID FROM lj WHERE LJ_ID = $LJ_ID);";
-
-
-        $namelist = [];
+    //     $sql = "SELECT DISTINCT C.Course_ID, CN.Course_Name, JR.JRole_Name FROM jobrole JR, jobskill J, courseskill C, course CN
+    //     WHERE CN.Course_ID = C.Course_ID
+    //     AND JR.JRole_ID = J.JRole_ID
+    //     AND J.Skill_ID = C.Skill_ID 
+    //     AND JR.JRole_ID IN (SELECT JRole_ID FROM lj WHERE LJ_ID = $LJ_ID)
+    //     AND C.Course_ID NOT IN (SELECT Course_ID FROM lj WHERE LJ_ID = $LJ_ID);";
 
 
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
-
-        while ($row = $stmt->fetch()) {
-            $row_id = $row['Course_ID'];
-            $row_name = $row['Course_Name'];
-            array_push($namelist, [$row_id, $row_name]);
-        }
-        $stmt = null;
-        $conn = null;
-
-        return $namelist;
-    }
+    //     $namelist = [];
 
 
-    public function updateCourseForLJ($Staff_ID, $LJ_ID, $JRole_ID, $Course_ID)
-    {
-        $connMgr = new ConnectionManager();
-        $conn = $connMgr->connect();
+    //     $stmt = $conn->prepare($sql);
+    //     $stmt->execute();
+    //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
 
-        $sql = "UPDATE lj 
-        SET Course_ID = :Course_ID 
-        WHERE Staff_ID = :Staff_ID 
-        AND LJ_ID = :LJ_ID 
-        AND JRole_ID = :JRole_ID;";
+    //     while ($row = $stmt->fetch()) {
+    //         $row_id = $row['Course_ID'];
+    //         $row_name = $row['Course_Name'];
+    //         array_push($namelist, [$row_id, $row_name]);
+    //     }
+    //     $stmt = null;
+    //     $conn = null;
 
-        $stmt = $conn->prepare($sql);
+    //     return $namelist;
+    // }
 
 
-        // Your code goes here
+    // public function updateCourseForLJ($Staff_ID, $LJ_ID, $JRole_ID, $Course_ID)
+    // {
+    //     $connMgr = new ConnectionManager();
+    //     $conn = $connMgr->connect();
 
-        $stmt->bindParam(":Staff_ID", $Staff_ID, PDO::PARAM_INT);
-        $stmt->bindParam(":LJ_ID", $LJ_ID, PDO::PARAM_INT);
-        $stmt->bindParam(":JRole_ID", $JRole_ID, PDO::PARAM_INT);
-        $stmt->bindParam(":Course_ID", $Course_ID, PDO::PARAM_STR);
+    //     $sql = "UPDATE lj 
+    //     SET Course_ID = :Course_ID 
+    //     WHERE Staff_ID = :Staff_ID 
+    //     AND LJ_ID = :LJ_ID 
+    //     AND JRole_ID = :JRole_ID;";
+
+    //     $stmt = $conn->prepare($sql);
+
+
+    //     // Your code goes here
+
+    //     $stmt->bindParam(":Staff_ID", $Staff_ID, PDO::PARAM_INT);
+    //     $stmt->bindParam(":LJ_ID", $LJ_ID, PDO::PARAM_INT);
+    //     $stmt->bindParam(":JRole_ID", $JRole_ID, PDO::PARAM_INT);
+    //     $stmt->bindParam(":Course_ID", $Course_ID, PDO::PARAM_STR);
         
-        $Course_ID = $stmt->execute();
+    //     $Course_ID = $stmt->execute();
 
 
-        // Your code goes here
-        $stmt = null;
-        $conn = null;
+    //     // Your code goes here
+    //     $stmt = null;
+    //     $conn = null;
 
 
-        return $Course_ID;
-    }
+    //     return $Course_ID;
+    // }
 
-    public function insertCourseForLJ($Staff_ID, $LJ_ID, $JRole_ID, $Course_ID)
-    {
-        $connMgr = new ConnectionManager();
-        $conn = $connMgr->connect();
+    // public function insertCourseForLJ($Staff_ID, $LJ_ID, $JRole_ID, $Course_ID)
+    // {
+    //     $connMgr = new ConnectionManager();
+    //     $conn = $connMgr->connect();
 
-        $sql = "INSERT INTO lj 
-        (Staff_ID, LJ_ID, JRole_ID, Course_ID)
-        VALUES (:Staff_ID, :LJ_ID, :JRole_ID, :Course_ID);";
-
-
-        $stmt = $conn->prepare($sql);
+    //     $sql = "INSERT INTO lj 
+    //     (Staff_ID, LJ_ID, JRole_ID, Course_ID)
+    //     VALUES (:Staff_ID, :LJ_ID, :JRole_ID, :Course_ID);";
 
 
-        // Your code goes here
-
-        $stmt->bindParam(":Staff_ID", $Staff_ID, PDO::PARAM_INT);
-        $stmt->bindParam(":LJ_ID", $LJ_ID, PDO::PARAM_INT);
-        $stmt->bindParam(":JRole_ID", $JRole_ID, PDO::PARAM_INT);
-        $stmt->bindParam(":Course_ID", $Course_ID, PDO::PARAM_STR);
-
-        $Course_ID = $stmt->execute();
+    //     $stmt = $conn->prepare($sql);
 
 
-        // Your code goes here
-        $stmt = null;
-        $conn = null;
+    //     // Your code goes here
+
+    //     $stmt->bindParam(":Staff_ID", $Staff_ID, PDO::PARAM_INT);
+    //     $stmt->bindParam(":LJ_ID", $LJ_ID, PDO::PARAM_INT);
+    //     $stmt->bindParam(":JRole_ID", $JRole_ID, PDO::PARAM_INT);
+    //     $stmt->bindParam(":Course_ID", $Course_ID, PDO::PARAM_STR);
+
+    //     $Course_ID = $stmt->execute();
 
 
-        return $Course_ID;
-    }
-
-    public function checkEmptyLJ($JRole_ID)
-    {
-        $connMgr = new ConnectionManager();
-        $conn = $connMgr->connect();
-
-        $sql = "SELECT COUNT(JRole_ID) AS Count FROM lj WHERE JRole_ID = $JRole_ID AND Course_ID = '';";
-        // $namelist = [];
+    //     // Your code goes here
+    //     $stmt = null;
+    //     $conn = null;
 
 
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+    //     return $Course_ID;
+    // }
 
-        while ($row = $stmt->fetch()) {
-            $count_JRole_ID = $row['Count'];
-            // array_push($namelist, [$count_JRole_ID]);
-        }
-        $stmt = null;
-        $conn = null;
+    // public function checkEmptyLJ($JRole_ID)
+    // {
+    //     $connMgr = new ConnectionManager();
+    //     $conn = $connMgr->connect();
 
-        return $count_JRole_ID;
-    }
+    //     $sql = "SELECT COUNT(JRole_ID) AS Count FROM lj WHERE JRole_ID = $JRole_ID AND Course_ID = '';";
+    //     // $namelist = [];
+
+
+    //     $stmt = $conn->prepare($sql);
+    //     $stmt->execute();
+    //     $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+    //     while ($row = $stmt->fetch()) {
+    //         $count_JRole_ID = $row['Count'];
+    //         // array_push($namelist, [$count_JRole_ID]);
+    //     }
+    //     $stmt = null;
+    //     $conn = null;
+
+    //     return $count_JRole_ID;
+    // }
 
     public function getLJRoles($Staff_ID)
     {
@@ -201,13 +201,83 @@ class ljDAO
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':sid', $sid, PDO::PARAM_INT);
         $stmt->bindParam(':jrid', $jrid, PDO::PARAM_INT);
+        
+        $stmt->execute();
 
-        $status = $stmt->execute();
+        $last_id = $conn->lastInsertId();
 
         $stmt = null;
         $conn = null;
 
-        return $status;
+        return $last_id;
+    }
+
+    public function isCourseTaken($Course_ID, $Staff_ID){
+        $connMgr= new ConnectionManager();
+        $conn =$connMgr->connect();
+
+        $sql= "SELECT `Reg_Status`, `Completion_Status` FROM `registration` WHERE `Course_ID`=:Course_ID AND `Staff_ID`= :Staff_ID";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam(':Course_ID', $Course_ID, PDO::PARAM_STR);
+        $stmt->bindParam(':Staff_ID', $Staff_ID, PDO::PARAM_INT);
+
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        $list_Reg=[];
+
+        while($row=$stmt->fetch()){
+            array_push($list_Reg,$row["Reg_Status"],$row["Completion_Status"]);
+        }
+
+        $stmt=null;
+        $conn=null;
+
+        return $list_Reg;
+    }
+
+    public function courseInLJ($Course_ID,$LJ_ID){
+        $connMgr= new ConnectionManager();
+        $conn=$connMgr->connect();
+
+        $sql="SELECT `LJ_ID` FROM `ljcourse` WHERE `LJ_ID`=:LJ_ID AND `Course_ID`=:Course_ID";
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam(':LJ_ID',$LJ_ID,PDO::PARAM_INT);
+        $stmt->bindParam(':Course_ID',$Course_ID,PDO::PARAM_STR);
+
+        $stmt->execute();
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        while($row=$stmt->fetch()){
+            $final=$row["LJ_ID"];
+        }
+
+        $stmt=null;
+        $conn=null;
+
+        if(isset($final)){
+            return "inLJ";
+        }
+        else{
+            return "notinLJ";
+        }
+    }
+
+    public function addCoursetoLJ($LJ_ID,$Course_ID){
+        $connMgr= new ConnectionManager();
+        $conn= $connMgr->connect();
+
+        $sql="INSERT INTO `ljcourse` (`LJ_ID`,`Course_ID`) VALUES (:LJ_ID, :Course_ID)";
+
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam(':LJ_ID',$LJ_ID,PDO::PARAM_INT);
+        $stmt->bindParam(':Course_ID',$Course_ID,PDO::PARAM_STR);
+
+        $stmt->execute();
+        $stmt=null;
+        $conn=null;
+
+        return "Successfully added $Course_ID into Learning Journey $LJ_ID";
     }
 
     public function viewLJLangdingPage($Staff_ID){
@@ -335,6 +405,41 @@ class ljDAO
         $conn = null;
 
         return $output;
+    }
+
+    public function delLJcourse($LJ_ID){
+        $connMgr= new ConnectionManager();
+        $conn =$connMgr->connect();
+
+        $sql="DELETE FROM `ljcourse` WHERE `LJ_ID`=:LJ_ID";
+
+        $stmt= $conn->prepare($sql);
+        $stmt->bindParam(':LJ_ID',$LJ_ID,PDO::PARAM_INT);
+
+        $status=$stmt->execute();
+
+        $stmt = null;
+        $conn = null;
+
+        return $status;
+    }
+
+    public function delCoursefromLJ($LJ_ID,$Course_ID){
+        $connMgr= new ConnectionManager();
+        $conn=$connMgr->connect();
+
+        $sql="DELETE FROM `ljcourse` WHERE `LJ_ID`=:LJ_ID AND `Course_ID`=:Course_ID";
+
+        $stmt=$conn->prepare($sql);
+        $stmt->bindParam(":LJ_ID",$LJ_ID,PDO::PARAM_INT);
+        $stmt->bindParam(":Course_ID",$Course_ID,PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        $stmt=null;
+        $conn=null;
+
+        return "Successfully removed $Course_ID from Learning Journey $LJ_ID";
     }
 }
 ?>

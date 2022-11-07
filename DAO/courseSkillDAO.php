@@ -159,6 +159,30 @@ class CourseSkillDAO {
         return $Skill_Status;
 
     }
+
+    public function getCourseIDandName($Course_ID){
+        $sql = "SELECT `Course_ID`, `Course_Name`, `Course_Status` FROM `course` WHERE `Course_ID` =:Course_ID";
+    
+        $connMgr = new ConnectionManager();
+        $conn = $connMgr->connect();
+        
+
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':Course_ID', $Course_ID, PDO::PARAM_STR);
+        
+        $stmt->execute();
+
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+
+        while($row = $stmt->fetch()) {
+            $result=[$row['Course_ID'],$row['Course_Name'],$row['Course_Status']];
+        }
+
+        $stmt = null;
+        $conn = null;
+
+        return $result;
+    }
 }
 
 ?>

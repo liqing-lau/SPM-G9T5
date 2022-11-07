@@ -28,8 +28,6 @@
       <h1>Select 1 Job Role to embark on a new Learning Journey</h1>
     </div>
 
-    <div class="card-body">
-        <div class="container">
 
         <table class="table">
           <thead>
@@ -72,12 +70,18 @@ if(isset($_POST["r_select"])){
 
   $sid = $_COOKIE["empId"];
   $sr = $_POST["selectedRole"];
+  $sname=$_POST["JRole_Name"];
 
-  $new_lj = new ljDAO();
-  $createlj = $new_lj->createLJ($sid, $sr);
+  //Cannot create new LJ without selecting courses
+  // $new_lj = new ljDAO();
+  // $createlj = $new_lj->createLJ($sid, $sr);
+  
+  $url='selectcourses.php?addjobrole=' . $sr.'&jobName='.$sname;
+  echo "<input type='hidden' value='$url' name='redirect' id='redirect'>"
   ?>
-  <script type="text/javascript">
-window.location.href = 'selectcourses.php';
+  <script>
+    var redirecturl=document.getElementById('redirect').value;
+window.location.href = redirecturl;
 </script>
   <?php
 }
