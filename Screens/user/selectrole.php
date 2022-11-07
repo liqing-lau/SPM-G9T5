@@ -44,20 +44,28 @@
                 $tid = $role->getId();
                 $tname=$role->getName();
                 $tdesc=$role->getDesc();
-                echo "<tr> <td>
-                <input type='radio' name='selectedRole' value = '$tid'>
-                <input type='hidden' name='JRole_Name' value='$tname'>
-                <input type='hidden' name='JRole_Desc' value='$tdesc'>
-                <td>{$role->getID()}</td>
-                <td style='width:10%'>{$role->getName()}</td>
-                <td>{$role->getDesc()}</td>";
+                $tstat=$role->getStatus();
+
+                if($tstat=="active"){
+                  echo "<tr> <td>
+                  <input type='radio' name='selectedRole' value = '$tid'>
+                  <input type='hidden' name='JRole_Name' value='$tname'>
+                  <input type='hidden' name='JRole_Desc' value='$tdesc'>
+                  <td>{$role->getID()}</td>
+                  <td style='width:10%'>{$role->getName()}</td>
+                  <td>{$role->getDesc()}</td>";
+                }
             }
           ?>
           </tbody>
         </table>
-
-
+        <?php
+        if($tstat=='active'){
+        ?>
         <button type='submit' name = 'r_select' class='btn btn-outline-primary'>Add Role</button>
+        <?php
+        }
+        ?>
         </div>
 
         </form>
