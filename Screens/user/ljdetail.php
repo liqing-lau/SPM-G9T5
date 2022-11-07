@@ -1,151 +1,70 @@
 <?php
-
-if(isset($_POST['toEdit'])){
-    $LJ_ID=$_POST['LJ_ID'];
-
-    if(isset($_POST['edit_Course'])==false){
-        echo"
-        <head>
-        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
-        </head>
-        <div class='container-md pt-5'><p>Each LJ must have at least one course!</p> 
-        <form action='ljdetail.php' method='POST'>
-        <input type='hidden' name='ljdata' value='$LJ_ID'>
-        <input type='submit' name='pass_on' value='Return to picking courses!'></form>
-        </div>";
-    }
-
-    else{
-        $courses_checked=$_POST['edit_Course'];
-        $these_Courses=[];
-
-        foreach($courses_checked as $eachChecked){
-            if(in_array($eachChecked,$these_Courses)==false){
-                array_push($these_Courses,$eachChecked);
-            }
-        }
-
-        require_once "../../DAO/common.php";
-        require_once "../../DAO/ljDAO.php";
-
-        $new_lj= new ljDAO();
-        $existing_Courses=$new_lj->getLJCoursebyLJID($LJ_ID);
-        
-        $toadd=[];
-        foreach($these_Courses as $added){
-            if(in_array($added,$existing_Courses)==false){
-                array_push($toadd,$added);
-            }
-        }
-
-        $toremove=[];
-        foreach($existing_Courses as $old){
-            if(in_array($old,$these_Courses)==false){
-                array_push($toremove,$old);
-            }
-        }
-        
-        if($toadd==[]&&$toremove==[]){
-            echo "Nothing has been changed!";
-        }
-
-        $display=[];
-        if($toadd!=[]){
-            foreach($toadd as $add){
-                $result=$new_lj->addCoursetoLJ($LJ_ID,$add);
-                array_push($display,$result);
-            }
-        }
-
-        if($toremove!=[]){
-            foreach($toremove as $remove){
-                $result=$new_lj->delCoursefromLJ($LJ_ID,$remove);
-                array_push($display,$result);
-            }
-        }
-
-        $display=implode("<br>",$display);
-
-        echo"
-        <head>
-        <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi' crossorigin='anonymous'>
-        </head>
-        <div class='container-md pt-5'><p>$display</p> 
-        <form action='ljdetail.php' method='POST'>
-        <input type='hidden' name='ljdata' value='$LJ_ID'>
-        <input type='submit' name='pass_on' value='Return to LJ Details'></form>
-        </div>";
-    }
-
-    exit();
-}
-
-$thisPage = 'lj';
-require_once("../../DAO/common.php");
+require_once "../../DAO/ljDAO.php";
 
 if(isset($_POST['ljdata'])){
 
-$ljd = $_POST['ljdata'];
-
-$ljt = new ljdao();
-$ljdata = $ljt->getLJbyLJID($ljd);
-$ljcourse = $ljt->getLJCoursebyLJID($ljd);
-$jobid = $ljdata[0][2];
-
-$jobr = new jobRoleDAO();
-$JRdata = $jobr->getIndividualIDandName($jobid);
-
-$jobName = $JRdata[0][1];
-$jobDesc = $JRdata[0][2];
-
-$js = new JobskillDAO();
-$skills = $js->getSkillIdList($jobid);
-
-$skillcourse = [];
-
-foreach($skills as $skill){
-    $sd = new SkillDAO();
-    $sname = $sd->getSkillNameById($skill);
-    array_push($skillcourse,[$skill,$sname,[],[]]);
-}
-
-for($x = 0; $x < count($skillcourse); $x++){
-
-    foreach($ljcourse as $ljc){
-        $cid = $ljc;
-        $sid = $skillcourse[$x][0];
-        $cs = new CourseSkillDAO();
-        $cscheck = $cs->checkCourseSkill($cid,$sid);
-
-        $check = new courseDAO();
-        $scheck = $check->checkStatus($cid);
-
-        if($cscheck and $scheck){
-            array_push($skillcourse[$x][2],$cid);
+    $ljd = $_POST['ljdata'];
+    
+    $ljt = new ljdao();
+    $ljdata = $ljt->getLJbyLJID($ljd);
+    $ljcourse = $ljt->getLJCoursebyLJID($ljd);
+    $jobid = $ljdata[0][2];
+    
+    $jobr = new jobRoleDAO();
+    $JRdata = $jobr->getIndividualIDandName($jobid);
+    
+    $jobName = $JRdata[0][1];
+    $jobDesc = $JRdata[0][2];
+    
+    $js = new JobskillDAO();
+    $skills = $js->getSkillIdList($jobid);
+    
+    $skillcourse = [];
+    
+    foreach($skills as $skill){
+        $sd = new SkillDAO();
+        $sname = $sd->getSkillNameById($skill);
+        array_push($skillcourse,[$skill,$sname,[],[]]);
+    }
+    
+    for($x = 0; $x < count($skillcourse); $x++){
+    
+        foreach($ljcourse as $ljc){
+            $cid = $ljc;
+            $sid = $skillcourse[$x][0];
+            $cs = new CourseSkillDAO();
+            $cscheck = $cs->checkCourseSkill($cid,$sid);
+    
+            $check = new courseDAO();
+            $scheck = $check->checkStatus($cid);
+    
+            if($cscheck and $scheck){
+                array_push($skillcourse[$x][2],$cid);
+                }
             }
         }
     }
-}
-
-for($x = 0; $x < count($skillcourse); $x++){
-    $sid = $skillcourse[$x][0];
-    $st = $skillcourse[$x][2];
-    $course = new CourseSkillDAO;
-    $cids = $course->getCourseBySkill($sid);
-
     
-    foreach($cids as $cid){
-
-        $check = new courseDAO();
-        $scheck = $check->checkStatus($cid);
-
-        if(in_array($cid,$st) == false and $scheck){
-            array_push($skillcourse[$x][3],$cid);
+    for($x = 0; $x < count($skillcourse); $x++){
+        $sid = $skillcourse[$x][0];
+        $st = $skillcourse[$x][2];
+        $course = new CourseSkillDAO;
+        $cids = $course->getCourseBySkill($sid);
+    
+        
+        foreach($cids as $cid){
+    
+            $check = new courseDAO();
+            $scheck = $check->checkStatus($cid);
+    
+            if(in_array($cid,$st) == false and $scheck){
+                array_push($skillcourse[$x][3],$cid);
+            }
         }
     }
-}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <html lang="en">
@@ -164,7 +83,9 @@ for($x = 0; $x < count($skillcourse); $x++){
     }
 </style>
 <body>
-    <?php include("../navbar/userNavbar.php");?>
+    <?php 
+    $thisPage = 'lj';
+    include("../navbar/userNavbar.php");?>
 
     <div class="container-md pt-5">
         <div class="card">
@@ -189,7 +110,7 @@ for($x = 0; $x < count($skillcourse); $x++){
                         </tr>
                     </thead>
                     <tbody>
-                        <form action='ljdetail.php' method='POST'>
+                        <form action='../../user/ljdetail.php' method='POST'>
                         <?php
 
                         $new_cs= new courseSkillDAO();
@@ -207,9 +128,6 @@ for($x = 0; $x < count($skillcourse); $x++){
                                     $courseInfo=$new_cs->getCourseIDandName($eachID);
                                     array_push($thisSkillCourse,$courseInfo);
                                 }
-    
-                                // var_dump($thisSkillCourse);
-    
     
                                 echo "<tr>";
                                 echo "<td>$Skill_Name</td>";
@@ -236,10 +154,16 @@ for($x = 0; $x < count($skillcourse); $x++){
                                         $CST_Str.="<li>$Course_Status</li>";
     
                                         if($inLJ=="inLJ"){
-                                            $inLJ_Str.="<li style='color:blue'>Already Added<input type='checkbox' name='edit_Course[]' value='$Course_ID'checked></li>";
+                                            $inLJ_Str.="<li style='color:blue'>
+                                                        <input type='checkbox' name='edit_Course[]' value='$Course_ID'checked>
+                                                        Already Added
+                                                    </li>";
                                         }
                                         else{
-                                            $inLJ_Str.="<li>No<input type='checkbox' name='edit_Course[]' value='$Course_ID'></li>";
+                                            $inLJ_Str.="<li>
+                                            <input type='checkbox' name='edit_Course[]' value='$Course_ID'>
+                                            No
+                                        </li>";
                                         }
                         
                                         if($isCompleted==[]){
@@ -274,20 +198,17 @@ for($x = 0; $x < count($skillcourse); $x++){
                             }
                         }
                         echo"<input type='hidden' name='LJ_ID' value=$ljd>";
-                        echo"<input type='submit' name='toEdit' value='Apply Changes'>";
+                        echo"<button type='submit' name='toEdit' class='btn btn-outline-primary float-end'>Apply Changes</button>";
                         ?>
                         </form>
                     </tbody>
                     </table>
-                    <?php
-    echo"
-    <form method ='POST' action = '../../user/ljdeleteconfirm.php'>
-        <input type = hidden name = 'ljid' value = $ljd>
-        <input type = hidden name = 'jname' value = '$jobName'>
-        <button class='btn-danger' type='submit' name = 'confirm' '>Delete LJ</button>
-    </form>";
-    
-    ?>
+                    
+                    <form method ='POST' action = './ljdeleteconfirm.php'>
+                        <input type = hidden name = 'ljid' value = '<?php echo $ljd?>'>
+                        <input type = hidden name = 'jname' value = '<?php echo $jobName?>'>
+                        <button class='btn btn-danger float-end' type='submit' name = 'confirm'>Delete LJ</button>
+                    </form>
 
                 </div>
             </div>
